@@ -1,0 +1,28 @@
+.text-number {
+  font-family:
+    "Pretendard Variable",
+    Pretendard,
+    -apple-system,
+    BlinkMacSystemFont,
+    system-ui,
+    Roboto,
+    "Helvetica Neue",
+    "Segoe UI",
+    "Apple SD Gothic Neo",
+    "Noto Sans KR",
+    "Malgun Gothic",
+    "Apple Color Emoji",
+    "Segoe UI Emoji",
+    "Segoe UI Symbol",
+    sans-serif !important;
+}
+
+.v-input--vertical {
+  > .v-input__control {
+    > .v-selection-control-group {
+      > .v-selection-control {
+        max-width: unset;
+      }
+    }
+  }
+}

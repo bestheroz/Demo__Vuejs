@@ -1,0 +1,65 @@
+<template>
+  <v-app>
+    <input type="text" style="width: 0; height: 0" />
+    <component :is="currentLayout" v-if="isRouterLoaded">
+      <router-view v-slot="{ Component }">
+        <transition name="fade" mode="out-in">
+          <component :is="Component" />
+        </transition>
+      </router-view>
+    </component>
+    <GlobalDialogConfirm />
+    <input type="text" style="width: 0; height: 0" />
+  </v-app>
+</template>
+
+<script setup lang="ts">
+import AuthLayout from "@/layouts/AuthLayout.vue";
+import DefaultLayout from "@/layouts/DefaultLayout.vue";
+import ErrorLayout from "@/layouts/ErrorLayout.vue";
+import { computed, onMounted } from "vue";
+import GlobalDialogConfirm from "@/views/components/dialog/GlobalDialogConfirm.vue";
+import { PRODUCT_TITLE } from "@/constants/envs";
+import { useRoute } from "vue-router";
+import SimpleLayout from "@/layouts/SimpleLayout.vue";
+import { useAdminStore } from "@/stores/admin";
+import { isExpiredToken } from "@/utils/commands";
+
+const route = useRoute();
+const isRouterLoaded = computed((): boolean => route.name !== null);
+const currentLayout = computed(() => {
+  if (route?.meta?.["layout"] === "default") {
+    return DefaultLayout;
+  } else if (route?.meta?.["layout"] === "auth") {
+    return AuthLayout;
+  } else if (route?.meta?.["layout"] === "error") {
+    return ErrorLayout;
+  }
+  return SimpleLayout;
+});
+
+onMounted(() => {
+  document.title = PRODUCT_TITLE;
+  const { loggedIn, tokens, clearAdmin } = useAdminStore();
+  if (loggedIn && isExpiredToken(tokens.access)) {
+    clearAdmin();
+  }
+});
+</script>
+
+<style scoped>
+/**
+ * Transition animation between pages
+ */
+.fade-enter-active,
+.fade-leave-active {
+  transition-duration: 0.2s;
+  transition-property: opacity;
+  transition-timing-function: ease;
+}
+
+.fade-enter,
+.fade-leave-active {
+  opacity: 0;
+}
+</style>

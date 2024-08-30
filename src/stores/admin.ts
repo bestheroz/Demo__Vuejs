@@ -1,0 +1,78 @@
+import { defineStore } from "pinia";
+import { getNewToken, signOut } from "@/utils/commands";
+import type { JwtTokens, TokenClaims } from "@/definitions/types";
+
+type AdminInfo = {
+  tokens: JwtTokens;
+  info: TokenClaims;
+};
+
+export const useAdminStore = defineStore("admin", {
+  state: (): AdminInfo => ({
+    tokens: {
+      access: "",
+      refresh: "",
+    },
+    info: {
+      id: 0,
+      loginId: "",
+      name: "",
+      type: "",
+      managerFlag: false,
+      authorities: [],
+    },
+  }),
+  getters: {
+    loggedIn: (state: AdminInfo): boolean => {
+      return (
+        !!state.tokens.access &&
+        !!state.info.id &&
+        !!localStorage.getItem("demo-accessToken") &&
+        !!localStorage.getItem("demo-refreshToken")
+      );
+    },
+    info: (state: AdminInfo): TokenClaims => {
+      return state.info;
+    },
+  },
+  actions: {
+    clearAdmin(): void {
+      window.localStorage.removeItem("demo-accessToken");
+      window.localStorage.removeItem("demo-refreshToken");
+      this.tokens = { access: "", refresh: "" };
+      this.info.id = 0;
+      this.info.loginId = "";
+      this.info.name = "";
+      this.info.type = "";
+      this.info.managerFlag = false;
+      this.info.authorities = [];
+    },
+
+    async reIssueAccessToken(): Promise<void> {
+      window.localStorage.removeItem("demo-accessToken");
+      this.tokens.access = "";
+      const newToken = await getNewToken();
+      if (newToken) {
+        this.saveTokens(newToken);
+      }
+    },
+
+    saveTokens(tokens: JwtTokens): void {
+      try {
+        window.localStorage.setItem("demo-accessToken", tokens.access);
+        window.localStorage.setItem("demo-refreshToken", tokens.refresh);
+        this.tokens = { access: tokens.access, refresh: tokens.refresh };
+        const decoded = jwt_decode<TokenClaims>(payload.accessToken);
+        this.info.id = decoded.id;
+        this.info.loginId = decoded.loginId;
+        this.info.name = decoded.name;
+        this.info.type = decoded.type;
+        this.info.managerFlag = decoded.managerFlag;
+        this.info.authorities = decoded.authorities;
+      } catch (e: unknown) {
+        signOut().then();
+      }
+    },
+  },
+  persist: true,
+});

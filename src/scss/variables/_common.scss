@@ -1,0 +1,67 @@
+$body-font-family:
+  "Pretendard Variable",
+  Pretendard,
+  -apple-system,
+  BlinkMacSystemFont,
+  system-ui,
+  Roboto,
+  "Helvetica Neue",
+  "Segoe UI",
+  "Apple SD Gothic Neo",
+  "Noto Sans KR",
+  "Malgun Gothic",
+  "Apple Color Emoji",
+  "Segoe UI Emoji",
+  "Segoe UI Symbol",
+  sans-serif !important;
+
+body {
+  font-family:
+    "Pretendard Variable",
+    Pretendard,
+    -apple-system,
+    BlinkMacSystemFont,
+    system-ui,
+    Roboto,
+    "Helvetica Neue",
+    "Segoe UI",
+    "Apple SD Gothic Neo",
+    "Noto Sans KR",
+    "Malgun Gothic",
+    "Apple Color Emoji",
+    "Segoe UI Emoji",
+    "Segoe UI Symbol",
+    sans-serif !important;
+}
+
+.required {
+  > .v-input__control {
+    > .v-field {
+      > .v-field__field {
+        > .v-label {
+          &::after {
+            content: " *";
+            white-space: pre;
+            color: rgb(var(--v-theme-error));
+          }
+        }
+      }
+    }
+  }
+}
+
+div.required:not(.v-input) {
+  &::after {
+    content: " *";
+    white-space: pre;
+    color: rgb(var(--v-theme-error));
+  }
+}
+
+button.v-stepper-item--selected {
+  color: rgb(var(--v-theme-primary));
+  > div.v-stepper-item__avatar {
+    background-color: rgb(var(--v-theme-primary)) !important;
+    color: white;
+  }
+}

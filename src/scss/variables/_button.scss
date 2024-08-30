@@ -1,0 +1,14 @@
+.button-group-end {
+  display: flex;
+  gap: 4px;
+  justify-content: flex-end;
+  overflow: auto;
+  align-items: flex-end;
+}
+.button-group-start {
+  display: flex;
+  gap: 4px;
+  justify-content: flex-start;
+  overflow: auto;
+  align-items: flex-end;
+}
