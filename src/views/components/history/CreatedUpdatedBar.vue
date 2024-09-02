@@ -1,15 +1,11 @@
 <template>
-  <div class="crt-upd-info">
-    <span v-if="createdDateTimeString">
+  <div class="text-sm-caption">
+    <span v-if="modelValue?.createdAt">
       {{ modelValue?.createdBy?.name ?? "-" }} / {{ createdDateTimeString }}
       추가됨
     </span>
-    <span v-if="updatedDateTimeString">
-      <v-divider
-        vertical
-        color="black"
-        style="margin-right: 4px; height: 13px"
-      />
+    <span v-if="modelValue?.updatedAt">
+      <v-divider vertical />
       {{ modelValue?.updatedBy?.name ?? "-" }} / {{ updatedDateTimeString }}
       수정됨
     </span>
@@ -33,20 +29,3 @@ const updatedDateTimeString = computed((): string =>
   formatDatetime(props.modelValue?.updatedAt),
 );
 </script>
-<style scoped lang="scss">
-.crt-upd-info {
-  align-self: center;
-  text-align: start;
-  width: 100%;
-  z-index: -1;
-  > span {
-    color: rgba(0, 0, 0, 0.4);
-    font-size: 12px;
-    font-weight: 400;
-    line-height: 16px;
-    letter-spacing: 0;
-    text-align: left;
-    padding-right: 8px;
-  }
-}
-</style>
