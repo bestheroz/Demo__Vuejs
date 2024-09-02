@@ -9,7 +9,7 @@ export const MenuType = {
 export type MenuTypeString = (typeof MenuType)[keyof typeof MenuType];
 
 export const UserType = {
-  ADMIN: "ADMIN",
-  USER: "USER",
+  admin: "admin",
+  user: "user",
 };
 export type UserTypeString = (typeof UserType)[keyof typeof UserType];

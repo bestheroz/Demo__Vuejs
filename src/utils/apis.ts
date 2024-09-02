@@ -44,7 +44,6 @@ axiosInstance.interceptors.request.use(
     return config;
   },
   function (error) {
-    toastAxiosError(error);
     return Promise.reject(error);
   },
 );
@@ -75,9 +74,9 @@ axiosInstance.interceptors.response.use(
       if (error.response.headers.token === "must-renew") {
         const { reIssueAccessToken } = useAdminStore();
         await reIssueAccessToken();
-        refreshToken.config.headers.Authorization =
+        error.response.config.headers.Authorization =
           await getValidatedAccessToken();
-        return axiosInstance.request(refreshToken.config);
+        return axiosInstance.request(error.response.config);
       }
       if ([401].includes(error.response.status)) {
         await goLoginPage();
@@ -89,18 +88,14 @@ axiosInstance.interceptors.response.use(
   },
 );
 
-export async function getApi<T = never, R = T>(url: string): Promise<R> {
+export async function getApi<T = never, R = T>(
+  url: string,
+  alert = false,
+): Promise<R | undefined> {
   try {
-    return (await axiosInstance.get<T, AxiosResponse<R>>(url))?.data;
+    return (await axiosInstance.get<T, AxiosResponse<R>>(url)).data;
   } catch (e) {
-    if (e.status % 100 === 4) {
-      console.warn(e);
-      toast.error(e.message);
-    } else {
-      console.error(e);
-      toast.error(e.message);
-      throw e;
-    }
+    catchError(e, alert);
   }
 }
 
@@ -108,11 +103,11 @@ export async function postApi<T = never, R = T>(
   url: string,
   data: T,
   alert = true,
-): Promise<R> {
+): Promise<R | undefined> {
   try {
-    return (await axiosInstance.post<T, AxiosResponse<R>>(url, data))?.data;
+    return (await axiosInstance.post<T, AxiosResponse<R>>(url, data)).data;
   } catch (e) {
-    catchError(e);
+    catchError(e, alert);
   }
 }
 
@@ -120,11 +115,11 @@ export async function putApi<T = never, R = T>(
   url: string,
   data: T,
   alert = true,
-): Promise<R> {
+): Promise<R | undefined> {
   try {
-    return (await axiosInstance.put<T, AxiosResponse<R>>(url, data))?.data;
+    return (await axiosInstance.put<T, AxiosResponse<R>>(url, data)).data;
   } catch (e) {
-    catchError(e);
+    catchError(e, alert);
   }
 }
 
@@ -132,22 +127,22 @@ export async function patchApi<T = never, R = T>(
   url: string,
   data: T,
   alert = true,
-): Promise<R> {
+): Promise<R | undefined> {
   try {
-    return (await axiosInstance.patch<T, AxiosResponse<R>>(url, data))?.data;
+    return (await axiosInstance.patch<T, AxiosResponse<R>>(url, data)).data;
   } catch (e) {
-    catchError(e);
+    catchError(e, alert);
   }
 }
 
 export async function deleteApi<T = never, R = T>(
   url: string,
   alert = true,
-): Promise<R> {
+): Promise<R | undefined> {
   try {
-    return (await axiosInstance.delete<T, AxiosResponse<R>>(url))?.data;
+    return (await axiosInstance.delete<T, AxiosResponse<R>>(url)).data;
   } catch (e) {
-    catchError(e);
+    catchError(e, alert);
   }
 }
 
@@ -165,7 +160,7 @@ export function stringifyParams(obj: any): string {
   );
 }
 
-export function catchError(e: Error): void {
+export function catchError(e, alert: boolean): void {
   if (e.status % 100 === 4) {
     console.warn(e);
     if (alert) {

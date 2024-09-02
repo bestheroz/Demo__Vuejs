@@ -1,4 +1,4 @@
-import type { MenuTypeString } from "@/definitions/selections";
+import type { MenuTypeString, UserTypeString } from "@/definitions/selections";
 
 export type DateTime = string | number | Date | null | undefined;
 
@@ -31,15 +31,15 @@ export interface Confirm {
 }
 
 export interface JwtTokens {
-  access: string;
-  refresh: string;
+  accessToken: string;
+  refreshToken: string;
 }
 
 export interface TokenClaims {
   id: number; // ID(KEY)
   loginId: string; // 로그인 아이디
   name: string; // 이름
-  type: string; // 권한 유형
+  type: UserTypeString; // 권한 유형
   managerFlag: boolean; // 매니저 여부(모든 권한 소유)
   authorities: string[]; // 권한 목록
 }

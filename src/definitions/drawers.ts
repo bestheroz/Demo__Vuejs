@@ -4,7 +4,7 @@ export const DRAWERS: Drawer[] = [
   {
     name: "공지",
     type: MenuType.GROUP,
-    icon: "mdi-file-sign",
+    icon: "mdi-bell",
     children: [
       {
         name: "관리",
@@ -16,7 +16,7 @@ export const DRAWERS: Drawer[] = [
   {
     name: "관리자",
     type: MenuType.GROUP,
-    icon: "mdi-file-sign",
+    icon: "mdi-shield-account",
     children: [
       {
         name: "관리",
@@ -28,7 +28,7 @@ export const DRAWERS: Drawer[] = [
   {
     name: "사용자",
     type: MenuType.GROUP,
-    icon: "mdi-file-sign",
+    icon: "mdi-account",
     children: [
       {
         name: "관리",
@@ -40,7 +40,7 @@ export const DRAWERS: Drawer[] = [
   {
     name: "테스트",
     type: MenuType.GROUP,
-    icon: "mdi-file-sign",
+    icon: "mdi-test-tube",
     children: [
       {
         name: "통합",

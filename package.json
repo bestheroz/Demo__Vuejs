@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@rushstack/eslint-patch": "1.10.4",
-    "axios": "1.7.5",
+    "axios": "1.7.7",
     "dayjs": "1.11.13",
     "jwt-decode": "4.0.0",
     "lodash-es": "4.17.21",
@@ -25,7 +25,7 @@
   "devDependencies": {
     "@types/crypto-js": "4.2.2",
     "@types/lodash-es": "4.17.12",
-    "@types/node": "22.5.1",
+    "@types/node": "22.5.2",
     "@types/qs": "6.9.15",
     "@types/uuid": "10.0.0",
     "@vitejs/plugin-vue": "5.1.3",

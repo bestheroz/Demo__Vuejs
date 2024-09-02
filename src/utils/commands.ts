@@ -1,5 +1,5 @@
 import router from "@/router";
-import { type, stringifyParams } from "@/utils/apis";
+import { stringifyParams } from "@/utils/apis";
 import { useAdminStore } from "@/stores/admin";
 import { parse } from "qs";
 import { jwtDecode } from "jwt-decode";
@@ -7,7 +7,6 @@ import dayjs from "dayjs";
 import axios from "axios";
 import { type JwtTokens } from "@/definitions/types";
 import { toast } from "vue3-toastify";
-import { storeToRefs } from "pinia";
 import { API_HOST } from "@/constants/envs";
 
 function formatPath(val: string): string {
@@ -44,8 +43,7 @@ export function isExpiredToken(token: string): boolean {
 }
 
 export async function signOut(): Promise<void> {
-  const { clearAdmin } = useAdminStore();
-  clearAdmin();
+  goLoginPage().then();
 }
 
 export async function goLoginPage(): Promise<void> {
@@ -56,19 +54,20 @@ export async function goLoginPage(): Promise<void> {
 
 export async function getNewToken(): Promise<JwtTokens | undefined> {
   try {
-    const { data } = await axios
-      .create({
-        baseURL: API_HOST,
-        headers: {
-          contentType: "application/json",
-        },
-      })
-      .post<JwtTokens>("api/v1/admin/renew-token", null, {
-        headers: {
-          AuthorizationR: `Bearer ${await getValidatedRefreshToken()}`,
-        },
-      });
-    return data.returnData;
+    return (
+      await axios
+        .create({
+          baseURL: API_HOST,
+          headers: {
+            contentType: "application/json",
+          },
+        })
+        .post<JwtTokens>("api/v1/admin/renew-token", null, {
+          headers: {
+            AuthorizationR: `Bearer ${await getValidatedRefreshToken()}`,
+          },
+        })
+    ).data;
   } catch (e: unknown) {
     if (axios.isAxiosError(e)) {
       const statusCode = e.response?.status || 500;
@@ -83,6 +82,7 @@ export async function getNewToken(): Promise<JwtTokens | undefined> {
     } else {
       console.error(e);
     }
+    goLoginPage().then();
   }
 }
 
@@ -90,6 +90,7 @@ export async function getValidatedAccessToken(): Promise<string> {
   let accessToken = window.localStorage.getItem("demo-accessToken");
   if (!accessToken || accessToken === "undefined") {
     await signOut();
+    return "";
   }
 
   try {

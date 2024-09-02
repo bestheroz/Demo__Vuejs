@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { getNewToken, signOut } from "@/utils/commands";
 import type { JwtTokens, TokenClaims } from "@/definitions/types";
-
+import { jwtDecode } from "jwt-decode";
 type AdminInfo = {
   tokens: JwtTokens;
   info: TokenClaims;
@@ -10,8 +10,8 @@ type AdminInfo = {
 export const useAdminStore = defineStore("admin", {
   state: (): AdminInfo => ({
     tokens: {
-      access: "",
-      refresh: "",
+      accessToken: "",
+      refreshToken: "",
     },
     info: {
       id: 0,
@@ -25,21 +25,18 @@ export const useAdminStore = defineStore("admin", {
   getters: {
     loggedIn: (state: AdminInfo): boolean => {
       return (
-        !!state.tokens.access &&
+        !!state.tokens.accessToken &&
         !!state.info.id &&
         !!localStorage.getItem("demo-accessToken") &&
         !!localStorage.getItem("demo-refreshToken")
       );
-    },
-    info: (state: AdminInfo): TokenClaims => {
-      return state.info;
     },
   },
   actions: {
     clearAdmin(): void {
       window.localStorage.removeItem("demo-accessToken");
       window.localStorage.removeItem("demo-refreshToken");
-      this.tokens = { access: "", refresh: "" };
+      this.tokens = { accessToken: "", refreshToken: "" };
       this.info.id = 0;
       this.info.loginId = "";
       this.info.name = "";
@@ -50,7 +47,7 @@ export const useAdminStore = defineStore("admin", {
 
     async reIssueAccessToken(): Promise<void> {
       window.localStorage.removeItem("demo-accessToken");
-      this.tokens.access = "";
+      this.tokens.accessToken = "";
       const newToken = await getNewToken();
       if (newToken) {
         this.saveTokens(newToken);
@@ -59,10 +56,10 @@ export const useAdminStore = defineStore("admin", {
 
     saveTokens(tokens: JwtTokens): void {
       try {
-        window.localStorage.setItem("demo-accessToken", tokens.access);
-        window.localStorage.setItem("demo-refreshToken", tokens.refresh);
-        this.tokens = { access: tokens.access, refresh: tokens.refresh };
-        const decoded = jwt_decode<TokenClaims>(payload.accessToken);
+        window.localStorage.setItem("demo-accessToken", tokens.accessToken);
+        window.localStorage.setItem("demo-refreshToken", tokens.refreshToken);
+        this.tokens = { ...tokens };
+        const decoded = jwtDecode<TokenClaims>(tokens.accessToken);
         this.info.id = decoded.id;
         this.info.loginId = decoded.loginId;
         this.info.name = decoded.name;

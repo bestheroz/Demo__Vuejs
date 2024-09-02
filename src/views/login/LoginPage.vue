@@ -6,6 +6,12 @@
     <v-card-subtitle>ver {{ PRODUCT_VERSION }}</v-card-subtitle>
     <v-card-text style="border: 1px solid #0000001a">
       <v-form ref="refForm">
+        <div class="d-inline-flex">
+          <v-radio-group v-model="type" class="required mr-4 mt-1" hide-details>
+            <v-radio :value="UserType.admin" :label="UserType.admin" />
+            <v-radio :value="UserType.user" :label="UserType.user" />
+          </v-radio-group>
+        </div>
         <v-text-field
           v-model="loginId"
           :hide-details="false"
@@ -35,7 +41,7 @@
           class="mb-4"
           @click="login"
         >
-          {{ t("signIn.signIn") }}
+          로그인
         </v-btn>
       </v-form>
     </v-card-text>
@@ -50,16 +56,18 @@ import { API_HOST, PRODUCT_TITLE, PRODUCT_VERSION } from "@/constants/envs";
 import { useIntervalFn } from "@vueuse/core";
 import { required } from "@/utils/rules";
 import { useAdminStore } from "@/stores/admin";
-import { toast } from "vue3-toastify";
-
-const { t } = useI18n();
+import type { JwtTokens } from "@/definitions/types";
+import { catchError } from "@/utils/apis";
+import { UserType } from "@/definitions/selections";
 
 const loginId = ref("developer");
 const password = ref("1");
 const loading = ref(false);
 const showPassword = ref(false);
 
-interface LoginRequest {
+const type = ref(UserType.admin);
+
+export interface LoginRequest {
   loginId: string;
   password: string;
 }
@@ -73,27 +81,21 @@ async function login(): Promise<void> {
   }
   loading.value = true;
   try {
-    const { code, data, message } = (
-      await axios.post<LoginRequest, AxiosResponse<LoginData>>(
-        `${API_HOST}api/v1/admin/login`,
-        {
-          loginId: loginId.value,
-          password: password.value,
-        },
-      )
-    ).data;
-    if (code === "S000") {
-      reloadable.value = false;
-      const { saveTokens } = useAdminStore();
-      saveTokens(data.jwtTokens);
+    const { data } = await axios.post<LoginRequest, AxiosResponse<JwtTokens>>(
+      `${API_HOST}api/v1/${type.value.toLowerCase()}s/login`,
+      {
+        loginId: loginId.value,
+        password: password.value,
+      },
+    );
+    reloadable.value = false;
+    const { saveTokens } = useAdminStore();
+    saveTokens(data);
 
-      reloadable.value = true;
-      await routerReplace("/");
-    } else {
-      toast.error(message);
-    }
+    reloadable.value = true;
+    await routerReplace("/");
   } catch (e) {
-    console.error(e);
+    catchError(e, true);
   } finally {
     loading.value = false;
   }

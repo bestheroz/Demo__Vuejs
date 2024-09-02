@@ -6,5 +6,5 @@
 <script lang="ts" setup>
   defineProps<{
     items: string[];
-  }>()
+  }>();
 </script>

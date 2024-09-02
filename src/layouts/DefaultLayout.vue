@@ -42,7 +42,6 @@
             <v-spacer />
             <LoginToolbar />
             <v-spacer />
-            <SelectApiHeaderOfDevice />
             <ToolbarAdmin />
           </div>
         </div>
@@ -69,7 +68,6 @@ import { ref } from "vue";
 import { PRODUCT_TITLE, PRODUCT_VERSION } from "@/constants/envs";
 import { DRAWERS } from "@/definitions/drawers";
 import NavMenu from "@/views/components/navigation/NavMenu.vue";
-import SelectApiHeaderOfDevice from "@/views/components/toolbar/SelectApiHeaderOfDevice.vue";
 import LoginToolbar from "@/views/components/toolbar/LoginToolbar.vue";
 
 const drawer = ref(true);

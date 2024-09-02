@@ -8,5 +8,16 @@
         </v-avatar>
       </v-btn>
     </template>
+
+    <v-list class="py-0" style="right: -12px">
+      <v-list-item
+        prepend-icon="mdi-logout-variant"
+        title="로그아웃"
+        @click="signOut"
+      />
+    </v-list>
   </v-menu>
 </template>
+<script setup lang="ts">
+import { signOut } from "@/utils/commands";
+</script>

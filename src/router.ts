@@ -1,5 +1,7 @@
-import type { RouteRecordRaw } from "vue-router";
+import type { NavigationGuardNext, RouteRecordRaw } from "vue-router";
 import { createRouter, createWebHistory } from "vue-router";
+import { useAdminStore } from "@/stores/admin";
+import { goLoginPage } from "@/utils/commands";
 
 const requireAuth =
   () => async (_to: unknown, _from: unknown, next: NavigationGuardNext) => {
@@ -26,6 +28,7 @@ const routes = (): RouteRecordRaw[] => {
   return [
     {
       path: "/",
+      beforeEnter: requireAuth(),
       component: () => import("@/views/HomePage.vue"),
       meta: {
         layout: "default",
@@ -43,6 +46,9 @@ const routes = (): RouteRecordRaw[] => {
     {
       path: "/login",
       component: () => import("@/views/login/LoginPage.vue"),
+      meta: {
+        layout: "auth",
+      },
     },
     {
       path: "/:catchAll(.*)", // Unrecognized path automatically matches 404,

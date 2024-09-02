@@ -41,7 +41,7 @@ const currentLayout = computed(() => {
 onMounted(() => {
   document.title = PRODUCT_TITLE;
   const { loggedIn, tokens, clearAdmin } = useAdminStore();
-  if (loggedIn && isExpiredToken(tokens.access)) {
+  if (loggedIn && isExpiredToken(tokens.accessToken)) {
     clearAdmin();
   }
 });

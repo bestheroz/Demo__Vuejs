@@ -30,7 +30,7 @@ export default defineConfig(({ mode }) => {
   return {
     plugins: plugins,
     server: {
-      port: 3000,
+      port: 8081,
     },
     resolve: {
       alias: {
