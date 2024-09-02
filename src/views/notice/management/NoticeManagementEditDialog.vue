@@ -103,11 +103,11 @@ async function createItem() {
   }
   loading.value = true;
   try {
-    const { status } = await postApi<Notice, Notice>(
+    const { success } = await postApi<Notice, Notice>(
       "api/v1/notices",
       props.modelValue,
     );
-    if (Math.floor(status / 100) === 2) {
+    if (success) {
       emits("save");
       emits("click:cancel");
     }
@@ -121,12 +121,12 @@ async function updateItem() {
   }
   loading.value = true;
   try {
-    const { status } = await putApi<Notice, Notice>(
+    const { success } = await putApi<Notice, Notice>(
       `api/v1/notices/${props.modelValue.id}`,
       props.modelValue,
     );
     loading.value = false;
-    if (Math.floor(status / 100) === 2) {
+    if (success) {
       emits("save");
       emits("click:cancel");
     }

@@ -182,13 +182,13 @@ async function createItem() {
   }
   loading.value = true;
   try {
-    const { status } = await postApi<UserCreate, User>("api/v1/users", {
+    const { success } = await postApi<UserCreate, User>("api/v1/users", {
       ...props.modelValue,
       password: props.modelValue.password
         ? sha512(props.modelValue.password)
         : undefined,
     });
-    if (Math.floor(status / 100) === 2) {
+    if (success) {
       emits("save");
       emits("click:cancel");
     }
@@ -202,7 +202,7 @@ async function updateItem() {
   }
   loading.value = true;
   try {
-    const { status } = await putApi<UserCreate, User>(
+    const { success } = await putApi<UserCreate, User>(
       `api/v1/users/${props.modelValue.id}`,
       {
         ...props.modelValue,
@@ -212,7 +212,7 @@ async function updateItem() {
       },
     );
     loading.value = false;
-    if (Math.floor(status / 100) === 2) {
+    if (success) {
       emits("save");
       emits("click:cancel");
     }

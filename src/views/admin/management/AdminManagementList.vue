@@ -57,7 +57,12 @@
           {{ formatDatetime(value) }}
         </template>
         <template #[`item.action`]="{ item }">
-          <v-btn color="error" variant="plain" @click="onClickRemove(item)">
+          <v-btn
+            v-if="item.id !== info.id"
+            color="error"
+            variant="plain"
+            @click="onClickRemove(item)"
+          >
             <v-icon>mdi-delete</v-icon>
           </v-btn>
         </template>
@@ -73,7 +78,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import {
   type Admin,
   type AdminCreate,
@@ -91,21 +96,26 @@ import { useAdminStore } from "@/stores/admin";
 import { Authority } from "@/definitions/authorities";
 import { storeToRefs } from "pinia";
 
-const { authorities } = storeToRefs(useAdminStore());
+const { authorities, info } = storeToRefs(useAdminStore());
 
 const itemsPerPage = ref(10);
-const headers = [
-  { title: "ID(KEY)", key: "id" },
-  { title: "로그인 아이디", key: "loginId" },
-  { title: "관리자 명", key: "name" },
-  { title: "사용 여부", key: "useFlag" },
-  { title: "관리자 여부", key: "managerFlag" },
-  { title: "가입 일자", key: "joinedAt" },
-  { title: "최종 로그인 일시", key: "latestActiveAt" },
-  { title: "작업자", key: "updatedBy" },
-  { title: "작업일시", key: "updatedAt" },
-  { key: "action" },
-];
+const headers = computed(() => {
+  const headers: { key: string; title?: string }[] = [
+    { title: "ID(KEY)", key: "id" },
+    { title: "로그인 아이디", key: "loginId" },
+    { title: "관리자 명", key: "name" },
+    { title: "사용 여부", key: "useFlag" },
+    { title: "관리자 여부", key: "managerFlag" },
+    { title: "가입 일자", key: "joinedAt" },
+    { title: "최종 로그인 일시", key: "latestActiveAt" },
+    { title: "작업자", key: "updatedBy" },
+    { title: "작업일시", key: "updatedAt" },
+  ];
+  if (authorities.value.includes(Authority.ADMIN_EDIT)) {
+    headers.push({ key: "action" });
+  }
+  return headers;
+});
 const serverItems = ref<Admin[]>([]);
 const totalItems = ref(0);
 const loading = ref(false);
@@ -114,13 +124,13 @@ const search = ref("");
 async function fetchList() {
   try {
     loading.value = true;
-    const { status, data } = await getApi<ListApiResult<Admin>>(
+    const { success, data } = await getApi<ListApiResult<Admin>>(
       `api/v1/admins?${stringifyParams({
         page: 1,
         pageSize: itemsPerPage.value,
       })}`,
     );
-    if (Math.floor(status / 100) === 2) {
+    if (success) {
       serverItems.value = data.items;
       totalItems.value = data.total;
     }
@@ -141,8 +151,8 @@ async function onClickRemove(val: Admin) {
   }
   loading.value = true;
   try {
-    const { status } = await deleteApi(`api/v1/admins/${val.id}`);
-    if (Math.floor(status / 100) === 2) {
+    const { success } = await deleteApi(`api/v1/admins/${val.id}`);
+    if (success) {
       await fetchList();
     }
   } finally {

@@ -189,13 +189,13 @@ async function createItem() {
   }
   loading.value = true;
   try {
-    const { status } = await postApi<AdminCreate, Admin>("api/v1/admins", {
+    const { success } = await postApi<AdminCreate, Admin>("api/v1/admins", {
       ...props.modelValue,
       password: props.modelValue.password
         ? sha512(props.modelValue.password)
         : undefined,
     });
-    if (Math.floor(status / 100) === 2) {
+    if (success) {
       emits("save");
       emits("click:cancel");
     }
@@ -209,7 +209,7 @@ async function updateItem() {
   }
   loading.value = true;
   try {
-    const { status } = await putApi<AdminCreate, Admin>(
+    const { success } = await putApi<AdminCreate, Admin>(
       `api/v1/admins/${props.modelValue.id}`,
       {
         ...props.modelValue,
@@ -219,7 +219,7 @@ async function updateItem() {
       },
     );
     loading.value = false;
-    if (Math.floor(status / 100) === 2) {
+    if (success) {
       emits("save");
       emits("click:cancel");
     }

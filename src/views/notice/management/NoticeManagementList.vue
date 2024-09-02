@@ -64,7 +64,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { defaultNotice, type Notice } from "@/views/notice/management/types";
 import { deleteApi, getApi, stringifyParams } from "@/utils/apis";
 import type { ListApiResult } from "@/definitions/types";
@@ -81,14 +81,19 @@ import { Authority } from "@/definitions/authorities";
 const { authorities } = storeToRefs(useAdminStore());
 
 const itemsPerPage = ref(10);
-const headers = [
-  { title: "ID(KEY)", key: "id" },
-  { title: "제목", key: "title" },
-  { title: "사용 여부", key: "useFlag" },
-  { title: "작업자", key: "updatedBy" },
-  { title: "작업일시", key: "updatedAt" },
-  { key: "action" },
-];
+const headers = computed(() => {
+  const headers: { key: string; title?: string }[] = [
+    { title: "ID(KEY)", key: "id" },
+    { title: "제목", key: "title" },
+    { title: "사용 여부", key: "useFlag" },
+    { title: "작업자", key: "updatedBy" },
+    { title: "작업일시", key: "updatedAt" },
+  ];
+  if (authorities.value.includes(Authority.NOTICE_EDIT)) {
+    headers.push({ title: "작업", key: "action" });
+  }
+  return headers;
+});
 const serverItems = ref<Notice[]>([]);
 const totalItems = ref(0);
 const loading = ref(false);
@@ -97,13 +102,13 @@ const search = ref("");
 async function fetchList() {
   try {
     loading.value = true;
-    const { status, data } = await getApi<ListApiResult<Notice>>(
+    const { success, data } = await getApi<ListApiResult<Notice>>(
       `api/v1/notices?${stringifyParams({
         page: 1,
         pageSize: itemsPerPage.value,
       })}`,
     );
-    if (Math.floor(status / 100) === 2) {
+    if (success) {
       serverItems.value = data.items;
       totalItems.value = data.total;
     }
@@ -124,8 +129,8 @@ async function onClickRemove(val: Notice) {
   }
   loading.value = true;
   try {
-    const { status } = await deleteApi(`api/v1/notices/${val.id}`);
-    if (Math.floor(status / 100) === 2) {
+    const { success } = await deleteApi(`api/v1/notices/${val.id}`);
+    if (success) {
       await fetchList();
     }
   } finally {

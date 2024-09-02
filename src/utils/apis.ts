@@ -18,6 +18,10 @@ export const axiosInstance = axios.create({
   },
 });
 
+export interface ApiResponse<T> extends AxiosResponse<T> {
+  success: boolean;
+}
+
 export const pendingRequests = new Map<string, CancelTokenSource>();
 
 axiosInstance.interceptors.request.use(
@@ -56,7 +60,7 @@ axiosInstance.interceptors.response.use(
     if (!response) {
       push.error("응답이 없습니다.");
     }
-    return response;
+    return { ...response, success: Math.floor(response.status / 100) === 2 };
   },
   async function (error: AxiosError) {
     console.error(error.message);
@@ -91,9 +95,9 @@ axiosInstance.interceptors.response.use(
 export async function getApi<T = never, R = T>(
   url: string,
   alert = true,
-): Promise<AxiosResponse<R>> {
+): Promise<ApiResponse<R>> {
   try {
-    return await axiosInstance.get<T, AxiosResponse<R>>(url);
+    return await axiosInstance.get<T, ApiResponse<R>>(url);
   } catch (e) {
     return catchError<R>(e, alert);
   }
@@ -103,9 +107,14 @@ export async function postApi<T = never, R = T>(
   url: string,
   data: T,
   alert = true,
-): Promise<AxiosResponse<R>> {
+  successMessage = "등록되었습니다.",
+): Promise<ApiResponse<R>> {
   try {
-    return await axiosInstance.post<T, AxiosResponse<R>>(url, data);
+    const response = await axiosInstance.post<T, ApiResponse<R>>(url, data);
+    if (alert && response.success) {
+      push.success(successMessage);
+    }
+    return response;
   } catch (e) {
     return catchError<R>(e, alert);
   }
@@ -115,9 +124,14 @@ export async function putApi<T = never, R = T>(
   url: string,
   data: T,
   alert = true,
-): Promise<AxiosResponse<R>> {
+  successMessage = "수정되었습니다.",
+): Promise<ApiResponse<R>> {
   try {
-    return await axiosInstance.put<T, AxiosResponse<R>>(url, data);
+    const response = await axiosInstance.put<T, ApiResponse<R>>(url, data);
+    if (alert && response.success) {
+      push.success(successMessage);
+    }
+    return response;
   } catch (e) {
     return catchError<R>(e, alert);
   }
@@ -127,9 +141,14 @@ export async function patchApi<T = never, R = T>(
   url: string,
   data: T,
   alert = true,
-): Promise<AxiosResponse<R>> {
+  successMessage = "처리되었습니다.",
+): Promise<ApiResponse<R>> {
   try {
-    return await axiosInstance.patch<T, AxiosResponse<R>>(url, data);
+    const response = await axiosInstance.patch<T, ApiResponse<R>>(url, data);
+    if (alert && response.success) {
+      push.success(successMessage);
+    }
+    return response;
   } catch (e) {
     return catchError<R>(e, alert);
   }
@@ -138,9 +157,14 @@ export async function patchApi<T = never, R = T>(
 export async function deleteApi<T = never, R = T>(
   url: string,
   alert = true,
-): Promise<AxiosResponse<R>> {
+  successMessage = "삭제되었습니다.",
+): Promise<ApiResponse<R>> {
   try {
-    return await axiosInstance.delete<T, AxiosResponse<R>>(url);
+    const response = await axiosInstance.delete<T, ApiResponse<R>>(url);
+    if (alert && response.success) {
+      push.success(successMessage);
+    }
+    return response;
   } catch (e) {
     return catchError<R>(e, alert);
   }
@@ -160,8 +184,8 @@ export function stringifyParams(obj: any): string {
   );
 }
 
-export function catchError<T>(e, alert: boolean): AxiosResponse<T> {
-  if (e.status / 100 === 4) {
+export function catchError<T>(e, alert: boolean): ApiResponse<T> {
+  if (Math.floor(e.status / 100) === 4) {
     console.warn(e);
     if (alert) {
       push.error(e.response.data.message);
@@ -173,6 +197,7 @@ export function catchError<T>(e, alert: boolean): AxiosResponse<T> {
       headers: e.headers,
       request: e.request,
       data: null as T,
+      success: false,
     };
   } else {
     console.error(e);
