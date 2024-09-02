@@ -36,15 +36,6 @@
         <template #[`item.useFlag`]="{ value }">
           <v-switch :model-value="value" disabled />
         </template>
-        <template #[`item.managerFlag`]="{ value }">
-          <v-switch :model-value="value" disabled />
-        </template>
-        <template #[`item.joinedAt`]="{ value }">
-          {{ formatDatetime(value) }}
-        </template>
-        <template #[`item.latestActiveAt`]="{ value }">
-          {{ formatDatetime(value) }}
-        </template>
         <template #[`item.updatedBy`]="{ value }">
           <UserAvatar :value="value" />
         </template>
@@ -59,7 +50,7 @@
       </v-data-table-server>
     </v-card-text>
   </v-card>
-  <AdminManagementEditDialog
+  <NoticeManagementEditDialog
     v-if="dialog"
     :model-value="editItem"
     @save="fetchList"
@@ -69,16 +60,12 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import {
-  type Admin,
-  type AdminCreate,
-  defaultAdminCreate,
-} from "@/views/admin/management/types";
+import { defaultNotice, type Notice } from "@/views/notice/management/types";
 import { deleteApi, getApi, stringifyParams } from "@/utils/apis";
 import type { ListApiResult } from "@/definitions/types";
 import { formatDatetime } from "@/utils/formatter";
 import UserAvatar from "@/views/components/datatables/UserAvatar.vue";
-import AdminManagementEditDialog from "@/views/admin/management/AdminManagementEditDialog.vue";
+import NoticeManagementEditDialog from "@/views/notice/management/NoticeManagementEditDialog.vue";
 import useEditList from "@/composition/useEditList";
 import { useConfirmStore } from "@/stores/confirm";
 import { useDebounceFn } from "@vueuse/core";
@@ -86,17 +73,13 @@ import { useDebounceFn } from "@vueuse/core";
 const itemsPerPage = ref(10);
 const headers = [
   { title: "ID(KEY)", key: "id" },
-  { title: "로그인 아이디", key: "loginId" },
-  { title: "관리자 명", key: "name" },
+  { title: "제목", key: "title" },
   { title: "사용 여부", key: "useFlag" },
-  { title: "관리자 여부", key: "managerFlag" },
-  { title: "가입 일자", key: "joinedAt" },
-  { title: "최종 로그인 일시", key: "latestActiveAt" },
   { title: "작업자", key: "updatedBy" },
   { title: "작업일시", key: "updatedAt" },
   { key: "action" },
 ];
-const serverItems = ref<Admin[]>([]);
+const serverItems = ref<Notice[]>([]);
 const totalItems = ref(0);
 const loading = ref(false);
 const search = ref("");
@@ -104,8 +87,8 @@ const search = ref("");
 async function fetchList() {
   try {
     loading.value = true;
-    const { status, data } = await getApi<ListApiResult<Admin>>(
-      `api/v1/admins?${stringifyParams({
+    const { status, data } = await getApi<ListApiResult<Notice>>(
+      `api/v1/notices?${stringifyParams({
         page: 1,
         pageSize: itemsPerPage.value,
       })}`,
@@ -122,16 +105,16 @@ async function fetchList() {
 const debouncedFetchList = useDebounceFn(fetchList, 200);
 
 const { dialog, editItem, onClickAdd, onClickEdit } =
-  useEditList<AdminCreate>(defaultAdminCreate);
+  useEditList<Notice>(defaultNotice);
 
 const { confirmDelete } = useConfirmStore();
-async function onClickRemove(val: Admin) {
+async function onClickRemove(val: Notice) {
   if (!(await confirmDelete())) {
     return;
   }
   loading.value = true;
   try {
-    const { status } = await deleteApi(`api/v1/admins/${val.id}`);
+    const { status } = await deleteApi(`api/v1/notices/${val.id}`);
     if (Math.floor(status / 100) === 2) {
       await fetchList();
     }

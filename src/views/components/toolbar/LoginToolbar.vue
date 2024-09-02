@@ -22,6 +22,7 @@ import { catchError } from "@/utils/apis";
 import type { JwtTokens } from "@/definitions/types";
 import type { LoginRequest } from "@/views/login/LoginPage.vue";
 import { push } from "notivue";
+import { sha512 } from "js-sha512";
 
 const { info } = useAdminStore();
 
@@ -36,8 +37,7 @@ async function login() {
       `${API_HOST}api/v1/${type.value}s/login`,
       {
         loginId: "developer",
-        password:
-          "4dff4ea340f0a823f15d3f4f01ab62eae0e5da579ccb851f8db9dfe84c58b2b37b89903a740e1ee172da793a6e79d560e5f7f9bd058a12a280433ed6fa46510a",
+        password: sha512("1"),
       },
     );
     saveTokens(data);

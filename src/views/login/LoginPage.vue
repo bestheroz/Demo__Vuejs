@@ -59,6 +59,7 @@ import { useAdminStore } from "@/stores/admin";
 import type { JwtTokens } from "@/definitions/types";
 import { catchError } from "@/utils/apis";
 import { UserType } from "@/definitions/selections";
+import { sha512 } from "js-sha512";
 
 const loginId = ref("developer");
 const password = ref("1");
@@ -85,7 +86,7 @@ async function login(): Promise<void> {
       `${API_HOST}api/v1/${type.value}s/login`,
       {
         loginId: loginId.value,
-        password: password.value,
+        password: sha512(password.value),
       },
     );
     reloadable.value = false;

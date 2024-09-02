@@ -10,13 +10,21 @@
         :search="search"
         disable-sort
         show-current-page
-        @update:options="loadItems"
+        @update:options="fetchList"
       >
         <template #top>
           <v-toolbar flat class="px-4">
             <v-spacer></v-spacer>
             <v-btn color="primary" variant="flat" @click="onClickAdd">
               <v-icon>mdi-plus</v-icon>
+            </v-btn>
+            <v-btn
+              color="primary"
+              variant="flat"
+              class="ml-2"
+              @click="debouncedFetchList"
+            >
+              <v-icon>mdi-reload</v-icon>
             </v-btn>
           </v-toolbar>
         </template>
@@ -54,7 +62,7 @@
   <UserManagementEditDialog
     v-if="dialog"
     :model-value="editItem"
-    @save="loadItems"
+    @save="fetchList"
     @click:cancel="dialog = false"
   />
 </template>
@@ -73,6 +81,7 @@ import UserAvatar from "@/views/components/datatables/UserAvatar.vue";
 import UserManagementEditDialog from "@/views/user/management/UserManagementEditDialog.vue";
 import useEditList from "@/composition/useEditList";
 import { useConfirmStore } from "@/stores/confirm";
+import { useDebounceFn } from "@vueuse/core";
 
 const itemsPerPage = ref(10);
 const headers = [
@@ -91,7 +100,7 @@ const totalItems = ref(0);
 const loading = ref(false);
 const search = ref("");
 
-async function loadItems() {
+async function fetchList() {
   try {
     loading.value = true;
     const { status, data } = await getApi<ListApiResult<User>>(
@@ -109,6 +118,8 @@ async function loadItems() {
   }
 }
 
+const debouncedFetchList = useDebounceFn(fetchList, 200);
+
 const { dialog, editItem, onClickAdd, onClickEdit } =
   useEditList<UserCreate>(defaultUserCreate);
 
@@ -121,7 +132,7 @@ async function onClickRemove(val: User) {
   try {
     const { status } = await deleteApi(`api/v1/users/${val.id}`);
     if (Math.floor(status / 100) === 2) {
-      await loadItems();
+      await fetchList();
     }
   } finally {
     loading.value = false;
