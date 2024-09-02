@@ -2,6 +2,8 @@ import type { NavigationGuardNext, RouteRecordRaw } from "vue-router";
 import { createRouter, createWebHistory } from "vue-router";
 import { useAdminStore } from "@/stores/admin";
 import { goLoginPage } from "@/utils/commands";
+import { pendingRequests } from "@/utils/apis";
+import { CanceledError } from "axios";
 
 const requireAuth =
   () => async (_to: unknown, _from: unknown, next: NavigationGuardNext) => {
@@ -57,7 +59,26 @@ const routes = (): RouteRecordRaw[] => {
   ];
 };
 
-export default createRouter({
+const router = createRouter({
   history: createWebHistory(),
   routes: routes(),
 });
+
+router.beforeEach((to, from, next) => {
+  pendingRequests.forEach((cancelToken, requestId) => {
+    try {
+      cancelToken.cancel(`Route change: ${from.path} to ${to.path}`);
+    } catch (e: unknown) {
+      if (e instanceof CanceledError) {
+        // ignore
+      } else {
+        throw e;
+      }
+    }
+    pendingRequests.delete(requestId);
+  });
+
+  next();
+});
+
+export default router;

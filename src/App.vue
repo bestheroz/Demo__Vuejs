@@ -8,12 +8,16 @@
         </transition>
       </router-view>
     </component>
+    <Notivue v-slot="item">
+      <Notification :item="item" :theme="darkTheme" />
+    </Notivue>
     <GlobalDialogConfirm />
     <input type="text" style="width: 0; height: 0" />
   </v-app>
 </template>
 
 <script setup lang="ts">
+import { Notification, Notivue, darkTheme } from "notivue";
 import AuthLayout from "@/layouts/AuthLayout.vue";
 import DefaultLayout from "@/layouts/DefaultLayout.vue";
 import ErrorLayout from "@/layouts/ErrorLayout.vue";

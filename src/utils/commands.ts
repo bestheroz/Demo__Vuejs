@@ -6,8 +6,8 @@ import { jwtDecode } from "jwt-decode";
 import dayjs from "dayjs";
 import axios from "axios";
 import { type JwtTokens } from "@/definitions/types";
-import { toast } from "vue3-toastify";
 import { API_HOST } from "@/constants/envs";
+import { push } from "notivue";
 
 function formatPath(val: string): string {
   const _path = val.split("?");
@@ -72,12 +72,12 @@ export async function getNewToken(): Promise<JwtTokens | undefined> {
     if (axios.isAxiosError(e)) {
       const statusCode = e.response?.status || 500;
       if (statusCode === 401 || e.message === "Invalid token specified!") {
-        toast.error(e.message);
+        push.error(e.message);
       } else if ([403, 404, 500].includes(statusCode)) {
-        toast.error(e.message);
+        push.error(e.message);
       } else {
         console.warn(`Missing Status Code: ${statusCode}`);
-        toast.error(e.message);
+        push.error(e.message);
       }
     } else {
       console.error(e);

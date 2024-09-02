@@ -8,8 +8,8 @@ import { API_HOST } from "@/constants/envs";
 import { getValidatedAccessToken, goLoginPage } from "@/utils/commands";
 import { stringify } from "qs";
 import { v4 as uuidV4 } from "uuid";
-import { toast } from "vue3-toastify";
 import { useAdminStore } from "@/stores/admin";
+import { push } from "notivue";
 
 export const axiosInstance = axios.create({
   baseURL: API_HOST,
@@ -54,7 +54,7 @@ axiosInstance.interceptors.response.use(
     pendingRequests.delete(requestId);
 
     if (!response) {
-      toast.error("응답이 없습니다.");
+      push.error("응답이 없습니다.");
     }
     return response;
   },
@@ -67,7 +67,7 @@ axiosInstance.interceptors.response.use(
     }
 
     if (error.message === "Network Error") {
-      toast.error("서비스 이용 불가");
+      push.error("서비스 이용 불가");
       return;
     }
     if (error.response) {
@@ -164,12 +164,12 @@ export function catchError(e, alert: boolean): void {
   if (e.status % 100 === 4) {
     console.warn(e);
     if (alert) {
-      toast.error(e.message);
+      push.error(e.message);
     }
   } else {
     console.error(e);
     if (alert) {
-      toast.error(e.message);
+      push.error(e.message);
     }
     throw e;
   }
