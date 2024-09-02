@@ -22,6 +22,13 @@ const admin: RouteRecordRaw[] = [
   },
 ];
 
+const user: RouteRecordRaw[] = [
+  {
+    path: "management",
+    component: () => import("@/views/user/management/UserManagementPage.vue"),
+  },
+];
+
 const routes = (): RouteRecordRaw[] => {
   const error: RouteRecordRaw[] = [
     {
@@ -38,6 +45,15 @@ const routes = (): RouteRecordRaw[] => {
     {
       path: "/admin",
       children: admin.map((v) => ({
+        ...v,
+        meta: {
+          layout: "default",
+        },
+      })),
+    },
+    {
+      path: "/user",
+      children: user.map((v) => ({
         ...v,
         meta: {
           layout: "default",
