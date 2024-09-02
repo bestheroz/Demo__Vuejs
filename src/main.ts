@@ -9,9 +9,21 @@ import router from "@/router";
 
 import { createNotivue } from "notivue";
 
-const notivue = createNotivue(/* options */);
 const app = createApp(App);
 
 app.use(router).use(pinia).use(vuetify);
+
+const notivue = createNotivue({
+  position: "top-right",
+  notifications: {
+    global: {
+      duration: 10_000,
+    },
+    success: {
+      duration: 3_000,
+    },
+  },
+});
 app.use(notivue);
+
 app.mount("#app");

@@ -21,6 +21,7 @@ import { UserType } from "@/definitions/selections";
 import { catchError } from "@/utils/apis";
 import type { JwtTokens } from "@/definitions/types";
 import type { LoginRequest } from "@/views/login/LoginPage.vue";
+import { push } from "notivue";
 
 const { info } = useAdminStore();
 
@@ -32,10 +33,11 @@ async function login() {
   loading.value = true;
   try {
     const { data } = await axios.post<LoginRequest, AxiosResponse<JwtTokens>>(
-      `${API_HOST}api/v1/${type.value.toLowerCase()}s/login`,
+      `${API_HOST}api/v1/${type.value}s/login`,
       { loginId: "developer", password: "1" },
     );
     saveTokens(data);
+    push.success("로그인 성공 => " + type.value);
   } catch (e) {
     catchError(e, true);
   } finally {

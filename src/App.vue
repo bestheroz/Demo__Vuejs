@@ -67,3 +67,8 @@ onMounted(() => {
   opacity: 0;
 }
 </style>
+<style>
+:root {
+  --nv-z: 9999;
+}
+</style>

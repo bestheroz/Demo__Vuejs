@@ -82,7 +82,7 @@ async function login(): Promise<void> {
   loading.value = true;
   try {
     const { data } = await axios.post<LoginRequest, AxiosResponse<JwtTokens>>(
-      `${API_HOST}api/v1/${type.value.toLowerCase()}s/login`,
+      `${API_HOST}api/v1/${type.value}s/login`,
       {
         loginId: loginId.value,
         password: password.value,
