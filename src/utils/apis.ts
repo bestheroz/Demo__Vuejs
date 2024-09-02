@@ -91,11 +91,11 @@ axiosInstance.interceptors.response.use(
 export async function getApi<T = never, R = T>(
   url: string,
   alert = false,
-): Promise<R | undefined> {
+): Promise<AxiosResponse<R>> {
   try {
-    return (await axiosInstance.get<T, AxiosResponse<R>>(url)).data;
+    return await axiosInstance.get<T, AxiosResponse<R>>(url);
   } catch (e) {
-    catchError(e, alert);
+    return catchError<R>(e, alert);
   }
 }
 
@@ -103,11 +103,11 @@ export async function postApi<T = never, R = T>(
   url: string,
   data: T,
   alert = true,
-): Promise<R | undefined> {
+): Promise<AxiosResponse<R>> {
   try {
-    return (await axiosInstance.post<T, AxiosResponse<R>>(url, data)).data;
+    return await axiosInstance.post<T, AxiosResponse<R>>(url, data);
   } catch (e) {
-    catchError(e, alert);
+    return catchError<R>(e, alert);
   }
 }
 
@@ -115,11 +115,11 @@ export async function putApi<T = never, R = T>(
   url: string,
   data: T,
   alert = true,
-): Promise<R | undefined> {
+): Promise<AxiosResponse<R>> {
   try {
-    return (await axiosInstance.put<T, AxiosResponse<R>>(url, data)).data;
+    return await axiosInstance.put<T, AxiosResponse<R>>(url, data);
   } catch (e) {
-    catchError(e, alert);
+    return catchError<R>(e, alert);
   }
 }
 
@@ -127,22 +127,22 @@ export async function patchApi<T = never, R = T>(
   url: string,
   data: T,
   alert = true,
-): Promise<R | undefined> {
+): Promise<AxiosResponse<R>> {
   try {
-    return (await axiosInstance.patch<T, AxiosResponse<R>>(url, data)).data;
+    return await axiosInstance.patch<T, AxiosResponse<R>>(url, data);
   } catch (e) {
-    catchError(e, alert);
+    return catchError<R>(e, alert);
   }
 }
 
 export async function deleteApi<T = never, R = T>(
   url: string,
   alert = true,
-): Promise<R | undefined> {
+): Promise<AxiosResponse<R>> {
   try {
-    return (await axiosInstance.delete<T, AxiosResponse<R>>(url)).data;
+    return await axiosInstance.delete<T, AxiosResponse<R>>(url);
   } catch (e) {
-    catchError(e, alert);
+    return catchError<R>(e, alert);
   }
 }
 
@@ -160,16 +160,24 @@ export function stringifyParams(obj: any): string {
   );
 }
 
-export function catchError(e, alert: boolean): void {
-  if (e.status % 100 === 4) {
+export function catchError<T>(e, alert: boolean): AxiosResponse<T> {
+  if (e.status / 100 === 4) {
     console.warn(e);
     if (alert) {
-      push.error(e.message);
+      push.error(e.response.data.message);
     }
+    return {
+      status: e.status,
+      statusText: e.statusText,
+      config: e.config,
+      headers: e.headers,
+      request: e.request,
+      data: null as T,
+    };
   } else {
     console.error(e);
     if (alert) {
-      push.error(e.message);
+      push.error(e.response.data.message);
     }
     throw e;
   }

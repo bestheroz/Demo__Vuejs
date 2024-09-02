@@ -15,6 +15,13 @@ const requireAuth =
     return next();
   };
 
+const admin: RouteRecordRaw[] = [
+  {
+    path: "management",
+    component: () => import("@/views/admin/management/AdminManagementPage.vue"),
+  },
+];
+
 const routes = (): RouteRecordRaw[] => {
   const error: RouteRecordRaw[] = [
     {
@@ -28,6 +35,15 @@ const routes = (): RouteRecordRaw[] => {
   ];
 
   return [
+    {
+      path: "/admin",
+      children: admin.map((v) => ({
+        ...v,
+        meta: {
+          layout: "default",
+        },
+      })),
+    },
     {
       path: "/",
       beforeEnter: requireAuth(),

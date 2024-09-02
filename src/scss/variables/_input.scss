@@ -26,3 +26,25 @@
     }
   }
 }
+
+.v-switch {
+  > .v-input__control {
+    > .v-selection-control {
+      &.v-selection-control--dirty {
+        &.v-selection-control--disabled {
+          color: rgb(var(--v-theme-primary));
+          > .v-selection-control__wrapper {
+            > .v-switch__track {
+              background-color: rgb(var(--v-theme-primary));
+            }
+            > .v-selection-control__input {
+              > .v-switch__thumb {
+                background-color: rgb(var(--v-theme-primary));
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

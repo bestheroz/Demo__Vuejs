@@ -43,8 +43,6 @@ export default createVuetify({
       persistentPlaceholder: true,
     },
     VCheckbox: {
-      falseValue: "N",
-      trueValue: "Y",
       color: "primary",
       baseColor: "primary",
       hideDetails: "auto",

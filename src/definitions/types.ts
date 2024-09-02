@@ -43,3 +43,27 @@ export interface TokenClaims {
   managerFlag: boolean; // 매니저 여부(모든 권한 소유)
   authorities: string[]; // 권한 목록
 }
+
+export interface Id {
+  id?: number;
+}
+
+export interface IdCreatedUpdated extends Id {
+  createdBy?: UserSimple;
+  createdAt?: DateTime;
+  updatedBy?: UserSimple;
+  updatedAt?: DateTime;
+}
+
+export interface UserSimple extends Id {
+  loginId: string; // 로그인 아이디
+  name: string; // 이름
+  type: UserTypeString; // 권한 유형
+}
+
+export interface ListApiResult<T> {
+  page: number;
+  pageSize: number;
+  total: number;
+  items: T[];
+}
