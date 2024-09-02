@@ -15,7 +15,12 @@
         <template #top>
           <v-toolbar flat class="px-4">
             <v-spacer></v-spacer>
-            <v-btn color="primary" variant="flat" @click="onClickAdd">
+            <v-btn
+              v-if="authorities.includes(Authority.NOTICE_EDIT)"
+              color="primary"
+              variant="flat"
+              @click="onClickAdd"
+            >
               <v-icon>mdi-plus</v-icon>
             </v-btn>
             <v-btn
@@ -69,6 +74,11 @@ import NoticeManagementEditDialog from "@/views/notice/management/NoticeManageme
 import useEditList from "@/composition/useEditList";
 import { useConfirmStore } from "@/stores/confirm";
 import { useDebounceFn } from "@vueuse/core";
+import { storeToRefs } from "pinia";
+import { useAdminStore } from "@/stores/admin";
+import { Authority } from "@/definitions/authorities";
+
+const { authorities } = storeToRefs(useAdminStore());
 
 const itemsPerPage = ref(10);
 const headers = [

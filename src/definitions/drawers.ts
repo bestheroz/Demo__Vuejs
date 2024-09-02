@@ -1,5 +1,6 @@
 import type { Drawer } from "@/definitions/types";
 import { MenuType } from "@/definitions/selections";
+import { Authority } from "@/definitions/authorities";
 export const DRAWERS: Drawer[] = [
   {
     name: "공지",
@@ -10,6 +11,7 @@ export const DRAWERS: Drawer[] = [
         name: "관리",
         type: MenuType.PAGE,
         url: "/notice/management",
+        authority: Authority.NOTICE_VIEW,
       },
     ],
   },
@@ -22,6 +24,7 @@ export const DRAWERS: Drawer[] = [
         name: "관리",
         type: MenuType.PAGE,
         url: "/admin/management",
+        authority: Authority.ADMIN_VIEW,
       },
     ],
   },
@@ -34,6 +37,7 @@ export const DRAWERS: Drawer[] = [
         name: "관리",
         type: MenuType.PAGE,
         url: "/user/management",
+        authority: Authority.USER_VIEW,
       },
     ],
   },

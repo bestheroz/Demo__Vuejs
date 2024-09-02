@@ -23,14 +23,12 @@ export const useAdminStore = defineStore("admin", {
     },
   }),
   getters: {
-    loggedIn: (state: AdminInfo): boolean => {
-      return (
-        !!state.tokens.accessToken &&
-        !!state.info.id &&
-        !!localStorage.getItem("demo-accessToken") &&
-        !!localStorage.getItem("demo-refreshToken")
-      );
-    },
+    loggedIn: (state: AdminInfo): boolean =>
+      !!state.tokens.accessToken &&
+      !!state.info.id &&
+      !!localStorage.getItem("demo-accessToken") &&
+      !!localStorage.getItem("demo-refreshToken"),
+    authorities: (state: AdminInfo): string[] => state.info.authorities,
   },
   actions: {
     clearAdmin(): void {

@@ -1,4 +1,5 @@
 import type { MenuTypeString, UserTypeString } from "@/definitions/selections";
+import type { AuthorityString } from "@/definitions/authorities";
 
 export type DateTime = string | number | Date | null | undefined;
 
@@ -13,6 +14,7 @@ export interface Drawer {
   icon?: string;
   url?: string;
   children?: Drawer[];
+  authority?: AuthorityString;
 }
 
 export interface ConfirmResolveResponse {

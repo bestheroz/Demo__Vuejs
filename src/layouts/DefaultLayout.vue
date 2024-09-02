@@ -25,7 +25,7 @@
 
       <!-- Navigation menu -->
       <v-list class="py-0" density="compact" nav>
-        <NavMenu :drawers="DRAWERS" />
+        <NavMenu :drawers="filteredDrawer" />
       </v-list>
     </v-navigation-drawer>
 
@@ -64,11 +64,27 @@
 
 <script lang="ts" setup>
 import ToolbarAdmin from "@/views/components/toolbar/ToolbarAdmin.vue";
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { PRODUCT_TITLE, PRODUCT_VERSION } from "@/constants/envs";
 import { DRAWERS } from "@/definitions/drawers";
 import NavMenu from "@/views/components/navigation/NavMenu.vue";
 import LoginToolbar from "@/views/components/toolbar/LoginToolbar.vue";
+import { useAdminStore } from "@/stores/admin";
+import { storeToRefs } from "pinia";
 
 const drawer = ref(true);
+
+const { authorities } = storeToRefs(useAdminStore());
+
+const hasRequiredAuthority = (val) =>
+  !val.authority || authorities.value.includes(val.authority);
+
+const filteredDrawer = computed(() =>
+  DRAWERS.filter(hasRequiredAuthority)
+    .map((drawer) => ({
+      ...drawer,
+      children: drawer.children?.filter(hasRequiredAuthority) || [],
+    }))
+    .filter((drawer) => drawer.children.length > 0),
+);
 </script>
