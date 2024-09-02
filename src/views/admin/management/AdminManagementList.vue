@@ -20,6 +20,11 @@
             </v-btn>
           </v-toolbar>
         </template>
+        <template #[`item.id`]="{ item }">
+          <v-btn variant="plain" color="primary" @click="onClickEdit(item)">
+            {{ item.id }}
+          </v-btn>
+        </template>
         <template #[`item.useFlag`]="{ value }">
           <v-switch :model-value="value" disabled />
         </template>
@@ -37,6 +42,11 @@
         </template>
         <template #[`item.updatedAt`]="{ value }">
           {{ formatDatetime(value) }}
+        </template>
+        <template #[`item.action`]="{ item }">
+          <v-btn color="error" variant="plain" @click="onClickRemove(item)">
+            <v-icon>mdi-delete</v-icon>
+          </v-btn>
         </template>
       </v-data-table-server>
     </v-card-text>
@@ -56,12 +66,13 @@ import {
   type AdminCreate,
   defaultAdminCreate,
 } from "@/views/admin/management/types";
-import { getApi, stringifyParams } from "@/utils/apis";
+import { deleteApi, getApi, stringifyParams } from "@/utils/apis";
 import type { ListApiResult } from "@/definitions/types";
 import { formatDatetime } from "@/utils/formatter";
 import UserAvatar from "@/views/components/datatables/UserAvatar.vue";
 import AdminManagementEditDialog from "@/views/admin/management/AdminManagementEditDialog.vue";
 import useEditList from "@/composition/useEditList";
+import { useConfirmStore } from "@/stores/confirm";
 
 const itemsPerPage = ref(10);
 const headers = [
@@ -74,6 +85,7 @@ const headers = [
   { title: "최종 로그인 일시", key: "latestActiveAt" },
   { title: "작업자", key: "updatedBy" },
   { title: "작업일시", key: "updatedAt" },
+  { key: "action" },
 ];
 const serverItems = ref<Admin[]>([]);
 const totalItems = ref(0);
@@ -89,7 +101,7 @@ async function loadItems() {
         pageSize: itemsPerPage.value,
       })}`,
     );
-    if (status / 100 === 2) {
+    if (Math.floor(status / 100) === 2) {
       serverItems.value = data.items;
       totalItems.value = data.total;
     }
@@ -98,6 +110,22 @@ async function loadItems() {
   }
 }
 
-const { dialog, editItem, onClickAdd } =
+const { dialog, editItem, onClickAdd, onClickEdit } =
   useEditList<AdminCreate>(defaultAdminCreate);
+
+const { confirmDelete } = useConfirmStore();
+async function onClickRemove(val: Admin) {
+  if (!(await confirmDelete())) {
+    return;
+  }
+  loading.value = true;
+  try {
+    const { status } = await deleteApi(`api/v1/admins/${val.id}`);
+    if (Math.floor(status / 100) === 2) {
+      await loadItems();
+    }
+  } finally {
+    loading.value = false;
+  }
+}
 </script>

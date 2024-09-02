@@ -27,7 +27,7 @@
                       : 'mdi-alphabetical-variant-off'
                     : ''
                 "
-                @input="newFlag ? checkExistsLoginId() : undefined"
+                @update:model-value="newFlag ? checkExistsLoginId() : undefined"
               />
             </v-col>
             <v-col cols="2">
@@ -55,6 +55,7 @@
                     : [minLength(8), maxLength(30)]
                 "
                 :class="{ required: newFlag }"
+                @update:model-value="onInputPassword"
               />
             </v-col>
             <v-col cols="2">
@@ -78,12 +79,12 @@
                 label="비밀번호 확인"
                 :error-messages="passwordErrorMessages"
                 :rules="
-                  newFlag
+                  modelValue.password
                     ? [required, minLength(8), maxLength(30)]
                     : [minLength(8), maxLength(30)]
                 "
-                :class="{ required: newFlag }"
-                @input="onInputPassword"
+                :class="{ required: modelValue.password }"
+                @update:model-value="onInputPassword"
               />
             </v-col>
             <v-col cols="2">
@@ -148,6 +149,7 @@ import { useConfirmStore } from "@/stores/confirm";
 import CreatedUpdatedBar from "@/views/components/history/CreatedUpdatedBar.vue";
 import type { Admin, AdminCreate } from "@/views/admin/management/types";
 import { push } from "notivue";
+import { sha512 } from "js-sha512";
 
 const props = defineProps<{
   modelValue: AdminCreate;
@@ -191,7 +193,7 @@ async function createItem() {
       "api/v1/admins",
       props.modelValue,
     );
-    if (status / 100 === 2) {
+    if (Math.floor(status / 100) === 2) {
       emits("save");
       emits("click:cancel");
     }
@@ -206,11 +208,11 @@ async function updateItem() {
   loading.value = true;
   try {
     const { status } = await putApi<AdminCreate, Admin>(
-      `api/v1/admins/${props.modelValue.loginId}`,
-      props.modelValue,
+      `api/v1/admins/${props.modelValue.id}`,
+      { ...props.modelValue, password: sha512("1") },
     );
     loading.value = false;
-    if (status / 100 === 2) {
+    if (Math.floor(status / 100) === 2) {
       emits("save");
       emits("click:cancel");
     }

@@ -90,7 +90,7 @@ axiosInstance.interceptors.response.use(
 
 export async function getApi<T = never, R = T>(
   url: string,
-  alert = false,
+  alert = true,
 ): Promise<AxiosResponse<R>> {
   try {
     return await axiosInstance.get<T, AxiosResponse<R>>(url);

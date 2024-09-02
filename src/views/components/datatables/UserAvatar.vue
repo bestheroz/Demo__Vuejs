@@ -1,7 +1,7 @@
 <template>
   <v-menu>
     <template #activator="{ props }">
-      <v-btn v-bind="props" :elevation="0">
+      <v-btn v-bind="props" variant="plain">
         <v-avatar color="primary" size="x-small" class="mr-1">
           {{ value.id }}
         </v-avatar>
