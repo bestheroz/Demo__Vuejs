@@ -3,6 +3,7 @@
     <PageBreadcrumbs :items="['테스트', '통합']" />
     <TestNoticeForm />
     <TestUserForm />
+    <TestAdminForm />
   </div>
 </template>
 
@@ -10,4 +11,5 @@
 import PageBreadcrumbs from "@/views/components/breadcrumbs/PageBreadcrumbs.vue";
 import TestNoticeForm from "@/views/test/TestNoticeForm.vue";
 import TestUserForm from "@/views/test/TestUserForm.vue";
+import TestAdminForm from "@/views/test/TestAdminForm.vue";
 </script>

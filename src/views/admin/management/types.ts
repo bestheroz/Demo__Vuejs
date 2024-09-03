@@ -6,8 +6,8 @@ export interface Admin extends IdCreatedUpdated {
   useFlag: boolean;
   managerFlag: boolean;
   authorities: string[];
-  joinedAt?: DateTime;
-  latestActiveAt?: DateTime;
+  joinedAt?: DateTime; // readonly
+  latestActiveAt?: DateTime; // readonly
 }
 
 export interface AdminCreate extends Admin {

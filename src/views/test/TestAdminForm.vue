@@ -2,9 +2,9 @@
   <v-card>
     <v-card-title>
       <span>
-        유저
+        관리자
         <v-btn
-          v-if="authorities.includes(Authority.USER_EDIT)"
+          v-if="authorities.includes(Authority.ADMIN_EDIT)"
           color="primary"
           :loading="loading"
           variant="plain"
@@ -90,7 +90,7 @@ import { useAdminStore } from "@/stores/admin";
 import { ref } from "vue";
 import TestRunForm from "@/views/test/TestRunForm.vue";
 import { deleteApi, getApi, postApi, putApi } from "@/utils/apis";
-import type { UserCreate } from "@/views/user/management/types";
+import type { AdminCreate } from "@/views/admin/management/types";
 import type { LoginRequest } from "@/views/login/LoginPage.vue";
 import type { JwtTokens } from "@/definitions/types";
 import axios from "axios";
@@ -140,13 +140,14 @@ async function run() {
 const createdId = ref<number | undefined>(undefined);
 
 async function run1() {
-  return await getApi("api/v1/users?page=1&pageSize=10");
+  return await getApi("api/v1/admins?page=1&pageSize=10");
 }
 async function run2() {
-  const response = await postApi<UserCreate>("api/v1/users", {
+  const response = await postApi<AdminCreate>("api/v1/admins", {
     loginId: "(Test)loginId",
     name: "(Test)name",
     password: "(Test)password",
+    managerFlag: false,
     useFlag: true,
     authorities: [Authority.NOTICE_VIEW],
   });
@@ -156,11 +157,11 @@ async function run2() {
   return response;
 }
 async function run3() {
-  return await getApi(`api/v1/users/${createdId.value}`);
+  return await getApi(`api/v1/admins/${createdId.value}`);
 }
 async function run4() {
   const response = await getApi(
-    `api/v1/users/check-login-id?loginId=(Test)loginId`,
+    `api/v1/admins/check-login-id?loginId=(Test)loginId`,
   );
   return {
     success: response.success && response.data === false,
@@ -170,7 +171,7 @@ async function run4() {
 const token = ref<JwtTokens | undefined>(undefined);
 async function run5() {
   const response = await postApi<LoginRequest, JwtTokens>(
-    "api/v1/users/login",
+    "api/v1/admins/login",
     {
       loginId: "(Test)loginId",
       password: "(Test)password",
@@ -182,17 +183,18 @@ async function run5() {
   return response;
 }
 async function run6() {
-  return await putApi(`api/v1/users/${createdId.value}`, {
+  return await putApi(`api/v1/admins/${createdId.value}`, {
     loginId: "(Test)loginId_updated",
     name: "(Test)name_updated",
     password: "(Test)password_updated",
+    managerFlag: false,
     useFlag: true,
-    authorities: [Authority.NOTICE_VIEW, Authority.USER_VIEW],
+    authorities: [Authority.NOTICE_VIEW, Authority.ADMIN_VIEW],
   });
 }
 async function run7() {
   const response = await postApi<LoginRequest, JwtTokens>(
-    `${API_HOST}api/v1/users/login`,
+    `${API_HOST}api/v1/admins/login`,
     {
       loginId: "(Test)loginId_updated",
       password: "(Test)password_updated",
@@ -205,7 +207,7 @@ async function run7() {
 }
 async function run8() {
   const response = await axios.patch(
-    `${API_HOST}api/v1/users/${createdId.value}/password`,
+    `${API_HOST}api/v1/admins/${createdId.value}/password`,
     {
       oldPassword: "(Test)password_updated",
       newPassword: "(Test)password_updated_new",
@@ -223,7 +225,7 @@ async function run8() {
 }
 async function run9() {
   const response = await postApi<LoginRequest, JwtTokens>(
-    "api/v1/users/login",
+    "api/v1/admins/login",
     {
       loginId: "(Test)loginId_updated",
       password: "(Test)password_updated_new",
@@ -236,7 +238,7 @@ async function run9() {
 }
 async function run10() {
   const response = await axios.get<JwtTokens>(
-    `${API_HOST}api/v1/users/renew-token`,
+    `${API_HOST}api/v1/admins/renew-token`,
     {
       headers: {
         AuthorizationR: `Bearer ${token.value?.refreshToken}`,
@@ -252,7 +254,7 @@ async function run10() {
   };
 }
 async function run11() {
-  const response = await axios.delete(`${API_HOST}api/v1/users/logout`, {
+  const response = await axios.delete(`${API_HOST}api/v1/admins/logout`, {
     headers: {
       Authorization: `Bearer ${token.value?.accessToken}`,
     },
@@ -266,7 +268,7 @@ async function run11() {
   };
 }
 async function run12() {
-  const response = await deleteApi(`api/v1/users/${createdId.value}`);
+  const response = await deleteApi(`api/v1/admins/${createdId.value}`);
   if (response.success) {
     createdId.value = undefined;
     token.value = undefined;
