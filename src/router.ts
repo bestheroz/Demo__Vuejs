@@ -37,6 +37,13 @@ const notice: RouteRecordRaw[] = [
   },
 ];
 
+const test: RouteRecordRaw[] = [
+  {
+    path: "integration",
+    component: () => import("@/views/test/TestPage.vue"),
+  },
+];
+
 const routes = (): RouteRecordRaw[] => {
   const error: RouteRecordRaw[] = [
     {
@@ -71,6 +78,15 @@ const routes = (): RouteRecordRaw[] => {
     {
       path: "/notice",
       children: notice.map((v) => ({
+        ...v,
+        meta: {
+          layout: "default",
+        },
+      })),
+    },
+    {
+      path: "/test",
+      children: test.map((v) => ({
         ...v,
         meta: {
           layout: "default",
