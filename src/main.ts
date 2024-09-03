@@ -17,10 +17,13 @@ const notivue = createNotivue({
   position: "top-right",
   notifications: {
     global: {
-      duration: 10_000,
+      duration: 5_000,
     },
     success: {
-      duration: 3_000,
+      duration: 2_000,
+    },
+    error: {
+      duration: 10_000,
     },
   },
 });
