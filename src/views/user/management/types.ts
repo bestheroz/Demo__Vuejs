@@ -6,7 +6,7 @@ export interface User extends IdCreatedUpdated {
   useFlag: boolean;
   authorities: string[];
   joinedAt?: DateTime;
-  latestActiveAt?: DateTime;
+  latestActiveAt?: DateTime; // readonly
 }
 
 export interface UserCreate extends User {

@@ -64,13 +64,9 @@ async function run() {
     refTestRunForm1.value.run(),
     refTestRunForm2.value.run(),
   ]);
-  if (success2) {
-    await Promise.all([
-      refTestRunForm3.value.run(),
-      refTestRunForm4.value.run(),
-    ]);
-    await refTestRunForm5.value.run();
-  }
+  if (!success2) return;
+  await Promise.all([refTestRunForm3.value.run(), refTestRunForm4.value.run()]);
+  await refTestRunForm5.value.run();
 }
 
 const createdId = ref<number | undefined>(undefined);
@@ -104,6 +100,9 @@ async function run5() {
   if (response.success) {
     createdId.value = undefined;
   }
-  return response;
+  return {
+    success: response.success,
+    data: { status: response.status, statusText: response.statusText },
+  };
 }
 </script>

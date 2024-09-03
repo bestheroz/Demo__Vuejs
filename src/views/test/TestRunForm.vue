@@ -14,7 +14,7 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import type { ApiResponse } from "@/utils/apis";
+import type { TestResult } from "@/views/test/type";
 
 const props = defineProps<{
   title: string;
@@ -26,11 +26,13 @@ const loading = ref(false);
 const success = ref<boolean | null>(null);
 const result = ref("");
 async function run() {
+  success.value = null;
+  result.value = "";
   loading.value = true;
   try {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-expect-error
-    const response: ApiResponse<unknown> = await props.runFn();
+    const response: TestResult<unknown> = await props.runFn();
     success.value = response.success;
     result.value = JSON.stringify(response.data);
     return response.success;
