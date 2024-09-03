@@ -49,6 +49,7 @@
           >닫기</v-btn
         >
         <v-btn
+          v-if="authorities.includes(Authority.NOTICE_EDIT)"
           color="primary"
           :loading="loading"
           variant="flat"
@@ -72,6 +73,8 @@ import { useConfirmStore } from "@/stores/confirm";
 import CreatedUpdatedBar from "@/views/components/history/CreatedUpdatedBar.vue";
 import type { Notice } from "@/views/notice/management/types";
 import { push } from "notivue";
+import { useAdminStore } from "@/stores/admin";
+import { Authority } from "@/definitions/authorities";
 
 const props = defineProps<{
   modelValue: Notice;
@@ -81,6 +84,8 @@ const emits = defineEmits<{
   (e: "click:cancel");
   (e: "save");
 }>();
+
+const { authorities } = useAdminStore();
 
 const loading = ref(false);
 

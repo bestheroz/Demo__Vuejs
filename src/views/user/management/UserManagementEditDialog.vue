@@ -118,6 +118,7 @@
           >닫기</v-btn
         >
         <v-btn
+          v-if="authorities.includes(Authority.USER_EDIT)"
           color="primary"
           :loading="loading"
           variant="flat"
@@ -143,6 +144,8 @@ import CreatedUpdatedBar from "@/views/components/history/CreatedUpdatedBar.vue"
 import type { User, UserCreate } from "@/views/user/management/types";
 import { push } from "notivue";
 import { sha512 } from "js-sha512";
+import { Authority } from "@/definitions/authorities";
+import { useAdminStore } from "@/stores/admin";
 
 const props = defineProps<{
   modelValue: UserCreate;
@@ -152,6 +155,8 @@ const emits = defineEmits<{
   (e: "click:cancel");
   (e: "save");
 }>();
+
+const { authorities } = useAdminStore();
 
 const loading = ref(false);
 
