@@ -1,0 +1,40 @@
+name: test
+on:
+  push:
+    branches: ['**']
+    tags-ignore: ['**']
+jobs:
+  lint-tsc:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@main
+
+      - uses: pnpm/action-setup@master
+        name: Install pnpm
+        with:
+          version: latest
+          run_install: |
+            - recursive: true
+              args: [--frozen-lockfile, --strict-peer-dependencies]
+
+      - name: lint & tsc
+        run: pnpm run test
+
+  build:
+    runs-on: ubuntu-latest
+    if: github.ref != 'refs/heads/sandbox' && github.ref != 'refs/heads/qa'
+    steps:
+      - name: checkout
+        uses: actions/checkout@main
+
+      - uses: pnpm/action-setup@master
+        name: Install pnpm
+        with:
+          version: latest
+          run_install: |
+            - recursive: true
+              args: [--frozen-lockfile, --strict-peer-dependencies]
+
+      - name: Build 🔨
+        run: pnpm run build --mode prod

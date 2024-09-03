@@ -1,0 +1,46 @@
+name: deploy-sandbox-qa
+on:
+  push:
+    branches: [ sandbox, qa ]
+env:
+  AWS_ACCESS_KEY_ID: ${{ secrets.DEMO_AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.DEMO_AWS_SECRET_ACCESS_KEY }}
+  AWS_REGION: ap-northeast-2
+  AWS_S3_URL: s3://
+  CF_DISTRIBUTION_ID_FOR_SANDBOX: DUMMY
+  CF_DISTRIBUTION_ID_FOR_QA: DUMMY
+jobs:
+  deploy-sandbox-qa:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@main
+
+      - uses: pnpm/action-setup@master
+        name: Install pnpm
+        with:
+          version: latest
+          run_install: |
+            - recursive: true
+              args: [--frozen-lockfile, --strict-peer-dependencies]
+
+      - name: Build 🔨
+        run: pnpm run build --mode ${{ github.ref_name }}
+
+      - name: upload to s3
+        run: |
+          if [ $(( $RANDOM % 100 )) -eq 0 ]; then
+            aws s3 sync --region $AWS_REGION dist $AWS_S3_URL/${{ github.ref_name }}/ --delete
+          else
+            aws s3 sync --region $AWS_REGION dist $AWS_S3_URL/${{ github.ref_name }}/
+          fi
+
+      - name: invalidate cloudfront
+        run: |
+          if [ $GITHUB_REF_NAME = 'sandbox' ]; then
+            DISTRIBUTION=$CF_DISTRIBUTION_ID_FOR_SANDBOX
+          elif [ $GITHUB_REF_NAME = 'qa' ]; then
+            DISTRIBUTION=$CF_DISTRIBUTION_ID_FOR_QA
+          fi
+          
+          aws cloudfront create-invalidation --distribution-id ${CF_DISTRIBUTION_ID} --paths "/index.html"

@@ -1,0 +1,62 @@
+name: deploy-prod
+on:
+  push:
+    tags:
+      - v[0-9]+.[0-9]+.[0-9]+
+env:
+  AWS_ACCESS_KEY_ID: ${{ secrets.DEMO_AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.DEMO_AWS_SECRET_ACCESS_KEY }}
+  AWS_REGION: ap-northeast-2
+  AWS_S3_URL: s3://
+  CF_DISTRIBUTION_ID: DUMMY
+jobs:
+  deploy-prod:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@main
+
+      - name: get tag
+        id: tag
+        uses: dawidd6/action-get-tag@master
+        with:
+          strip_v: true
+
+      - name: update version of package.json
+        uses: jossef/action-set-json-field@master
+        with:
+          file: package.json
+          field: version
+          value: ${{ steps.tag.outputs.tag }}
+
+      - name: update VITE_PRODUCT_VERSION of .env version
+        uses: jacobtomlinson/gha-find-replace@master
+        with:
+          find: VITE_PRODUCT_VERSION=(\d+\.)(\d+\.)(\d+)
+          replace: VITE_PRODUCT_VERSION=${{ steps.tag.outputs.tag }}
+          include: ".env"
+
+      - uses: pnpm/action-setup@master
+        name: Install pnpm
+        with:
+          version: latest
+          run_install: |
+            - recursive: true
+              args: [--frozen-lockfile, --strict-peer-dependencies]
+
+      - name: lint & tsc
+        run: pnpm run test
+
+      - name: Build 🔨
+        run: pnpm run build --mode prod
+
+      - name: upload to s3
+        run: |
+          if [ $(( $RANDOM % 100 )) -eq 0 ]; then
+            aws s3 sync --region $AWS_REGION dist $AWS_S3_URL/prod/ --delete
+          else
+            aws s3 sync --region $AWS_REGION dist $AWS_S3_URL/prod/
+          fi
+
+      - name: invalidate cloudfront
+        run: aws cloudfront create-invalidation --distribution-id $CF_DISTRIBUTION_ID --paths "/index.html"
