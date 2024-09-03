@@ -1,6 +1,19 @@
 <template>
   <v-card>
-    <v-card-title>공지</v-card-title>
+    <v-card-title>
+      <span>
+        공지
+        <v-btn
+          v-if="authorities.includes(Authority.NOTICE_EDIT)"
+          color="primary"
+          :loading="loading"
+          variant="plain"
+          class="text-h5"
+          @click="run"
+          >모두 테스트</v-btn
+        >
+      </span>
+    </v-card-title>
     <v-card-text>
       <v-row dense>
         <TestRunForm ref="refTestRunForm1" title="조회" :run-fn="run1" />
@@ -25,20 +38,6 @@
         />
       </v-row>
     </v-card-text>
-    <v-card-actions>
-      <v-btn
-        v-if="authorities.includes(Authority.NOTICE_EDIT)"
-        color="primary"
-        :loading="loading"
-        variant="flat"
-        density="default"
-        size="x-large"
-        height="40"
-        width="100"
-        @click="run"
-        >모두 테스트</v-btn
-      >
-    </v-card-actions>
   </v-card>
 </template>
 
