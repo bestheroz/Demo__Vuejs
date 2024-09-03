@@ -61,7 +61,7 @@ const refTestRunForm3 = ref();
 const refTestRunForm4 = ref();
 const refTestRunForm5 = ref();
 async function run() {
-  const [_, success2] = await Promise.all([
+  const [, success2] = await Promise.all([
     refTestRunForm1.value.run(),
     refTestRunForm2.value.run(),
   ]);
