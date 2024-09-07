@@ -143,7 +143,7 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import { getApi, postApi, putApi } from "@/utils/apis";
+import {getApi, postApi, putApi, stringifyParams} from "@/utils/apis";
 import { useDebounceFn } from "@vueuse/core";
 import { isEmpty, maxLength, minLength, required } from "@/utils/rules";
 import { useConfirmStore } from "@/stores/confirm";
@@ -246,7 +246,10 @@ const debouncedCheckExistsLoginId = useDebounceFn(async (): Promise<void> => {
       return;
     }
     const { data } = await getApi<boolean>(
-      `api/v1/admins/check-login-id?loginId=${props.modelValue.loginId}`,
+        `api/v1/users/check-login-id?${stringifyParams({
+          loginId: props.modelValue.loginId,
+          adminId: props.modelValue.id,
+        })}`,
     );
     if (!data) {
       errorText.value = ["이미 존재하는 아이디입니다."];

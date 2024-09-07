@@ -160,10 +160,10 @@ async function run3() {
 }
 async function run4() {
   const response = await getApi(
-    `api/v1/users/check-login-id?loginId=(Test)loginId`,
+    `api/v1/users/check-login-id?loginId=(Test)loginId&userId=${createdId.value}`,
   );
   return {
-    success: response.success && response.data === false,
+    success: response.success && response.data === true,
     data: response.data,
   };
 }
