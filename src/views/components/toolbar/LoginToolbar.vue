@@ -9,6 +9,14 @@
       <v-radio :value="UserType.admin" :label="UserType.admin" />
       <v-radio :value="UserType.user" :label="UserType.user" />
     </v-radio-group>
+    <v-chip-group disabled>
+      <v-chip
+        v-for="authority in info.authorities"
+        :key="authority"
+        size="small"
+        >{{ authority }}</v-chip
+      >
+    </v-chip-group>
   </div>
 </template>
 
