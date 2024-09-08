@@ -246,7 +246,7 @@ const debouncedCheckExistsLoginId = useDebounceFn(async (): Promise<void> => {
       return;
     }
     const { data } = await getApi<boolean>(
-        `api/v1/users/check-login-id?${stringifyParams({
+        `api/v1/admins/check-login-id?${stringifyParams({
           loginId: props.modelValue.loginId,
           adminId: props.modelValue.id,
         })}`,

@@ -161,7 +161,7 @@ async function run3() {
 }
 async function run4() {
   const response = await getApi(
-      `api/v1/users/check-login-id?loginId=(Test)loginId&adminId=${createdId.value}`,
+      `api/v1/admins/check-login-id?loginId=(Test)loginId&adminId=${createdId.value}`,
   );
   return {
     success: response.success && response.data === true,
