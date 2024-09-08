@@ -196,7 +196,7 @@ export function catchError<T>(e, alert: boolean): ApiResponse<T> {
       config: e.config,
       headers: e.headers,
       request: e.request,
-      data: null as T,
+      data: e.response.data as T,
       success: false,
     };
   } else {
