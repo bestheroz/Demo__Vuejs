@@ -9,7 +9,7 @@
           :loading="loading"
           variant="plain"
           class="text-h5"
-          @click="run"
+          @click="runAll"
           >모두 테스트</v-btn
         >
       </span>
@@ -112,7 +112,7 @@ const refTestRunForm9 = ref();
 const refTestRunForm10 = ref();
 const refTestRunForm11 = ref();
 const refTestRunForm12 = ref();
-async function run() {
+async function runAll() {
   const [, success2] = await Promise.all([
     refTestRunForm1.value.run(),
     refTestRunForm2.value.run(),
@@ -126,10 +126,9 @@ async function run() {
     refTestRunForm6.value.run(),
   ]);
   if (!success6) return;
-  const [, success8] = await Promise.all([
-    refTestRunForm7.value.run(),
-    refTestRunForm8.value.run(),
-  ]);
+  const success7 = await refTestRunForm7.value.run();
+  if (!success7) return;
+  const success8 = await refTestRunForm8.value.run();
   if (!success8) return;
   if (!(await refTestRunForm9.value.run())) return;
   if (!(await refTestRunForm10.value.run())) return;
@@ -187,7 +186,11 @@ async function run6() {
     name: "(Test)name_updated",
     password: "(Test)password_updated",
     useFlag: true,
-    authorities: [Authority.NOTICE_VIEW, Authority.USER_VIEW],
+    authorities: [
+      Authority.NOTICE_VIEW,
+      Authority.USER_VIEW,
+      Authority.USER_EDIT,
+    ],
   });
 }
 async function run7() {
@@ -276,4 +279,6 @@ async function run12() {
     data: { status: response.status, statusText: response.statusText },
   };
 }
+
+defineExpose({ runAll });
 </script>
