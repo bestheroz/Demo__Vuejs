@@ -89,7 +89,7 @@ import { storeToRefs } from "pinia";
 import { useAdminStore } from "@/stores/admin";
 import { ref } from "vue";
 import TestRunForm from "@/views/test/TestRunForm.vue";
-import { deleteApi, getApi, postApi, putApi } from "@/utils/apis";
+import { catchError, deleteApi, getApi, postApi, putApi } from "@/utils/apis";
 import type { AdminCreate } from "@/views/admin/management/types";
 import type { LoginRequest } from "@/views/login/LoginPage.vue";
 import type { JwtTokens } from "@/definitions/types";
@@ -209,22 +209,26 @@ async function run7() {
   return response;
 }
 async function run8() {
-  const response = await axios.patch(
-    `${API_HOST}api/v1/admins/${createdId.value}/password`,
-    {
-      oldPassword: "(Test)password_updated",
-      newPassword: "(Test)password_updated_new",
-    },
-    {
-      headers: {
-        Authorization: `Bearer ${token.value?.accessToken}`,
+  try {
+    const response = await axios.patch(
+      `${API_HOST}api/v1/admins/${createdId.value}/password`,
+      {
+        oldPassword: "(Test)password_updated",
+        newPassword: "(Test)password_updated_new",
       },
-    },
-  );
-  return {
-    success: response.status === 200,
-    data: response.data,
-  };
+      {
+        headers: {
+          Authorization: `Bearer ${token.value?.accessToken}`,
+        },
+      },
+    );
+    return {
+      success: response.status === 200,
+      data: response.data,
+    };
+  } catch (e) {
+    return catchError(e);
+  }
 }
 async function run9() {
   const response = await postApi<LoginRequest, JwtTokens>(
@@ -240,35 +244,43 @@ async function run9() {
   return response;
 }
 async function run10() {
-  const response = await axios.get<JwtTokens>(
-    `${API_HOST}api/v1/admins/renew-token`,
-    {
-      headers: {
-        AuthorizationR: `Bearer ${token.value?.refreshToken}`,
+  try {
+    const response = await axios.get<JwtTokens>(
+      `${API_HOST}api/v1/admins/renew-token`,
+      {
+        headers: {
+          AuthorizationR: `Bearer ${token.value?.refreshToken}`,
+        },
       },
-    },
-  );
-  if (response.status === 200) {
-    token.value = response.data;
+    );
+    if (response.status === 200) {
+      token.value = response.data;
+    }
+    return {
+      success: response.status === 200,
+      data: response.data,
+    };
+  } catch (e) {
+    return catchError(e);
   }
-  return {
-    success: response.status === 200,
-    data: response.data,
-  };
 }
 async function run11() {
-  const response = await axios.delete(`${API_HOST}api/v1/admins/logout`, {
-    headers: {
-      Authorization: `Bearer ${token.value?.accessToken}`,
-    },
-  });
-  if (response.status === 204) {
-    token.value = undefined;
+  try {
+    const response = await axios.delete(`${API_HOST}api/v1/admins/logout`, {
+      headers: {
+        Authorization: `Bearer ${token.value?.accessToken}`,
+      },
+    });
+    if (response.status === 204) {
+      token.value = undefined;
+    }
+    return {
+      success: response.status === 204,
+      data: { status: response.status, statusText: response.statusText },
+    };
+  } catch (e) {
+    return catchError(e);
   }
-  return {
-    success: response.status === 204,
-    data: { status: response.status, statusText: response.statusText },
-  };
 }
 async function run12() {
   const response = await deleteApi(`api/v1/admins/${createdId.value}`);
