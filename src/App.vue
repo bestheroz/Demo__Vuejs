@@ -27,7 +27,7 @@ import { PRODUCT_TITLE } from "@/constants/envs";
 import { useRoute } from "vue-router";
 import SimpleLayout from "@/layouts/SimpleLayout.vue";
 import { useAdminStore } from "@/stores/admin";
-import { isExpiredToken } from "@/utils/commands";
+import { goLoginPage, isExpiredToken } from "@/utils/commands";
 
 const route = useRoute();
 const isRouterLoaded = computed((): boolean => route.name !== null);
@@ -47,6 +47,9 @@ onMounted(() => {
   const { loggedIn, tokens, clearAdmin } = useAdminStore();
   if (loggedIn && isExpiredToken(tokens.accessToken)) {
     clearAdmin();
+    goLoginPage();
+  } else if (!loggedIn && route.path !== "/login") {
+    goLoginPage();
   }
 });
 </script>
