@@ -9,7 +9,7 @@
           :loading="loading"
           variant="plain"
           class="text-h5"
-          @click="run"
+          @click="runAll"
           >모두 테스트</v-btn
         >
       </span>
@@ -59,7 +59,7 @@ const refTestRunForm2 = ref();
 const refTestRunForm3 = ref();
 const refTestRunForm4 = ref();
 const refTestRunForm5 = ref();
-async function run() {
+async function runAll() {
   const [, success2] = await Promise.all([
     refTestRunForm1.value.run(),
     refTestRunForm2.value.run(),
@@ -105,4 +105,6 @@ async function run5() {
     data: { status: response.status, statusText: response.statusText },
   };
 }
+
+defineExpose({ runAll });
 </script>

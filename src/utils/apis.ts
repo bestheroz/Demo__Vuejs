@@ -184,7 +184,7 @@ export function stringifyParams(obj: any): string {
   );
 }
 
-export function catchError<T>(e, alert: boolean): ApiResponse<T> {
+export function catchError<T>(e, alert: boolean = true): ApiResponse<T> {
   if (Math.floor(e.status / 100) === 4) {
     console.warn(e);
     if (alert) {
@@ -196,7 +196,7 @@ export function catchError<T>(e, alert: boolean): ApiResponse<T> {
       config: e.config,
       headers: e.headers,
       request: e.request,
-      data: null as T,
+      data: e.response.data as T,
       success: false,
     };
   } else {

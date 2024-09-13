@@ -9,7 +9,7 @@
           :loading="loading"
           variant="plain"
           class="text-h5"
-          @click="run"
+          @click="runAll"
           >모두 테스트</v-btn
         >
       </span>
@@ -89,7 +89,7 @@ import { storeToRefs } from "pinia";
 import { useAdminStore } from "@/stores/admin";
 import { ref } from "vue";
 import TestRunForm from "@/views/test/TestRunForm.vue";
-import { deleteApi, getApi, postApi, putApi } from "@/utils/apis";
+import { catchError, deleteApi, getApi, postApi, putApi } from "@/utils/apis";
 import type { AdminCreate } from "@/views/admin/management/types";
 import type { LoginRequest } from "@/views/login/LoginPage.vue";
 import type { JwtTokens } from "@/definitions/types";
@@ -112,7 +112,7 @@ const refTestRunForm9 = ref();
 const refTestRunForm10 = ref();
 const refTestRunForm11 = ref();
 const refTestRunForm12 = ref();
-async function run() {
+async function runAll() {
   const [, success2] = await Promise.all([
     refTestRunForm1.value.run(),
     refTestRunForm2.value.run(),
@@ -126,10 +126,9 @@ async function run() {
     refTestRunForm6.value.run(),
   ]);
   if (!success6) return;
-  const [, success8] = await Promise.all([
-    refTestRunForm7.value.run(),
-    refTestRunForm8.value.run(),
-  ]);
+  const success7 = await refTestRunForm7.value.run();
+  if (!success7) return;
+  const success8 = await refTestRunForm8.value.run();
   if (!success8) return;
   if (!(await refTestRunForm9.value.run())) return;
   if (!(await refTestRunForm10.value.run())) return;
@@ -161,7 +160,7 @@ async function run3() {
 }
 async function run4() {
   const response = await getApi(
-      `api/v1/admins/check-login-id?loginId=(Test)loginId&adminId=${createdId.value}`,
+    `api/v1/admins/check-login-id?loginId=(Test)loginId&adminId=${createdId.value}`,
   );
   return {
     success: response.success && response.data === true,
@@ -189,7 +188,11 @@ async function run6() {
     password: "(Test)password_updated",
     managerFlag: false,
     useFlag: true,
-    authorities: [Authority.NOTICE_VIEW, Authority.ADMIN_VIEW],
+    authorities: [
+      Authority.NOTICE_VIEW,
+      Authority.ADMIN_VIEW,
+      Authority.ADMIN_EDIT,
+    ],
   });
 }
 async function run7() {
@@ -206,22 +209,26 @@ async function run7() {
   return response;
 }
 async function run8() {
-  const response = await axios.patch(
-    `${API_HOST}api/v1/admins/${createdId.value}/password`,
-    {
-      oldPassword: "(Test)password_updated",
-      newPassword: "(Test)password_updated_new",
-    },
-    {
-      headers: {
-        Authorization: `Bearer ${token.value?.accessToken}`,
+  try {
+    const response = await axios.patch(
+      `${API_HOST}api/v1/admins/${createdId.value}/password`,
+      {
+        oldPassword: "(Test)password_updated",
+        newPassword: "(Test)password_updated_new",
       },
-    },
-  );
-  return {
-    success: response.status === 200,
-    data: response.data,
-  };
+      {
+        headers: {
+          Authorization: `Bearer ${token.value?.accessToken}`,
+        },
+      },
+    );
+    return {
+      success: response.status === 200,
+      data: response.data,
+    };
+  } catch (e) {
+    return catchError(e);
+  }
 }
 async function run9() {
   const response = await postApi<LoginRequest, JwtTokens>(
@@ -237,35 +244,43 @@ async function run9() {
   return response;
 }
 async function run10() {
-  const response = await axios.get<JwtTokens>(
-    `${API_HOST}api/v1/admins/renew-token`,
-    {
-      headers: {
-        AuthorizationR: `Bearer ${token.value?.refreshToken}`,
+  try {
+    const response = await axios.get<JwtTokens>(
+      `${API_HOST}api/v1/admins/renew-token`,
+      {
+        headers: {
+          AuthorizationR: `Bearer ${token.value?.refreshToken}`,
+        },
       },
-    },
-  );
-  if (response.status === 200) {
-    token.value = response.data;
+    );
+    if (response.status === 200) {
+      token.value = response.data;
+    }
+    return {
+      success: response.status === 200,
+      data: response.data,
+    };
+  } catch (e) {
+    return catchError(e);
   }
-  return {
-    success: response.status === 200,
-    data: response.data,
-  };
 }
 async function run11() {
-  const response = await axios.delete(`${API_HOST}api/v1/admins/logout`, {
-    headers: {
-      Authorization: `Bearer ${token.value?.accessToken}`,
-    },
-  });
-  if (response.status === 204) {
-    token.value = undefined;
+  try {
+    const response = await axios.delete(`${API_HOST}api/v1/admins/logout`, {
+      headers: {
+        Authorization: `Bearer ${token.value?.accessToken}`,
+      },
+    });
+    if (response.status === 204) {
+      token.value = undefined;
+    }
+    return {
+      success: response.status === 204,
+      data: { status: response.status, statusText: response.statusText },
+    };
+  } catch (e) {
+    return catchError(e);
   }
-  return {
-    success: response.status === 204,
-    data: { status: response.status, statusText: response.statusText },
-  };
 }
 async function run12() {
   const response = await deleteApi(`api/v1/admins/${createdId.value}`);
@@ -278,4 +293,6 @@ async function run12() {
     data: { status: response.status, statusText: response.statusText },
   };
 }
+
+defineExpose({ runAll });
 </script>

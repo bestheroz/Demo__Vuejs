@@ -1,9 +1,12 @@
 <template>
   <div class="w-100">
     <PageBreadcrumbs :items="['테스트', '통합']" />
-    <TestNoticeForm />
-    <TestUserForm />
-    <TestAdminForm />
+    <v-btn variant="elevated" color="primary" class="mb-4" @click="runAll"
+      >통합 테스트 시작</v-btn
+    >
+    <TestNoticeForm ref="refTestNoticeForm" />
+    <TestUserForm ref="refTestUserForm" />
+    <TestAdminForm ref="refTestAdminForm" />
   </div>
 </template>
 
@@ -12,4 +15,18 @@ import PageBreadcrumbs from "@/views/components/breadcrumbs/PageBreadcrumbs.vue"
 import TestNoticeForm from "@/views/test/TestNoticeForm.vue";
 import TestUserForm from "@/views/test/TestUserForm.vue";
 import TestAdminForm from "@/views/test/TestAdminForm.vue";
+
+import { ref } from "vue";
+
+const refTestNoticeForm = ref();
+const refTestUserForm = ref();
+const refTestAdminForm = ref();
+
+async function runAll() {
+  await Promise.all([
+    refTestNoticeForm.value.runAll(),
+    refTestAdminForm.value.runAll(),
+    refTestUserForm.value.runAll(),
+  ]);
+}
 </script>
