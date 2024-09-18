@@ -33,8 +33,8 @@ importers:
         specifier: 2.2.2
         version: 2.2.2(typescript@5.5.3)(vue@3.5.6(typescript@5.5.3))
       pinia-plugin-persistedstate:
-        specifier: 4.0.1
-        version: 4.0.1(pinia@2.2.2(typescript@5.5.3)(vue@3.5.6(typescript@5.5.3)))(rollup@4.21.3)
+        specifier: 4.0.2
+        version: 4.0.2(pinia@2.2.2(typescript@5.5.3)(vue@3.5.6(typescript@5.5.3)))(rollup@4.21.3)
       qs:
         specifier: 6.13.0
         version: 6.13.0
@@ -1473,8 +1473,8 @@ packages:
     resolution: {integrity: sha512-JU3teHTNjmE2VCGFzuY8EXzCDVwEqB2a8fsIvwaStHhAWJEeVd1o1QD80CU6+ZdEXXSLbSsuLwJjkCBWqRQUVA==}
     engines: {node: '>=8.6'}
 
-  pinia-plugin-persistedstate@4.0.1:
-    resolution: {integrity: sha512-Gs2nhKUi6Rwhhc8PH9wvEAxfz4iZeJ/36qQv2ieYs94+zMozbGtMLIR4p9Aoim3c/PKf8J9orOz9n+f0ZF9CdA==}
+  pinia-plugin-persistedstate@4.0.2:
+    resolution: {integrity: sha512-KSApXsnGTrWKnAeHgEpYqtzeO84y4NH7uVM0/KMog+/oR2Py8p25tKjHQUmkcNNluzc0rJjFzlv2i5ZTdLeTXA==}
     peerDependencies:
       '@pinia/nuxt': '>=0.5.0'
       pinia: '>=2.0.0'
@@ -3342,7 +3342,7 @@ snapshots:
 
   picomatch@2.3.1: {}
 
-  pinia-plugin-persistedstate@4.0.1(pinia@2.2.2(typescript@5.5.3)(vue@3.5.6(typescript@5.5.3)))(rollup@4.21.3):
+  pinia-plugin-persistedstate@4.0.2(pinia@2.2.2(typescript@5.5.3)(vue@3.5.6(typescript@5.5.3)))(rollup@4.21.3):
     dependencies:
       '@nuxt/kit': 3.13.2(rollup@4.21.3)
       deep-pick-omit: 1.2.0
