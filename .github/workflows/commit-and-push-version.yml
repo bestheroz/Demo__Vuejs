@@ -6,7 +6,7 @@ on:
 env:
   GITHUB_TOKEN: ${{ secrets.WORKFLOW_GITHUB_TOKEN }}
 jobs:
-  push-version:
+  commit-and-push-version:
     runs-on: ubuntu-latest
     steps:
       - name: checkout
