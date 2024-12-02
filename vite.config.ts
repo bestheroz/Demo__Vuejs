@@ -44,8 +44,5 @@ export default defineConfig(({ mode }) => {
       target: "esnext",
       sourcemap: productionFlag,
     },
-    optimizeDeps: {
-      exclude: ["vue-demi"],
-    },
   };
 });
