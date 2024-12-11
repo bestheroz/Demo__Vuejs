@@ -14,6 +14,7 @@ export default defineConfig(({ mode }) => {
   const plugins: (Plugin | Plugin[] | PluginOption)[] = [
     vue({
       template: { transformAssetUrls },
+      isProduction: productionFlag,
     }),
     {
       ...vuetify(),

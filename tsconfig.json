@@ -6,7 +6,7 @@
     "skipLibCheck": true,
 
     /* Bundler mode */
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "allowImportingTsExtensions": false,
     "resolveJsonModule": true,
     "isolatedModules": true,
@@ -17,13 +17,14 @@
     "strict": true,
     "allowJs": false,
     "alwaysStrict": true,
+    "noImplicitAny": false,
     "noUnusedLocals": true,
     "strictNullChecks": true,
-    "noImplicitAny": false,
     "noImplicitReturns": false,
     "noUnusedParameters": true,
+    "strictBindCallApply": true,
     "noFallthroughCasesInSwitch": true,
-    "verbatimModuleSyntax": true,
+    "strictPropertyInitialization": true,
 
     /* Customization */
     "allowSyntheticDefaultImports": true,
@@ -33,13 +34,14 @@
     "paths": {
       "@/*": ["src/*"]
     },
-    "types": ["vuetify", "vite/client"],
+    "types": ["vuetify", "vite/client", "vue"],
 
-    "experimentalDecorators": false,
     "esModuleInterop": true,
-    "preserveConstEnums": true,
-    "composite": true,
-    "forceConsistentCasingInFileNames": true
+    "experimentalDecorators": false,
+    "forceConsistentCasingInFileNames": true,
+
+    // vue3
+    "useDefineForClassFields": true
   },
   "include": [
     "src",
