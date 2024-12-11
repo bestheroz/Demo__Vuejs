@@ -2,7 +2,7 @@ import type { Plugin, PluginOption } from "vite";
 import { defineConfig, loadEnv } from "vite";
 import vue from "@vitejs/plugin-vue";
 import { resolve } from "node:path";
-import eslint from "vite-plugin-eslint";
+import eslint from "vite-plugin-eslint2";
 import checker from "vite-plugin-checker";
 import tsconfigPaths from "vite-tsconfig-paths";
 import { transformAssetUrls } from "vite-plugin-vuetify";
@@ -17,7 +17,7 @@ export default defineConfig(({ mode }) => {
     }),
     tsconfigPaths(),
     {
-      ...eslint({ useEslintrc: true, fix: true }),
+      ...eslint({ useEslintrc: true, fix: true, lintInWorker: true }),
       apply: "serve",
     },
     {

@@ -3,7 +3,7 @@
     <v-img
       src="@/assets/images/illustrations/500-illustration.svg"
       max-height="400"
-      contain
+      cover
     />
     <div class="text-h3 mt-10">OOPS! Something went wrong here</div>
     <div class="my-3">Our experts are working to fix the issue.</div>

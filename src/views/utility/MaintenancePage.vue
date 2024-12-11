@@ -3,7 +3,7 @@
     <v-img
       class="mb-5"
       max-height="400"
-      contain
+      cover
       src="@/assets/images/illustrations/maintenance-illustration.svg"
     />
 

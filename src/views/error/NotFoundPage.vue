@@ -3,7 +3,7 @@
     <v-img
       src="@/assets/images/illustrations/404-illustration.svg"
       max-height="400"
-      contain
+      cover
     />
     <div class="text-h3 mt-10">How did you get here?</div>
     <div class="my-3">

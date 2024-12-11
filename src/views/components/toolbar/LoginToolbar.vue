@@ -4,7 +4,7 @@
       v-model="type"
       class="required mr-4 mt-1"
       hide-details
-      @change="login"
+      @update:model-value="login"
     >
       <v-radio :value="UserType.admin" :label="UserType.admin" />
       <v-radio :value="UserType.user" :label="UserType.user" />

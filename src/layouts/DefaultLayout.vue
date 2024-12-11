@@ -1,13 +1,7 @@
 <template>
   <div class="d-flex flex-grow-1">
     <!-- Navigation -->
-    <v-navigation-drawer
-      v-model="drawer"
-      app
-      class="elevation-1"
-      floating
-      light
-    >
+    <v-navigation-drawer v-model="drawer" class="elevation-1" floating>
       <!-- Navigation menu info -->
       <template #prepend>
         <div class="py-2 px-6">
@@ -30,7 +24,7 @@
     </v-navigation-drawer>
 
     <!-- Toolbar -->
-    <v-app-bar :flat="false" app light>
+    <v-app-bar :flat="false">
       <v-card :flat="true" class="flex-grow-1 d-flex pa-0 ma-0">
         <div class="d-flex flex-grow-1 align-center">
           <div class="d-flex flex-grow-1 align-center">
