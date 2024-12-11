@@ -11,15 +11,12 @@ const projectRootDir = resolve(__dirname);
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "VITE_ENVIRONMENT");
   const productionFlag = env.VITE_ENVIRONMENT !== "local";
-  const plugins: (Plugin | Plugin[] | PluginOption)[] = [
+  const plugins: (Plugin[] | PluginOption)[] = [
     vue({
       template: { transformAssetUrls },
       isProduction: productionFlag,
     }),
-    {
-      ...vuetify(),
-      apply: "serve",
-    },
+    vuetify({ autoImport: true }),
     tsconfigPaths(),
     {
       ...eslint({ useEslintrc: true, fix: true, lintInWorker: true }),
@@ -28,6 +25,7 @@ export default defineConfig(({ mode }) => {
     {
       ...checker({
         vueTsc: true,
+        typescript: true,
       }),
       apply: "serve",
     },
@@ -35,7 +33,11 @@ export default defineConfig(({ mode }) => {
   return {
     plugins: plugins,
     server: {
-      port: 8081,
+      port: 3000,
+      // Hot Module Replacement
+      hmr: {
+        overlay: !productionFlag,
+      },
     },
     resolve: {
       alias: {
@@ -43,7 +45,7 @@ export default defineConfig(({ mode }) => {
       },
     },
     css: {
-      devSourcemap: productionFlag,
+      devSourcemap: !productionFlag,
     },
     build: {
       target: "esnext",
