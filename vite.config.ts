@@ -5,7 +5,7 @@ import { resolve } from "node:path";
 import eslint from "vite-plugin-eslint2";
 import checker from "vite-plugin-checker";
 import tsconfigPaths from "vite-tsconfig-paths";
-import { transformAssetUrls } from "vite-plugin-vuetify";
+import vuetify, { transformAssetUrls } from "vite-plugin-vuetify";
 
 const projectRootDir = resolve(__dirname);
 export default defineConfig(({ mode }) => {
@@ -15,6 +15,10 @@ export default defineConfig(({ mode }) => {
     vue({
       template: { transformAssetUrls },
     }),
+    {
+      ...vuetify(),
+      apply: "serve",
+    },
     tsconfigPaths(),
     {
       ...eslint({ useEslintrc: true, fix: true, lintInWorker: true }),

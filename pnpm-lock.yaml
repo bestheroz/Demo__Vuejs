@@ -97,7 +97,7 @@ importers:
         specifier: 0.8.0
         version: 0.8.0(eslint@8.57.0)(optionator@0.9.4)(typescript@5.5.3)(vite@6.0.3(@types/node@22.10.1)(jiti@2.4.1)(sass@1.82.0))(vue-tsc@2.1.10(typescript@5.5.3))
       vite-plugin-eslint2:
-        specifier: ^5.0.3
+        specifier: 5.0.3
         version: 5.0.3(@types/eslint@8.56.12)(eslint@8.57.0)(rollup@4.28.1)(vite@6.0.3(@types/node@22.10.1)(jiti@2.4.1)(sass@1.82.0))
       vite-plugin-vuetify:
         specifier: 2.0.4
