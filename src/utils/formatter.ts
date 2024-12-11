@@ -1,14 +1,14 @@
-import type { DateTime, SelectItem } from "@/definitions/types";
-import dayjs from "dayjs";
+import dayjs, { extend } from "dayjs";
+import customParseFormat from "dayjs/plugin/customParseFormat";
 import {
   DATE_FORMAT_STRING,
   DATETIME_FORMAT_STRING,
   DATETIME_MINUTE_FORMAT_STRING,
 } from "@/constants/envs";
-import customParseFormat from "dayjs/plugin/customParseFormat";
+import type { DateTime, SelectItem } from "@/definitions/types";
 import { isEmpty, isNumeric, isValidValue } from "@/utils/rules";
 
-dayjs.extend(customParseFormat);
+extend(customParseFormat);
 
 export function formatDatetime(
   value?: DateTime,

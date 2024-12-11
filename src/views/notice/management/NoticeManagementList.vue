@@ -64,19 +64,19 @@
 </template>
 
 <script setup lang="ts">
+import { useDebounceFn } from "@vueuse/core";
+import { storeToRefs } from "pinia";
 import { computed, ref } from "vue";
-import { defaultNotice, type Notice } from "@/views/notice/management/types";
-import { deleteApi, getApi, stringifyParams } from "@/utils/apis";
+import useEditList from "@/composition/useEditList";
+import { Authority } from "@/definitions/authorities";
 import type { ListApiResult } from "@/definitions/types";
+import { useAdminStore } from "@/stores/admin";
+import { useConfirmStore } from "@/stores/confirm";
+import { deleteApi, getApi, stringifyParams } from "@/utils/apis";
 import { formatDatetime } from "@/utils/formatter";
 import UserAvatar from "@/views/components/datatables/UserAvatar.vue";
 import NoticeManagementEditDialog from "@/views/notice/management/NoticeManagementEditDialog.vue";
-import useEditList from "@/composition/useEditList";
-import { useConfirmStore } from "@/stores/confirm";
-import { useDebounceFn } from "@vueuse/core";
-import { storeToRefs } from "pinia";
-import { useAdminStore } from "@/stores/admin";
-import { Authority } from "@/definitions/authorities";
+import { defaultNotice, type Notice } from "@/views/notice/management/types";
 
 const { authorities } = storeToRefs(useAdminStore());
 

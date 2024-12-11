@@ -49,17 +49,17 @@
 </template>
 
 <script lang="ts" setup>
-import { routerReplace } from "@/utils/commands";
-import { onMounted, onUnmounted, ref } from "vue";
-import axios, { type AxiosResponse } from "axios";
-import { API_HOST, PRODUCT_TITLE, PRODUCT_VERSION } from "@/constants/envs";
 import { useIntervalFn } from "@vueuse/core";
-import { required } from "@/utils/rules";
-import { useAdminStore } from "@/stores/admin";
-import type { JwtTokens } from "@/definitions/types";
-import { catchError } from "@/utils/apis";
-import { UserType } from "@/definitions/selections";
+import axios, { type AxiosResponse } from "axios";
 import { sha512 } from "js-sha512";
+import { onMounted, onUnmounted, ref } from "vue";
+import { API_HOST, PRODUCT_TITLE, PRODUCT_VERSION } from "@/constants/envs";
+import { UserType } from "@/definitions/selections";
+import type { JwtTokens } from "@/definitions/types";
+import { useAdminStore } from "@/stores/admin";
+import { catchError } from "@/utils/apis";
+import { routerReplace } from "@/utils/commands";
+import { required } from "@/utils/rules";
 
 const loginId = ref("developer");
 const password = ref("1");

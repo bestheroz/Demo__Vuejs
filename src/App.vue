@@ -18,16 +18,16 @@
 
 <script setup lang="ts">
 import { Notification, Notivue, darkTheme } from "notivue";
+import { computed, onMounted } from "vue";
+import { useRoute } from "vue-router";
+import { PRODUCT_TITLE } from "@/constants/envs";
 import AuthLayout from "@/layouts/AuthLayout.vue";
 import DefaultLayout from "@/layouts/DefaultLayout.vue";
 import ErrorLayout from "@/layouts/ErrorLayout.vue";
-import { computed, onMounted } from "vue";
-import GlobalDialogConfirm from "@/views/components/dialog/GlobalDialogConfirm.vue";
-import { PRODUCT_TITLE } from "@/constants/envs";
-import { useRoute } from "vue-router";
 import SimpleLayout from "@/layouts/SimpleLayout.vue";
 import { useAdminStore } from "@/stores/admin";
 import { goLoginPage, isExpiredToken } from "@/utils/commands";
+import GlobalDialogConfirm from "@/views/components/dialog/GlobalDialogConfirm.vue";
 
 const route = useRoute();
 const isRouterLoaded = computed((): boolean => route.name !== null);

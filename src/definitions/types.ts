@@ -1,5 +1,5 @@
-import type { MenuTypeString, UserTypeString } from "@/definitions/selections";
 import type { AuthorityString } from "@/definitions/authorities";
+import type { MenuTypeString, UserTypeString } from "@/definitions/selections";
 
 export type DateTime = string | number | Date | null | undefined;
 

@@ -57,14 +57,14 @@
 </template>
 
 <script lang="ts" setup>
-import ToolbarAdmin from "@/views/components/toolbar/ToolbarAdmin.vue";
+import { storeToRefs } from "pinia";
 import { computed, ref } from "vue";
 import { PRODUCT_TITLE, PRODUCT_VERSION } from "@/constants/envs";
 import { DRAWERS } from "@/definitions/drawers";
+import { useAdminStore } from "@/stores/admin";
 import NavMenu from "@/views/components/navigation/NavMenu.vue";
 import LoginToolbar from "@/views/components/toolbar/LoginToolbar.vue";
-import { useAdminStore } from "@/stores/admin";
-import { storeToRefs } from "pinia";
+import ToolbarAdmin from "@/views/components/toolbar/ToolbarAdmin.vue";
 
 const drawer = ref(true);
 

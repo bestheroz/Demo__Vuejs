@@ -66,15 +66,15 @@
 </template>
 
 <script setup lang="ts">
+import { push } from "notivue";
 import { ref } from "vue";
+import { Authority } from "@/definitions/authorities";
+import { useAdminStore } from "@/stores/admin";
+import { useConfirmStore } from "@/stores/confirm";
 import { postApi, putApi } from "@/utils/apis";
 import { required } from "@/utils/rules";
-import { useConfirmStore } from "@/stores/confirm";
 import CreatedUpdatedBar from "@/views/components/history/CreatedUpdatedBar.vue";
 import type { Notice } from "@/views/notice/management/types";
-import { push } from "notivue";
-import { useAdminStore } from "@/stores/admin";
-import { Authority } from "@/definitions/authorities";
 
 const props = defineProps<{
   modelValue: Notice;

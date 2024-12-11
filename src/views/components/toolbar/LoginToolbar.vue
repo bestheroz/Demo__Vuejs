@@ -21,16 +21,16 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
-import { useAdminStore } from "@/stores/admin";
 import axios, { type AxiosResponse } from "axios";
+import { sha512 } from "js-sha512";
+import { push } from "notivue";
+import { ref } from "vue";
 import { API_HOST } from "@/constants/envs";
 import { UserType } from "@/definitions/selections";
-import { catchError } from "@/utils/apis";
 import type { JwtTokens } from "@/definitions/types";
+import { useAdminStore } from "@/stores/admin";
+import { catchError } from "@/utils/apis";
 import type { LoginRequest } from "@/views/login/LoginPage.vue";
-import { push } from "notivue";
-import { sha512 } from "js-sha512";
 
 const { info } = useAdminStore();
 

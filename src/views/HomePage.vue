@@ -8,10 +8,10 @@
   </div>
 </template>
 <script lang="ts" setup>
-import dayjs from "dayjs";
-import { PRODUCT_TITLE } from "@/constants/envs";
-import { onMounted, onUnmounted, ref } from "vue";
 import { useIntervalFn } from "@vueuse/core";
+import dayjs from "dayjs";
+import { onMounted, onUnmounted, ref } from "vue";
+import { PRODUCT_TITLE } from "@/constants/envs";
 
 const intervalForNow = useIntervalFn(() => {
   now.value = dayjs().format("YYYY년 MM월 DD일 HH시 mm분 ss초");

@@ -1,12 +1,12 @@
-import router from "@/router";
-import { stringifyParams } from "@/utils/apis";
-import { useAdminStore } from "@/stores/admin";
-import { parse } from "qs";
-import { jwtDecode } from "jwt-decode";
-import dayjs from "dayjs";
 import axios from "axios";
-import { type JwtTokens } from "@/definitions/types";
+import dayjs from "dayjs";
+import { jwtDecode } from "jwt-decode";
+import { parse } from "qs";
 import { API_HOST } from "@/constants/envs";
+import { type JwtTokens } from "@/definitions/types";
+import router from "@/router";
+import { useAdminStore } from "@/stores/admin";
+import { stringifyParams } from "@/utils/apis";
 
 function formatPath(val: string): string {
   const _path = val.split("?");

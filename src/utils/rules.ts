@@ -1,6 +1,6 @@
+import dayjs from "dayjs";
 import type { DateTime } from "@/definitions/types";
 import { isValidDateFormat } from "@/utils/formatter";
-import dayjs from "dayjs";
 
 export function isEmpty(val?: unknown | unknown[] | null) {
   if (Array.isArray(val)) {

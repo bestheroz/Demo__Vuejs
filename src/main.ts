@@ -1,13 +1,12 @@
+import { createNotivue } from "notivue";
 import { createApp } from "vue";
 import App from "@/App.vue";
 import vuetify from "@/plugins/vuetify";
 import "notivue/notification.css"; // Only needed if using built-in notifications
 import "notivue/animations.css"; // Only needed if using built-in animations
 import "@/scss/main.scss";
-import pinia from "@/stores";
 import router from "@/router";
-
-import { createNotivue } from "notivue";
+import pinia from "@/stores";
 
 const app = createApp(App);
 

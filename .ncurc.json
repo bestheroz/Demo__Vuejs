@@ -1,3 +1,3 @@
 {
-  "reject": ["@vue/eslint-config-prettier", "@vue/eslint-config-typescript"]
+  "reject": ["@vue/eslint-config-typescript"]
 }

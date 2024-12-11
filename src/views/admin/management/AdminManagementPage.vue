@@ -6,6 +6,6 @@
 </template>
 
 <script setup lang="ts">
-import PageBreadcrumbs from "@/views/components/breadcrumbs/PageBreadcrumbs.vue";
 import AdminManagementList from "@/views/admin/management/AdminManagementList.vue";
+import PageBreadcrumbs from "@/views/components/breadcrumbs/PageBreadcrumbs.vue";
 </script>

@@ -14,23 +14,47 @@ module.exports = {
     },
     vueFeatures: {
       filter: false,
-      interpolationAsNonHTML: false,
+      interpolationAsNonHTML: true,
       styleCSSVariableInjection: true,
     },
   },
   env: {
     node: true,
+    browser: true,
+    es2024: true,
   },
   extends: [
     "plugin:@typescript-eslint/recommended",
     "plugin:vue/vue3-recommended",
-    "plugin:vuetify/base",
-    "@vue/prettier",
-    "@vue/typescript",
-    "@vue/eslint-config-prettier",
+    "plugin:vuetify/recommended",
+    "plugin:prettier/recommended",
+    "plugin:import/errors",
+    "plugin:import/warnings",
+    "plugin:import/typescript",
   ],
-  plugins: ["vue", "@typescript-eslint"],
+  plugins: ["vue", "@typescript-eslint", "import"],
+  settings: {
+    "import/resolver": {
+      typescript: {
+        // tsconfig.json 파일의 경로를 지정
+        project: "./tsconfig.json",
+      },
+    },
+  },
   rules: {
+    "import/order": [
+      "error",
+      {
+        groups: [
+          "builtin",
+          "external",
+          "internal",
+          ["sibling", "parent"],
+          "index",
+        ],
+        alphabetize: { order: "asc", caseInsensitive: true },
+      },
+    ],
     "no-console":
       process.env.NODE_ENV === "production"
         ? ["error", { allow: ["info", "warn", "error"] }]

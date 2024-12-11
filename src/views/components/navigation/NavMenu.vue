@@ -5,9 +5,9 @@
 </template>
 
 <script setup lang="ts">
+import type { Drawer } from "@/definitions/types";
 import NavMenu from "@/views/components/navigation/NavMenu.vue";
 import NavMenuItem from "@/views/components/navigation/NavMenuItem.vue";
-import type { Drawer } from "@/definitions/types";
 
 withDefaults(
   defineProps<{

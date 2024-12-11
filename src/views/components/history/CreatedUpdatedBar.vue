@@ -13,9 +13,9 @@
 </template>
 
 <script setup lang="ts">
-import { formatDatetime } from "@/utils/formatter";
 import { computed } from "vue";
 import type { IdCreatedUpdated } from "@/definitions/types";
+import { formatDatetime } from "@/utils/formatter";
 
 const props = defineProps<{
   modelValue?: IdCreatedUpdated;

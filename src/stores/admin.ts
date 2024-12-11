@@ -1,7 +1,7 @@
-import { defineStore } from "pinia";
-import { getNewToken, signOut } from "@/utils/commands";
-import type { JwtTokens, TokenClaims } from "@/definitions/types";
 import { jwtDecode } from "jwt-decode";
+import { defineStore } from "pinia";
+import type { JwtTokens, TokenClaims } from "@/definitions/types";
+import { getNewToken, signOut } from "@/utils/commands";
 type AdminInfo = {
   tokens: JwtTokens;
   info: TokenClaims;

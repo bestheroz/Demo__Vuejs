@@ -1,6 +1,6 @@
+import { cloneDeep } from "lodash-es";
 import type { UnwrapRef } from "vue";
 import { ref } from "vue";
-import { cloneDeep } from "lodash-es";
 
 export default function <T>(initItemFunc: CallableFunction) {
   const items = ref<T[]>([]);

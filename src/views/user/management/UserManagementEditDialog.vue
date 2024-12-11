@@ -135,17 +135,17 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
-import {getApi, postApi, putApi, stringifyParams} from "@/utils/apis";
 import { useDebounceFn } from "@vueuse/core";
-import { isEmpty, maxLength, minLength, required } from "@/utils/rules";
-import { useConfirmStore } from "@/stores/confirm";
-import CreatedUpdatedBar from "@/views/components/history/CreatedUpdatedBar.vue";
-import type { User, UserCreate } from "@/views/user/management/types";
-import { push } from "notivue";
 import { sha512 } from "js-sha512";
+import { push } from "notivue";
+import { ref } from "vue";
 import { Authority } from "@/definitions/authorities";
 import { useAdminStore } from "@/stores/admin";
+import { useConfirmStore } from "@/stores/confirm";
+import { getApi, postApi, putApi, stringifyParams } from "@/utils/apis";
+import { isEmpty, maxLength, minLength, required } from "@/utils/rules";
+import CreatedUpdatedBar from "@/views/components/history/CreatedUpdatedBar.vue";
+import type { User, UserCreate } from "@/views/user/management/types";
 
 const props = defineProps<{
   modelValue: UserCreate;
