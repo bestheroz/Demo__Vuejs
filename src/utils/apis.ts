@@ -1,15 +1,14 @@
-import type { CancelTokenSource } from "axios";
 import axios, {
   type AxiosError,
   type AxiosResponse,
   type InternalAxiosRequestConfig,
 } from "axios";
-import { API_HOST } from "@/constants/envs";
-import { getValidatedAccessToken, goLoginPage } from "@/utils/commands";
+import { push } from "notivue";
 import { stringify } from "qs";
 import { v4 as uuidV4 } from "uuid";
+import { API_HOST } from "@/constants/envs";
 import { useAdminStore } from "@/stores/admin";
-import { push } from "notivue";
+import { getValidatedAccessToken, goLoginPage } from "@/utils/commands";
 
 export const axiosInstance = axios.create({
   baseURL: API_HOST,
@@ -22,7 +21,7 @@ export interface ApiResponse<T> extends AxiosResponse<T> {
   success: boolean;
 }
 
-export const pendingRequests = new Map<string, CancelTokenSource>();
+export const pendingRequests = new Map<string, AbortController>();
 
 axiosInstance.interceptors.request.use(
   async function (config) {
@@ -37,13 +36,12 @@ axiosInstance.interceptors.request.use(
 
     // 요청 ID 생성
     const requestId = uuidV4();
-    const cancelToken = axios.CancelToken.source();
+    const controller = new AbortController();
 
-    config.cancelToken = cancelToken.token;
-    config.headers.requestId = requestId; // meta 객체가 없을 수도 있으므로 스프레드 연산자를 사용
+    config.signal = controller.signal;
+    config.headers.requestId = requestId;
 
-    // 요청 ID를 키로 사용하여 cancelToken 저장
-    pendingRequests.set(requestId, cancelToken);
+    pendingRequests.set(requestId, controller);
 
     return config;
   },
@@ -54,8 +52,8 @@ axiosInstance.interceptors.request.use(
 
 axiosInstance.interceptors.response.use(
   function (response) {
-    const requestId = response.config.headers.requestId;
-    pendingRequests.delete(requestId);
+    const requestId = response.config.headers.requestId as string;
+    requestId && pendingRequests.delete(requestId);
 
     if (!response) {
       push.error("응답이 없습니다.");
@@ -64,8 +62,10 @@ axiosInstance.interceptors.response.use(
   },
   async function (error: AxiosError) {
     console.error(error.message);
+
     const requestId = error.config?.headers?.requestId;
     requestId && pendingRequests.delete(requestId);
+
     if (error.code === "ERR_CANCELED") {
       return Promise.reject(error);
     }
@@ -96,8 +96,11 @@ export async function getApi<T = never, R = T>(
   url: string,
   alert = true,
 ): Promise<ApiResponse<R>> {
+  const controller = new AbortController();
   try {
-    return await axiosInstance.get<T, ApiResponse<R>>(url);
+    return await axiosInstance.get<T, ApiResponse<R>>(url, {
+      signal: controller.signal,
+    });
   } catch (e) {
     return catchError<R>(e, alert);
   }
@@ -109,8 +112,11 @@ export async function postApi<T = never, R = T>(
   alert = true,
   successMessage = "등록되었습니다.",
 ): Promise<ApiResponse<R>> {
+  const controller = new AbortController();
   try {
-    const response = await axiosInstance.post<T, ApiResponse<R>>(url, data);
+    const response = await axiosInstance.post<T, ApiResponse<R>>(url, data, {
+      signal: controller.signal,
+    });
     if (alert && response.success) {
       push.success(successMessage);
     }
@@ -126,8 +132,11 @@ export async function putApi<T = never, R = T>(
   alert = true,
   successMessage = "수정되었습니다.",
 ): Promise<ApiResponse<R>> {
+  const controller = new AbortController();
   try {
-    const response = await axiosInstance.put<T, ApiResponse<R>>(url, data);
+    const response = await axiosInstance.put<T, ApiResponse<R>>(url, data, {
+      signal: controller.signal,
+    });
     if (alert && response.success) {
       push.success(successMessage);
     }
@@ -143,8 +152,11 @@ export async function patchApi<T = never, R = T>(
   alert = true,
   successMessage = "처리되었습니다.",
 ): Promise<ApiResponse<R>> {
+  const controller = new AbortController();
   try {
-    const response = await axiosInstance.patch<T, ApiResponse<R>>(url, data);
+    const response = await axiosInstance.patch<T, ApiResponse<R>>(url, data, {
+      signal: controller.signal,
+    });
     if (alert && response.success) {
       push.success(successMessage);
     }
@@ -159,8 +171,11 @@ export async function deleteApi<T = never, R = T>(
   alert = true,
   successMessage = "삭제되었습니다.",
 ): Promise<ApiResponse<R>> {
+  const controller = new AbortController();
   try {
-    const response = await axiosInstance.delete<T, ApiResponse<R>>(url);
+    const response = await axiosInstance.delete<T, ApiResponse<R>>(url, {
+      signal: controller.signal,
+    });
     if (alert && response.success) {
       push.success(successMessage);
     }
@@ -184,7 +199,19 @@ export function stringifyParams(obj: any): string {
   );
 }
 
-export function catchError<T>(e, alert: boolean = true): ApiResponse<T> {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function catchError<T>(e: any, alert: boolean = true): ApiResponse<T> {
+  if (e.code === "ERR_CANCELED") {
+    return {
+      status: e.status,
+      statusText: e.statusText,
+      config: e.config,
+      headers: e.headers,
+      request: e.request,
+      data: e.response?.data as T,
+      success: false,
+    };
+  }
   if (Math.floor(e.status / 100) === 4) {
     console.warn(e);
     if (alert) {
@@ -202,7 +229,7 @@ export function catchError<T>(e, alert: boolean = true): ApiResponse<T> {
   } else {
     console.error(e);
     if (alert) {
-      push.error(e.response.data.message);
+      push.error(e.response?.data?.message ?? e.message);
     }
     throw e;
   }

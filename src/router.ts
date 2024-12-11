@@ -1,9 +1,9 @@
+import { CanceledError } from "axios";
 import type { NavigationGuardNext, RouteRecordRaw } from "vue-router";
 import { createRouter, createWebHistory } from "vue-router";
 import { useAdminStore } from "@/stores/admin";
-import { goLoginPage } from "@/utils/commands";
 import { pendingRequests } from "@/utils/apis";
-import { CanceledError } from "axios";
+import { goLoginPage } from "@/utils/commands";
 
 const requireAuth =
   () => async (_to: unknown, _from: unknown, next: NavigationGuardNext) => {
@@ -130,9 +130,9 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  pendingRequests.forEach((cancelToken, requestId) => {
+  pendingRequests.forEach((controller) => {
     try {
-      cancelToken.cancel(`Route change: ${from.path} to ${to.path}`);
+      controller.abort(`Route change: ${from.path} to ${to.path}`);
     } catch (e: unknown) {
       if (e instanceof CanceledError) {
         // ignore
@@ -140,9 +140,8 @@ router.beforeEach((to, from, next) => {
         throw e;
       }
     }
-    pendingRequests.delete(requestId);
   });
-
+  pendingRequests.clear();
   next();
 });
 
