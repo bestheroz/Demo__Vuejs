@@ -177,7 +177,11 @@ async function save(): Promise<void> {
     push.warning("입력 항목을 확인해주세요.");
     return;
   }
-  newFlag ? await createItem() : await updateItem();
+  if (newFlag) {
+    await createItem();
+  } else {
+    await updateItem();
+  }
 }
 
 const { confirmCreate, confirmUpdate } = useConfirmStore();

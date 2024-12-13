@@ -64,6 +64,7 @@ export const useAdminStore = defineStore("admin", {
         this.info.type = decoded.type;
         this.info.managerFlag = decoded.managerFlag;
         this.info.authorities = decoded.authorities;
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (e: unknown) {
         signOut().then();
       }

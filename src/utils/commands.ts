@@ -86,6 +86,7 @@ export async function getValidatedAccessToken(): Promise<string> {
       await reIssueAccessToken();
       accessToken = window.localStorage.getItem("demo-accessToken");
     }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (e: unknown) {
     await signOut();
   }
