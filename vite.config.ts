@@ -16,7 +16,7 @@ export default defineConfig(({ mode }) => {
       template: { transformAssetUrls },
       isProduction: productionFlag,
     }),
-    vuetify({ autoImport: true }),
+    vuetify({ autoImport: false }),
     tsconfigPaths(),
     {
       ...eslint({ useEslintrc: true, fix: true, lintInWorker: true }),
