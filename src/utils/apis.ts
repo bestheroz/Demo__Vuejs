@@ -53,7 +53,9 @@ axiosInstance.interceptors.request.use(
 axiosInstance.interceptors.response.use(
   function (response) {
     const requestId = response.config.headers.requestId as string;
-    requestId && pendingRequests.delete(requestId);
+    if (requestId) {
+      pendingRequests.delete(requestId);
+    }
 
     if (!response) {
       push.error("응답이 없습니다.");
@@ -64,7 +66,9 @@ axiosInstance.interceptors.response.use(
     console.error(error.message);
 
     const requestId = error.config?.headers?.requestId;
-    requestId && pendingRequests.delete(requestId);
+    if (requestId) {
+      pendingRequests.delete(requestId);
+    }
 
     if (error.code === "ERR_CANCELED") {
       return Promise.reject(error);
