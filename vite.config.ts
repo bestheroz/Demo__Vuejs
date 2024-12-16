@@ -8,13 +8,14 @@ import tsconfigPaths from "vite-tsconfig-paths";
 import vuetify, { transformAssetUrls } from "vite-plugin-vuetify";
 
 const projectRootDir = resolve(__dirname);
-export default defineConfig(({ mode }) => {
-  const env = loadEnv(mode, process.cwd(), "VITE_ENVIRONMENT");
-  const productionFlag = env.VITE_ENVIRONMENT !== "local";
+export default defineConfig(({ command }) => {
+  const isServe = command === "serve";
+  const isBuild = command === "build";
+
   const plugins: (Plugin[] | PluginOption)[] = [
     vue({
       template: { transformAssetUrls },
-      isProduction: productionFlag,
+      isProduction: isBuild,
     }),
     vuetify({ autoImport: false }),
     tsconfigPaths(),
@@ -36,7 +37,7 @@ export default defineConfig(({ mode }) => {
       port: 3000,
       // Hot Module Replacement
       hmr: {
-        overlay: !productionFlag,
+        overlay: isServe,
       },
     },
     resolve: {
@@ -45,11 +46,11 @@ export default defineConfig(({ mode }) => {
       },
     },
     css: {
-      devSourcemap: !productionFlag,
+      devSourcemap: isServe,
     },
     build: {
       target: "esnext",
-      sourcemap: productionFlag,
+      sourcemap: isBuild,
     },
   };
 });
