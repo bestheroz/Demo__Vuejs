@@ -6,8 +6,8 @@
       hide-details
       @update:model-value="login"
     >
-      <v-radio :value="UserType.admin" :label="UserType.admin" />
-      <v-radio :value="UserType.user" :label="UserType.user" />
+      <v-radio :value="UserType.ADMIN" :label="UserType.ADMIN" />
+      <v-radio :value="UserType.USER" :label="UserType.USER" />
     </v-radio-group>
     <v-chip-group disabled>
       <v-chip

@@ -8,8 +8,8 @@
       <v-form ref="refForm">
         <div class="d-inline-flex">
           <v-radio-group v-model="type" class="required mr-4 mt-1" hide-details>
-            <v-radio :value="UserType.admin" :label="UserType.admin" />
-            <v-radio :value="UserType.user" :label="UserType.user" />
+            <v-radio :value="UserType.ADMIN" :label="UserType.ADMIN" />
+            <v-radio :value="UserType.USER" :label="UserType.USER" />
           </v-radio-group>
         </div>
         <v-text-field
@@ -66,7 +66,7 @@ const password = ref("1");
 const loading = ref(false);
 const showPassword = ref(false);
 
-const type = ref(UserType.admin);
+const type = ref(UserType.ADMIN);
 
 export interface LoginRequest {
   loginId: string;
@@ -83,7 +83,7 @@ async function login(): Promise<void> {
   loading.value = true;
   try {
     const { data } = await axios.post<LoginRequest, AxiosResponse<JwtTokens>>(
-      `${API_HOST}api/v1/${type.value}s/login`,
+      `${API_HOST}api/v1/${type.value.toLowerCase()}s/login`,
       {
         loginId: loginId.value,
         password: sha512(password.value),
