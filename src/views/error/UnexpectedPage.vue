@@ -7,7 +7,7 @@
     />
     <div class="text-h3 mt-10">OOPS! Something went wrong here</div>
     <div class="my-3">Our experts are working to fix the issue.</div>
-    <v-btn color="primary" block size="large" @click="router.back()">
+    <v-btn color="primary" block size="large" @click="replace('/')">
       Send me back
     </v-btn>
   </v-card>
@@ -16,7 +16,7 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router";
 
-const router = useRouter();
+const { replace } = useRouter();
 </script>
 
 <style>

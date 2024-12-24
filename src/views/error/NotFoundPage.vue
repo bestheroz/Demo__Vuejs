@@ -9,7 +9,7 @@
     <div class="my-3">
       Sorry we can't seem to find the page you're looking for.
     </div>
-    <v-btn color="primary" block size="large" @click="router.back()">
+    <v-btn color="primary" block size="large" @click="replace('/')">
       Send me Back
     </v-btn>
   </v-card>
@@ -18,7 +18,7 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router";
 
-const router = useRouter();
+const { replace } = useRouter();
 </script>
 
 <style>
