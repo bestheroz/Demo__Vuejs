@@ -10,16 +10,11 @@ jobs:
       - name: checkout
         uses: actions/checkout@main
 
-      - uses: pnpm/action-setup@master
-        name: Install pnpm
-        with:
-          version: latest
-          run_install: |
-            - recursive: true
-              args: [--frozen-lockfile, --strict-peer-dependencies]
+      - uses: oven-sh/setup-bun@v2
+      - run: bun install
 
       - name: lint & tsc
-        run: pnpm run test
+        run: bun run test
 
   build:
     runs-on: ubuntu-latest
@@ -28,13 +23,8 @@ jobs:
       - name: checkout
         uses: actions/checkout@main
 
-      - uses: pnpm/action-setup@master
-        name: Install pnpm
-        with:
-          version: latest
-          run_install: |
-            - recursive: true
-              args: [--frozen-lockfile, --strict-peer-dependencies]
+      - uses: oven-sh/setup-bun@v2
+      - run: bun install
 
       - name: Build 🔨
-        run: pnpm run build --mode prod
+        run: bun run build --mode prod
