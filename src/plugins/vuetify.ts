@@ -2,8 +2,13 @@ import "vuetify/styles";
 import { createVuetify } from "vuetify";
 import * as components from "vuetify/components";
 import * as directives from "vuetify/directives";
+import { ko } from "vuetify/locale";
 
 export default createVuetify({
+  locale: {
+    locale: "ko",
+    messages: { ko },
+  },
   components,
   directives,
   theme: {
