@@ -9,7 +9,7 @@
     "test": "eslint --ext .ts,.vue --fix src && vue-tsc --noEmit"
   },
   "dependencies": {
-    "@rushstack/eslint-patch": "1.10.4",
+    "@rushstack/eslint-patch": "1.10.5",
     "axios": "1.7.9",
     "dayjs": "1.11.13",
     "js-sha512": "0.9.0",
@@ -55,6 +55,6 @@
     "supports es6-module"
   ],
   "volta": {
-    "node": "22.12.0"
+    "node": "22.13.0"
   }
 }
