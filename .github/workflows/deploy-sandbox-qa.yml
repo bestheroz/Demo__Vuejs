@@ -38,9 +38,9 @@ jobs:
       - name: invalidate cloudfront
         run: |
           if [ $GITHUB_REF_NAME = 'sandbox' ]; then
-            DISTRIBUTION=$CF_DISTRIBUTION_ID_FOR_SANDBOX
+            CF_DISTRIBUTION_ID=$CF_DISTRIBUTION_ID_FOR_SANDBOX
           elif [ $GITHUB_REF_NAME = 'qa' ]; then
-            DISTRIBUTION=$CF_DISTRIBUTION_ID_FOR_QA
+            CF_DISTRIBUTION_ID=$CF_DISTRIBUTION_ID_FOR_QA
           fi
           
           aws cloudfront create-invalidation --distribution-id ${CF_DISTRIBUTION_ID} --paths "/index.html"
