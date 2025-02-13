@@ -63,6 +63,23 @@ export default [
         "error",
         { argsIgnorePattern: "^_" },
       ],
+      "@typescript-eslint/consistent-type-imports": [
+        "error",
+        {
+          prefer: "type-imports",
+          disallowTypeAnnotations: false,
+        },
+      ],
+      "@typescript-eslint/consistent-type-exports": [
+        "error",
+        {
+          fixMixedExportsWithInlineTypeSpecifier: true,
+        },
+      ],
+      "@typescript-eslint/consistent-generic-constructors": [
+        "error",
+        "type-annotation",
+      ],
       // Vue 3 관련 최신 규칙 추가
       "vue/script-setup-uses-vars": "error",
       "vue/component-api-style": ["error", ["script-setup", "composition"]], // Options API 사용 제한
@@ -73,15 +90,42 @@ export default [
         },
       ],
       "vue/define-props-declaration": ["error", "type-based"], // 타입 기반 props 선언 강제
+      "vue/block-order": [
+        "error",
+        {
+          order: ["template", "script", "style"],
+        },
+      ],
+      "vue/define-slots-declaration": ["error", "type-based"],
+      "vue/require-slots-as-functions": "error",
+      "vue/valid-define-options": "error",
+      // Import/Export 규칙 개선
+      "import/no-cycle": ["error", { maxDepth: 1 }],
+      "import/no-useless-path-segments": ["error", { noUselessIndex: true }],
+      "import/no-deprecated": "error",
+      "import/no-mutable-exports": "error",
       // 보안 관련 규칙 추가
       "no-eval": "error",
       "no-implied-eval": "error",
       "security/detect-object-injection": "error",
       "security/detect-non-literal-regexp": "warn",
+      "security/detect-possible-timing-attacks": "error",
+      "security/detect-unsafe-regex": "error",
+      "security/detect-buffer-noassert": "error",
+      "security/detect-disable-mustache-escape": "error",
       // 성능 최적화 설정
       "vue/no-async-in-computed-properties": "error",
       "vue/no-side-effects-in-computed-properties": "error",
       "vue/no-unused-components": isDevelopment ? "warn" : "error",
+      "vue/no-duplicate-attributes": [
+        "error",
+        {
+          allowCoexistClass: false,
+          allowCoexistStyle: false,
+        },
+      ],
+      "vue/require-toggle-inside-transition": "error",
+      "vue/valid-v-memo": "error",
       // Import/Export 관련 규칙 개선
       "import/no-unresolved": "error",
       "import/named": "error",
