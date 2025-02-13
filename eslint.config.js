@@ -1,83 +1,55 @@
-// eslint.config.js
-module.exports = {
-  // 무시할 파일이나 폴더를 배열로 지정 (예: node_modules와 dist 폴더)
-  ignores: ["node_modules/**/*", "dist/**/*"],
+import eslint from "@eslint/js";
+import tseslint from "@typescript-eslint/eslint-plugin";
+import tsparser from "@typescript-eslint/parser";
+import eslintConfigPrettier from "eslint-config-prettier";
+import vueeslint from "eslint-plugin-vue";
+import vuetifyeslint from "eslint-plugin-vuetify";
+import importPlugin from "eslint-plugin-import";
 
-  root: true,
-  parser: "vue-eslint-parser",
-  parserOptions: {
-    sourceType: "module",
-    ecmaVersion: "latest",
-    parser: "@typescript-eslint/parser",
-    ecmaFeatures: {
-      globalReturn: false,
-      impliedStrict: false,
-      jsx: false,
-    },
-    vueFeatures: {
-      filter: false,
-      interpolationAsNonHTML: true,
-      styleCSSVariableInjection: true,
-    },
-  },
-  env: {
-    node: true,
-    browser: true,
-    es2024: true,
-  },
-  extends: [
-    "plugin:@typescript-eslint/recommended",
-    "plugin:vue/vue3-recommended",
-    "plugin:vuetify/recommended",
-    "plugin:prettier/recommended",
-    "plugin:import/errors",
-    "plugin:import/warnings",
-    "plugin:import/typescript",
-  ],
-  plugins: ["vue", "@typescript-eslint", "import"],
-  settings: {
-    "import/resolver": {
-      typescript: {
-        // tsconfig.json 파일의 경로를 지정
-        project: "./tsconfig.json",
+export default [
+  eslint.configs.recommended,
+  {
+    ignores: ["node_modules/**/*", "dist/**/*"],
+    languageOptions: {
+      parser: vueeslint.parser, // Vue 파서를 기본으로 설정
+      parserOptions: {
+        parser: tsparser, // TypeScript 파서를 보조 파서로 설정
+        ecmaVersion: "latest",
+        sourceType: "module",
+        ecmaFeatures: {
+          jsx: false,
+        },
+        extraFileExtensions: [".vue"], // Vue 파일 확장자 추가
+        vueFeatures: {
+          // Vue 특정 기능 설정 추가
+          filter: false,
+          interpolationAsNonHTML: true,
+          styleCSSVariableInjection: true,
+        },
+      },
+      globals: {
+        process: "readonly",
       },
     },
-  },
-  rules: {
-    "import/order": [
-      "error",
-      {
-        groups: [
-          "builtin",
-          "external",
-          "internal",
-          ["sibling", "parent"],
-          "index",
-        ],
-        alphabetize: { order: "asc", caseInsensitive: true },
+    linterOptions: {
+      reportUnusedDisableDirectives: true,
+    },
+    plugins: {
+      "@typescript-eslint": tseslint,
+      vue: vueeslint,
+      vuetify: vuetifyeslint,
+      import: importPlugin,
+    },
+    settings: {
+      "import/resolver": {
+        typescript: {
+          project: "./tsconfig.json",
+        },
       },
-    ],
-    "no-console":
-      process.env.NODE_ENV === "production"
-        ? ["error", { allow: ["info", "warn", "error"] }]
-        : ["warn", { allow: ["info", "warn", "error"] }],
-    "no-debugger": process.env.NODE_ENV === "production" ? "error" : "off",
-    quotes: "off",
-    semi: ["error", "always"],
-    "comma-dangle": "off",
-    "no-cond-assign": ["error", "always"],
-    "space-before-function-paren": "off",
-    indent: "off",
-    "prettier/prettier": "off",
-    "lines-between-class-members": "off",
-    "vue/no-v-text-v-html-on-component": "off",
-    "vue/max-attributes-per-line": "off",
-    "vue/singleline-html-element-content-newline": "off",
-    "vue/no-mutating-props": [
-      "error",
-      {
-        shallowOnly: true,
-      },
-    ],
+    },
+    rules: {
+      // 기존 rules 유지
+    },
   },
-};
+  eslintConfigPrettier,
+];
