@@ -80,6 +80,10 @@ export default [
         "error",
         "type-annotation",
       ],
+      "@typescript-eslint/consistent-type-definitions": ["error", "interface"],
+      "@typescript-eslint/prefer-readonly": "error",
+      "@typescript-eslint/promise-function-async": "error",
+      "@typescript-eslint/no-floating-promises": "error",
       // Vue 3 관련 최신 규칙 추가
       "vue/script-setup-uses-vars": "error",
       "vue/component-api-style": ["error", ["script-setup", "composition"]], // Options API 사용 제한
@@ -99,6 +103,10 @@ export default [
       "vue/define-slots-declaration": ["error", "type-based"],
       "vue/require-slots-as-functions": "error",
       "vue/valid-define-options": "error",
+      "vue/prefer-import-from-vue": "error",
+      "vue/no-setup-props-destructure": "error",
+      "vue/no-ref-as-operand": "error",
+      "vue/define-emits-declaration": ["error", "type-based"],
       // Import/Export 규칙 개선
       "import/no-cycle": ["error", { maxDepth: 1 }],
       "import/no-useless-path-segments": ["error", { noUselessIndex: true }],
@@ -113,6 +121,9 @@ export default [
       "security/detect-unsafe-regex": "error",
       "security/detect-buffer-noassert": "error",
       "security/detect-disable-mustache-escape": "error",
+      "security/detect-non-literal-fs-filename": "error",
+      "security/detect-child-process": "error",
+      "security/detect-new-buffer": "error",
       // 성능 최적화 설정
       "vue/no-async-in-computed-properties": "error",
       "vue/no-side-effects-in-computed-properties": "error",
@@ -126,6 +137,9 @@ export default [
       ],
       "vue/require-toggle-inside-transition": "error",
       "vue/valid-v-memo": "error",
+      "vue/no-static-inline-styles": "error",
+      "vue/prefer-separate-static-class": "error",
+      "vue/no-extra-parens": "error",
       // Import/Export 관련 규칙 개선
       "import/no-unresolved": "error",
       "import/named": "error",
@@ -143,12 +157,7 @@ export default [
           ],
         },
       ],
-      // 환경변수 설정 개선
-      "no-console": isProduction
-        ? ["error", { allow: ["info", "warn", "error"] }]
-        : "off",
-      "no-debugger": isProduction ? "error" : "off",
-      // 기타 커스텀 설정
+      // Import 규칙 최적화
       "import/order": [
         "error",
         {
@@ -162,6 +171,20 @@ export default [
           alphabetize: { order: "asc", caseInsensitive: true },
         },
       ],
+      "import/no-relative-parent-imports": "error",
+      "import/no-relative-packages": "error",
+      "import/no-internal-modules": [
+        "error",
+        {
+          allow: ["@/components/*", "@/composables/*"],
+        },
+      ],
+      // 환경변수 설정 개선
+      "no-console": isProduction
+        ? ["error", { allow: ["info", "warn", "error"] }]
+        : "off",
+      "no-debugger": isProduction ? "error" : "off",
+      // 기타 커스텀 설정
       quotes: "off",
       semi: ["error", "always"],
       "comma-dangle": "off",
