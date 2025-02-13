@@ -1,6 +1,8 @@
-require("@rushstack/eslint-patch/modern-module-resolution");
-
+// eslint.config.js
 module.exports = {
+  // 무시할 파일이나 폴더를 배열로 지정 (예: node_modules와 dist 폴더)
+  ignores: ["node_modules/**/*", "dist/**/*"],
+
   root: true,
   parser: "vue-eslint-parser",
   parserOptions: {

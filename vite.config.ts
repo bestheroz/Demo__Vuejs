@@ -1,5 +1,5 @@
 import type { Plugin, PluginOption } from "vite";
-import { defineConfig, loadEnv } from "vite";
+import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
 import { resolve } from "node:path";
 import eslint from "vite-plugin-eslint2";
@@ -20,7 +20,7 @@ export default defineConfig(({ command }) => {
     vuetify({ autoImport: false }),
     tsconfigPaths(),
     {
-      ...eslint({ useEslintrc: true, fix: true, lintInWorker: true }),
+      ...eslint({ fix: true, lintInWorker: true }),
       apply: "serve",
     },
     {
