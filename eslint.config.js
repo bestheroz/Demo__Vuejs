@@ -3,6 +3,7 @@ import tseslint from "@typescript-eslint/eslint-plugin";
 import tsparser from "@typescript-eslint/parser";
 import eslintConfigPrettier from "@vue/eslint-config-prettier";
 import vueeslint from "eslint-plugin-vue";
+import vueParser from "vue-eslint-parser";
 import vuetifyeslint from "eslint-plugin-vuetify";
 import importPlugin from "eslint-plugin-import";
 import eslintPluginSecurity from "eslint-plugin-security";
@@ -15,11 +16,12 @@ export default [
   {
     ignores: ["node_modules/**/*", "dist/**/*"],
     languageOptions: {
-      parser: vueeslint.parser, // Vue 파서를 기본으로 설정
+      parser: vueParser, // Vue 파서를 기본으로 설정
       parserOptions: {
         parser: tsparser, // TypeScript 파서를 보조 파서로 설정
         ecmaVersion: "latest",
         sourceType: "module",
+        project: "./tsconfig.json",
         ecmaFeatures: {
           jsx: false,
         },
@@ -122,7 +124,6 @@ export default [
       "no-cond-assign": ["error", "always"],
       "space-before-function-paren": "off",
       indent: "off",
-      "prettier/prettier": "off",
       "lines-between-class-members": "off",
       "vue/no-v-text-v-html-on-component": "off",
       "vue/max-attributes-per-line": "off",
