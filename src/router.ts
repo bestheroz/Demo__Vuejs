@@ -18,21 +18,23 @@ const requireAuth =
 const admin: RouteRecordRaw[] = [
   {
     path: "management",
-    component: () => import("@/views/admin/management/AdminManagementPage.vue"),
+    component: async () =>
+      import("@/views/admin/management/AdminManagementPage.vue"),
   },
 ];
 
 const user: RouteRecordRaw[] = [
   {
     path: "management",
-    component: () => import("@/views/user/management/UserManagementPage.vue"),
+    component: async () =>
+      import("@/views/user/management/UserManagementPage.vue"),
   },
 ];
 
 const notice: RouteRecordRaw[] = [
   {
     path: "management",
-    component: () =>
+    component: async () =>
       import("@/views/notice/management/NoticeManagementPage.vue"),
   },
 ];
@@ -40,7 +42,7 @@ const notice: RouteRecordRaw[] = [
 const test: RouteRecordRaw[] = [
   {
     path: "integration",
-    component: () => import("@/views/test/TestPage.vue"),
+    component: async () => import("@/views/test/TestPage.vue"),
   },
 ];
 
@@ -48,11 +50,11 @@ const routes = (): RouteRecordRaw[] => {
   const error: RouteRecordRaw[] = [
     {
       path: "",
-      component: () => import("@/views/error/UnexpectedPage.vue"),
+      component: async () => import("@/views/error/UnexpectedPage.vue"),
     },
     {
       path: "404",
-      component: () => import("@/views/error/NotFoundPage.vue"),
+      component: async () => import("@/views/error/NotFoundPage.vue"),
     },
   ];
 
@@ -96,7 +98,7 @@ const routes = (): RouteRecordRaw[] => {
     {
       path: "/",
       beforeEnter: requireAuth(),
-      component: () => import("@/views/HomePage.vue"),
+      component: async () => import("@/views/HomePage.vue"),
       meta: {
         layout: "default",
       },
@@ -112,7 +114,7 @@ const routes = (): RouteRecordRaw[] => {
     },
     {
       path: "/login",
-      component: () => import("@/views/login/LoginPage.vue"),
+      component: async () => import("@/views/login/LoginPage.vue"),
       meta: {
         layout: "auth",
       },

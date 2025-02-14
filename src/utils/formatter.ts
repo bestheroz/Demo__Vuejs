@@ -59,8 +59,7 @@ export function formatTextOfSelectItem<T = string>(
     // 간혹 value 가 string|number 가 <T> 와 맞지 않는 케이스가 발생 == 비교로 처리
     (codes ?? []).find((item) => item.value == value)?.title ??
     defaultLabel ??
-    value + "" ??
-    "-"
+    (value ?? "-") + ""
   );
 }
 export function getValueOfSelectItem<T = string>(

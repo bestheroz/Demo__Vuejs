@@ -14,6 +14,7 @@ const isProduction = process.env.NODE_ENV === "production";
 export default [
   eslint.configs.recommended,
   {
+    files: ["src/**/*.{ts,vue}"],
     ignores: ["node_modules/**/*", "dist/**/*"],
     languageOptions: {
       parser: vueParser,
@@ -32,7 +33,7 @@ export default [
           styleCSSVariableInjection: true,
         },
       },
-      globals: { process: "readonly" },
+      globals: { process: "readonly", window: "readonly", console: "readonly" },
     },
     linterOptions: { reportUnusedDisableDirectives: true },
     plugins: {
@@ -49,86 +50,33 @@ export default [
     },
     rules: {
       /* TypeScript 관련 엄격한 규칙 */
-      "@typescript-eslint/explicit-function-return-type": "error",
-      "@typescript-eslint/no-explicit-any": "error",
-      "@typescript-eslint/strict-boolean-expressions": "error",
+      ...tseslint.configs["recommended"].rules,
+      "@typescript-eslint/ban-ts-comment": "off",
       "@typescript-eslint/no-unused-vars": [
         "error",
-        { argsIgnorePattern: "^_" },
-      ],
-      "@typescript-eslint/consistent-type-imports": [
-        "error",
-        { prefer: "type-imports", disallowTypeAnnotations: false },
-      ],
-      "@typescript-eslint/consistent-type-exports": [
-        "error",
-        { fixMixedExportsWithInlineTypeSpecifier: true },
-      ],
-      "@typescript-eslint/consistent-generic-constructors": [
-        "error",
-        "type-annotation",
-      ],
-      "@typescript-eslint/consistent-type-definitions": ["error", "interface"],
-      "@typescript-eslint/prefer-readonly": "error",
-      "@typescript-eslint/promise-function-async": "error",
-      "@typescript-eslint/no-floating-promises": "error",
-
-      /* Vue 3 관련 최신 규칙 (flat/recommended 하나로 충분) */
-      ...vueeslint.configs["flat/recommended"],
-
-      /* Import/Export 관련 규칙 */
-      "import/no-cycle": ["error", { maxDepth: 1 }],
-      "import/no-useless-path-segments": ["error", { noUselessIndex: true }],
-      "import/no-deprecated": "error",
-      "import/no-mutable-exports": "error",
-      "import/order": [
-        "error",
         {
-          groups: [
-            "builtin",
-            "external",
-            "internal",
-            ["sibling", "parent"],
-            "index",
-          ],
-          alphabetize: { order: "asc", caseInsensitive: true },
+          args: "all",
+          argsIgnorePattern: "^_",
+          vars: "all",
+          varsIgnorePattern: "^_",
+          caughtErrors: "all",
+          caughtErrorsIgnorePattern: "^_",
         },
       ],
-      "import/no-relative-parent-imports": "error",
-      "import/no-relative-packages": "error",
-      "import/no-internal-modules": [
-        "error",
-        { allow: ["@/components/*", "@/composables/*"] },
-      ],
-      "import/unresolved": "error", // alias 사용 시 참고
+
+      /* Import/Export 관련 규칙 */
+      ...importPlugin.configs["typescript"].rules,
 
       /* 보안 관련 규칙 */
-      "no-eval": "error",
-      "no-implied-eval": "error",
-      "security/detect-object-injection": "error",
-      "security/detect-non-literal-regexp": "warn",
-      "security/detect-possible-timing-attacks": "error",
-      "security/detect-unsafe-regex": "error",
-      "security/detect-buffer-noassert": "error",
-      "security/detect-disable-mustache-escape": "error",
-      "security/detect-non-literal-fs-filename": "error",
-      "security/detect-child-process": "error",
-      "security/detect-new-buffer": "error",
+      ...eslintPluginSecurity.configs["recommended"].rules,
 
-      /* 성능 최적화 및 Vue 관련 추가 규칙 */
-      "vue/no-async-in-computed-properties": "error",
-      "vue/no-side-effects-in-computed-properties": "error",
+      /* vuetify 관련 규칙 */
+      ...vuetifyeslint.configs["flat/recommended"].rules,
+
+      /* Vue 3 관련 최신 규칙 (flat/recommended 하나로 충분) */
+      ...vueeslint.configs["flat/recommended"].rules,
       "vue/no-unused-components": isDevelopment ? "warn" : "error",
-      "vue/no-duplicate-attributes": [
-        "error",
-        { allowCoexistClass: false, allowCoexistStyle: false },
-      ],
-      "vue/require-toggle-inside-transition": "error",
-      "vue/valid-v-memo": "error",
-      "vue/no-static-inline-styles": "error",
-      "vue/prefer-separate-static-class": "error",
-      "vue/no-extra-parens": "error",
-      "vue/no-mutating-props": ["error", { shallowOnly: true }],
+      "no-unsafe-optional-chaining": "off",
 
       /* 환경 변수 관련 설정 */
       "no-console": isProduction

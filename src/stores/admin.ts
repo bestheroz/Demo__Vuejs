@@ -2,10 +2,10 @@ import { jwtDecode } from "jwt-decode";
 import { defineStore } from "pinia";
 import type { JwtTokens, TokenClaims } from "@/definitions/types";
 import { getNewToken, signOut } from "@/utils/commands";
-type AdminInfo = {
+interface AdminInfo {
   tokens: JwtTokens;
   info: TokenClaims;
-};
+}
 
 export const useAdminStore = defineStore("admin", {
   state: (): AdminInfo => ({
@@ -26,8 +26,8 @@ export const useAdminStore = defineStore("admin", {
     loggedIn: (state: AdminInfo): boolean =>
       !!state.tokens.accessToken &&
       !!state.info.id &&
-      !!localStorage.getItem("demo-accessToken") &&
-      !!localStorage.getItem("demo-refreshToken"),
+      !!window.localStorage.getItem("demo-accessToken") &&
+      !!window.localStorage.getItem("demo-refreshToken"),
     authorities: (state: AdminInfo): string[] => state.info.authorities,
   },
   actions: {
@@ -64,7 +64,7 @@ export const useAdminStore = defineStore("admin", {
         this.info.type = decoded.type;
         this.info.managerFlag = decoded.managerFlag;
         this.info.authorities = decoded.authorities;
-      } catch (e: unknown) {
+      } catch (_: unknown) {
         signOut().then();
       }
     },

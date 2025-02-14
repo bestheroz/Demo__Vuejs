@@ -86,7 +86,7 @@ export async function getValidatedAccessToken(): Promise<string> {
       await reIssueAccessToken();
       accessToken = window.localStorage.getItem("demo-accessToken");
     }
-  } catch (e: unknown) {
+  } catch (_: unknown) {
     await signOut();
   }
   return accessToken ?? "";

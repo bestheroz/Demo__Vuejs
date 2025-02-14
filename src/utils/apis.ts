@@ -21,7 +21,7 @@ export interface ApiResponse<T> extends AxiosResponse<T> {
   success: boolean;
 }
 
-export const pendingRequests = new Map<string, AbortController>();
+export const pendingRequests: Map<string, AbortController> = new Map();
 
 axiosInstance.interceptors.request.use(
   async function (config) {
@@ -45,7 +45,7 @@ axiosInstance.interceptors.request.use(
 
     return config;
   },
-  function (error) {
+  async function (error) {
     return Promise.reject(error);
   },
 );
@@ -191,16 +191,18 @@ export async function deleteApi<T = never, R = T>(
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function stringifyParams(obj: any): string {
-  return stringify(
-    Object.keys(obj)
-      .filter((key) => typeof obj[key] !== "string" || obj[key].trim() !== "")
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      .reduce((prev: any, key) => {
-        prev[key] = obj[key];
-        return prev;
-      }, {}),
-    { arrayFormat: "repeat", skipNulls: true },
+  const safeObject = new Map(
+    Object.entries(obj).filter(
+      ([_, value]) => typeof value !== "string" || value.trim() !== "",
+    ),
   );
+
+  const sanitizedObject = Object.fromEntries(safeObject);
+
+  return stringify(sanitizedObject, {
+    arrayFormat: "repeat",
+    skipNulls: true,
+  });
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

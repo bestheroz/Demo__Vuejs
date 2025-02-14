@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 
-type ConfigInfo = {
+interface ConfigInfo {
   apiHeader: {
     appVersion: string;
     carrierName: string;
@@ -13,7 +13,7 @@ type ConfigInfo = {
     screenId: string;
     loginChannel: "DIRECT" | "HLAPP";
   };
-};
+}
 
 export const useConfigStore = defineStore("config", {
   state: (): ConfigInfo => {

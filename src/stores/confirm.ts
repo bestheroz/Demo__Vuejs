@@ -10,13 +10,13 @@ export const useConfirmStore = defineStore("confirm", {
     };
   },
   actions: {
-    confirmCreate(): Promise<boolean> {
+    async confirmCreate(): Promise<boolean> {
       return this.pushConfirm("작성한 내용을 저장하시겠습니까?", "저장");
     },
-    confirmUpdate(): Promise<boolean> {
+    async confirmUpdate(): Promise<boolean> {
       return this.pushConfirm("수정하시겠습니까?", "편집");
     },
-    confirmDelete(): Promise<boolean> {
+    async confirmDelete(): Promise<boolean> {
       return this.pushConfirm("삭제하시겠습니까?", "삭제");
     },
     async pushConfirm(

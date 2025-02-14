@@ -30,7 +30,6 @@ async function run() {
   result.value = "";
   loading.value = true;
   try {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-expect-error
     const response: TestResult<unknown> = await props.runFn();
     success.value = response.success;
