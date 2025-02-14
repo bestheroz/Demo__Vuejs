@@ -6,7 +6,7 @@
   "scripts": {
     "serve": "vite",
     "build": "vite build",
-    "test": "pnpm exce eslint --fix src && pnpm exce vue-tsc --noEmit"
+    "test": "pnpm exec eslint --fix src && pnpm exec vue-tsc --noEmit"
   },
   "dependencies": {
     "@rushstack/eslint-patch": "1.10.5",
