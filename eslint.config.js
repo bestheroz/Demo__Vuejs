@@ -1,4 +1,4 @@
-import eslint from "@eslint/js";
+import eslint from "@eslint/js/src/index.js";
 import tseslint from "@typescript-eslint/eslint-plugin";
 import tsparser from "@typescript-eslint/parser";
 import eslintConfigPrettier from "@vue/eslint-config-prettier";
