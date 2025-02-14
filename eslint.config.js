@@ -1,4 +1,4 @@
-import eslint from "@eslint/js/src/index.js";
+import eslint from "typescript-eslint";
 import tseslint from "@typescript-eslint/eslint-plugin";
 import tsparser from "@typescript-eslint/parser";
 import eslintConfigPrettier from "@vue/eslint-config-prettier";
@@ -12,7 +12,7 @@ const isDevelopment = process.env.NODE_ENV === "development";
 const isProduction = process.env.NODE_ENV === "production";
 
 export default [
-  eslint.configs.recommended,
+  eslint.configs.recommended[0],
   {
     files: ["src/**/*.{ts,vue}"],
     ignores: ["node_modules/**/*", "dist/**/*"],
