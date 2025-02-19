@@ -22,15 +22,12 @@ export default createVuetify({
     },
     VTextField: {
       color: "primary",
-      persistentPlaceholder: true,
     },
     VSelect: {
       color: "primary",
-      persistentPlaceholder: true,
     },
     VTextarea: {
       color: "primary",
-      persistentPlaceholder: true,
       rows: 2,
       maxRows: 10,
       autoGrow: true,
@@ -41,11 +38,9 @@ export default createVuetify({
     },
     VAutocomplete: {
       color: "primary",
-      persistentPlaceholder: true,
     },
     VCombobox: {
       color: "primary",
-      persistentPlaceholder: true,
     },
     VCheckbox: {
       color: "primary",
