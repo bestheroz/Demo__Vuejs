@@ -61,6 +61,7 @@ const routes = (): RouteRecordRaw[] => {
   return [
     {
       path: "/admin",
+      beforeEnter: requireAuth(),
       children: admin.map((v) => ({
         ...v,
         meta: {
@@ -70,6 +71,7 @@ const routes = (): RouteRecordRaw[] => {
     },
     {
       path: "/user",
+      beforeEnter: requireAuth(),
       children: user.map((v) => ({
         ...v,
         meta: {
@@ -79,6 +81,7 @@ const routes = (): RouteRecordRaw[] => {
     },
     {
       path: "/notice",
+      beforeEnter: requireAuth(),
       children: notice.map((v) => ({
         ...v,
         meta: {
@@ -88,6 +91,7 @@ const routes = (): RouteRecordRaw[] => {
     },
     {
       path: "/test",
+      beforeEnter: requireAuth(),
       children: test.map((v) => ({
         ...v,
         meta: {
