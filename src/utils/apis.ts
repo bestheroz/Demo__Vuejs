@@ -2,13 +2,16 @@ import axios, {
   type AxiosError,
   type AxiosResponse,
   type InternalAxiosRequestConfig,
+  type Method,
 } from "axios";
-import { push } from "notivue";
 import { stringify } from "qs";
 import { v4 as uuidV4 } from "uuid";
 import { API_HOST } from "@/constants/envs";
 import { useAdminStore } from "@/stores/admin";
 import { getValidatedAccessToken, goLoginPage } from "@/utils/commands";
+import { toastError } from "@/utils/toaster";
+import { toast } from "vue-sonner";
+import { Ref } from "vue";
 
 export const axiosInstance = axios.create({
   baseURL: API_HOST,
@@ -19,6 +22,15 @@ export const axiosInstance = axios.create({
 
 export interface ApiResponse<T> extends AxiosResponse<T> {
   success: boolean;
+}
+
+export interface ApiOptions {
+  refLoading?: Ref<boolean>;
+  alert?: boolean;
+  successAlert?: boolean;
+  successMessage?: string;
+  failureAlert?: boolean;
+  failureMessage?: string;
 }
 
 export const pendingRequests: Map<string, AbortController> = new Map();
@@ -58,7 +70,7 @@ axiosInstance.interceptors.response.use(
     }
 
     if (!response) {
-      push.error("응답이 없습니다.");
+      toastError("응답이 없습니다.");
     }
     return { ...response, success: Math.floor(response.status / 100) === 2 };
   },
@@ -75,7 +87,7 @@ axiosInstance.interceptors.response.use(
     }
 
     if (error.message === "Network Error") {
-      push.error("서비스 이용 불가");
+      toastError("서비스 이용 불가");
       return;
     }
     if (error.response) {
@@ -96,115 +108,51 @@ axiosInstance.interceptors.response.use(
   },
 );
 
-export async function getApi<T = never, R = T>(
-  url: string,
-  alert = true,
-): Promise<ApiResponse<R>> {
-  const controller = new AbortController();
-  try {
-    return await axiosInstance.get<T, ApiResponse<R>>(url, {
-      signal: controller.signal,
-    });
-  } catch (e) {
-    return catchError<R>(e, alert);
-  }
+function getDefaultOptions(method: Method, options?: ApiOptions): ApiOptions {
+  const defaultOpts = {
+    successMessage: undefined,
+    refLoading: undefined,
+    alert: undefined,
+    successAlert: method !== "get",
+    failureAlert: true,
+    failureMessage: undefined,
+  };
+
+  const mergedOptions = {
+    ...defaultOpts,
+    ...options,
+  };
+
+  return {
+    ...mergedOptions,
+    successAlert: mergedOptions.alert ?? mergedOptions.successAlert,
+    failureAlert: mergedOptions.alert ?? mergedOptions.failureAlert,
+  };
 }
 
-export async function postApi<T = never, R = T>(
-  url: string,
-  data: T,
-  alert = true,
-  successMessage = "등록되었습니다.",
-): Promise<ApiResponse<R>> {
-  const controller = new AbortController();
-  try {
-    const response = await axiosInstance.post<T, ApiResponse<R>>(url, data, {
-      signal: controller.signal,
-    });
-    if (alert && response.success) {
-      push.success(successMessage);
-    }
-    return response;
-  } catch (e) {
-    return catchError<R>(e, alert);
-  }
+function getPromiseMessage<T>(
+  successMessage: string,
+  successAlert?: boolean,
+  failureAlert?: boolean,
+  failureMessage?: string,
+) {
+  return {
+    success: successAlert
+      ? ({ success }: ApiResponse<T>) => {
+          if (successAlert && success) {
+            return successMessage;
+          }
+        }
+      : undefined,
+    error: failureAlert
+      ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (e: any) => {
+          console.warn(e);
+          return failureMessage ?? e.response?.data?.message ?? e.message;
+        }
+      : undefined,
+  };
 }
-
-export async function putApi<T = never, R = T>(
-  url: string,
-  data: T,
-  alert = true,
-  successMessage = "수정되었습니다.",
-): Promise<ApiResponse<R>> {
-  const controller = new AbortController();
-  try {
-    const response = await axiosInstance.put<T, ApiResponse<R>>(url, data, {
-      signal: controller.signal,
-    });
-    if (alert && response.success) {
-      push.success(successMessage);
-    }
-    return response;
-  } catch (e) {
-    return catchError<R>(e, alert);
-  }
-}
-
-export async function patchApi<T = never, R = T>(
-  url: string,
-  data: T,
-  alert = true,
-  successMessage = "처리되었습니다.",
-): Promise<ApiResponse<R>> {
-  const controller = new AbortController();
-  try {
-    const response = await axiosInstance.patch<T, ApiResponse<R>>(url, data, {
-      signal: controller.signal,
-    });
-    if (alert && response.success) {
-      push.success(successMessage);
-    }
-    return response;
-  } catch (e) {
-    return catchError<R>(e, alert);
-  }
-}
-
-export async function deleteApi<T = never, R = T>(
-  url: string,
-  alert = true,
-  successMessage = "삭제되었습니다.",
-): Promise<ApiResponse<R>> {
-  const controller = new AbortController();
-  try {
-    const response = await axiosInstance.delete<T, ApiResponse<R>>(url, {
-      signal: controller.signal,
-    });
-    if (alert && response.success) {
-      push.success(successMessage);
-    }
-    return response;
-  } catch (e) {
-    return catchError<R>(e, alert);
-  }
-}
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function stringifyParams(obj: any): string {
-  const safeObject = new Map(
-    Object.entries(obj).filter(
-      ([_, value]) => typeof value !== "string" || value.trim() !== "",
-    ),
-  );
-
-  const sanitizedObject = Object.fromEntries(safeObject);
-
-  return stringify(sanitizedObject, {
-    arrayFormat: "repeat",
-    skipNulls: true,
-  });
-}
-
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function catchError<T>(e: any, alert: boolean = true): ApiResponse<T> {
   if (e.code === "ERR_CANCELED") {
@@ -221,7 +169,7 @@ export function catchError<T>(e: any, alert: boolean = true): ApiResponse<T> {
   if (Math.floor(e.status / 100) === 4) {
     console.warn(e);
     if (alert) {
-      push.error(e.response.data.message);
+      toastError(e.response.data.message);
     }
     return {
       status: e.status,
@@ -235,8 +183,120 @@ export function catchError<T>(e: any, alert: boolean = true): ApiResponse<T> {
   } else {
     console.error(e);
     if (alert) {
-      push.error(e.response?.data?.message ?? e.message);
+      toastError(e.response?.data?.message ?? e.message);
     }
     throw e;
   }
+}
+
+async function executeRequest<T = never, R = T>(
+  method: Method,
+  url: string,
+  data?: T,
+  options?: ApiOptions,
+): Promise<ApiResponse<R>> {
+  const {
+    refLoading,
+    successAlert,
+    successMessage,
+    failureAlert,
+    failureMessage,
+  } = { ...getDefaultOptions(method, options) };
+
+  const controller = new AbortController();
+  const defaultSuccessMessages: Record<string, string> = {
+    get: "조회되었습니다.",
+    post: "등록되었습니다.",
+    put: "수정되었습니다.",
+    patch: "수정되었습니다.",
+    delete: "삭제되었습니다.",
+  };
+
+  try {
+    if (refLoading?.value) {
+      refLoading.value = true;
+    }
+
+    const requestConfig = {
+      method,
+      url,
+      data: method !== "get" && method !== "delete" ? data : undefined,
+      signal: controller.signal,
+    };
+
+    const _promise = axiosInstance.request<T, ApiResponse<R>>(requestConfig);
+
+    if (method !== "get") {
+      toast.promise(
+        _promise,
+        getPromiseMessage(
+          successMessage ?? defaultSuccessMessages[method] ?? "처리되었습니다.",
+          successAlert,
+          failureAlert,
+          failureMessage,
+        ),
+      );
+    }
+
+    return await _promise;
+  } catch (e) {
+    return catchError<R>(e, false);
+  } finally {
+    if (refLoading?.value) {
+      refLoading.value = false;
+    }
+  }
+}
+
+export async function getApi<T = never, R = T>(
+  url: string,
+  options?: ApiOptions,
+): Promise<ApiResponse<R>> {
+  return executeRequest<T, R>("get", url, undefined, options);
+}
+
+export async function postApi<T = never, R = T>(
+  url: string,
+  data: T,
+  options?: ApiOptions,
+): Promise<ApiResponse<R>> {
+  return executeRequest<T, R>("post", url, data, options);
+}
+
+export async function putApi<T = never, R = T>(
+  url: string,
+  data: T,
+  options?: ApiOptions,
+): Promise<ApiResponse<R>> {
+  return executeRequest<T, R>("put", url, data, options);
+}
+
+export async function patchApi<T = never, R = T>(
+  url: string,
+  data: T,
+  options?: ApiOptions,
+): Promise<ApiResponse<R>> {
+  return executeRequest<T, R>("patch", url, data, options);
+}
+
+export async function deleteApi<T = never, R = T>(
+  url: string,
+  options?: ApiOptions,
+): Promise<ApiResponse<R>> {
+  return executeRequest<T, R>("delete", url, undefined, options);
+}
+
+export function stringifyParams(obj: Record<string, unknown>): string {
+  const safeObject = new Map(
+    Object.entries(obj).filter(
+      ([_, value]) => typeof value !== "string" || value.trim() !== "",
+    ),
+  );
+
+  const sanitizedObject = Object.fromEntries(safeObject);
+
+  return stringify(sanitizedObject, {
+    arrayFormat: "repeat",
+    skipNulls: true,
+  });
 }

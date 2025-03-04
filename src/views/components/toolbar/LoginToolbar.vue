@@ -23,7 +23,6 @@
 <script setup lang="ts">
 import axios, { type AxiosResponse } from "axios";
 import { sha512 } from "js-sha512";
-import { push } from "notivue";
 import { ref } from "vue";
 import { API_HOST } from "@/constants/envs";
 import { UserType } from "@/definitions/selections";
@@ -31,6 +30,7 @@ import type { JwtTokens } from "@/definitions/types";
 import { useAdminStore } from "@/stores/admin";
 import { catchError } from "@/utils/apis";
 import type { LoginRequest } from "@/views/login/LoginPage.vue";
+import { toast } from "vue-sonner";
 
 const { info } = useAdminStore();
 
@@ -41,17 +41,24 @@ const { saveTokens } = useAdminStore();
 async function login() {
   loading.value = true;
   try {
-    const { data } = await axios.post<LoginRequest, AxiosResponse<JwtTokens>>(
-      `${API_HOST}api/v1/${type.value}s/login`,
+    toast.promise(
+      axios.post<LoginRequest, AxiosResponse<JwtTokens>>(
+        `${API_HOST}api/v1/${type.value}s/login`,
+        {
+          loginId: "developer",
+          password: sha512("1"),
+        },
+      ),
       {
-        loginId: "developer",
-        password: sha512("1"),
+        success: ({ data }: AxiosResponse<JwtTokens>) => {
+          saveTokens(data);
+          return "로그인 성공 => " + type.value;
+        },
+        error(e) {
+          return catchError(e, true);
+        },
       },
     );
-    saveTokens(data);
-    push.success("로그인 성공 => " + type.value);
-  } catch (e) {
-    catchError(e, true);
   } finally {
     loading.value = false;
   }

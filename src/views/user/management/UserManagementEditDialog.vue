@@ -137,7 +137,6 @@
 <script setup lang="ts">
 import { useDebounceFn } from "@vueuse/core";
 import { sha512 } from "js-sha512";
-import { push } from "notivue";
 import { ref } from "vue";
 import { Authority } from "@/definitions/authorities";
 import { useAdminStore } from "@/stores/admin";
@@ -146,6 +145,7 @@ import { getApi, postApi, putApi, stringifyParams } from "@/utils/apis";
 import { isEmpty, maxLength, minLength, required } from "@/utils/rules";
 import CreatedUpdatedBar from "@/views/components/history/CreatedUpdatedBar.vue";
 import type { User, UserCreate } from "@/views/user/management/types";
+import { toastWarning } from "@/utils/toaster";
 
 const props = defineProps<{
   modelValue: UserCreate;
@@ -168,13 +168,13 @@ const passwordErrorMessages = ref<string[]>([]);
 const refForm = ref();
 async function save(): Promise<void> {
   if (!isEmpty(errorText.value) || !isEmpty(passwordErrorMessages.value)) {
-    push.warning("입력 항목을 확인해주세요.");
+    toastWarning("입력 항목을 확인해주세요.");
     return;
   }
 
   const { valid } = await refForm.value?.validate();
   if (!valid) {
-    push.warning("입력 항목을 확인해주세요.");
+    toastWarning("입력 항목을 확인해주세요.");
     return;
   }
   if (newFlag) {
@@ -189,44 +189,38 @@ async function createItem() {
   if (!(await confirmCreate())) {
     return;
   }
-  loading.value = true;
-  try {
-    const { success } = await postApi<UserCreate, User>("api/v1/users", {
+  const { success } = await postApi<UserCreate, User>(
+    "api/v1/users",
+    {
       ...props.modelValue,
       password: props.modelValue.password
         ? sha512(props.modelValue.password)
         : undefined,
-    });
-    if (success) {
-      emits("save");
-      emits("click:cancel");
-    }
-  } finally {
-    loading.value = false;
+    },
+    { refLoading: loading },
+  );
+  if (success) {
+    emits("save");
+    emits("click:cancel");
   }
 }
 async function updateItem() {
   if (!(await confirmUpdate())) {
     return;
   }
-  loading.value = true;
-  try {
-    const { success } = await putApi<UserCreate, User>(
-      `api/v1/users/${props.modelValue.id}`,
-      {
-        ...props.modelValue,
-        password: props.modelValue.password
-          ? sha512(props.modelValue.password)
-          : undefined,
-      },
-    );
-    loading.value = false;
-    if (success) {
-      emits("save");
-      emits("click:cancel");
-    }
-  } finally {
-    loading.value = false;
+  const { success } = await putApi<UserCreate, User>(
+    `api/v1/users/${props.modelValue.id}`,
+    {
+      ...props.modelValue,
+      password: props.modelValue.password
+        ? sha512(props.modelValue.password)
+        : undefined,
+    },
+    { refLoading: loading },
+  );
+  if (success) {
+    emits("save");
+    emits("click:cancel");
   }
 }
 

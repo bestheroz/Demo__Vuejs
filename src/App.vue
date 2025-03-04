@@ -8,16 +8,22 @@
         </transition>
       </router-view>
     </component>
-    <Notivue v-slot="item">
-      <Notification :item="item" :theme="darkTheme" />
-    </Notivue>
     <GlobalDialogConfirm />
     <input type="text" style="width: 0; height: 0" />
+    <Toaster
+      richColors
+      theme="dark"
+      position="top-right"
+      :expand="true"
+      :visibleToasts="99"
+      :toastOptions="{
+        duration: 2_000,
+      }"
+    />
   </v-app>
 </template>
 
 <script setup lang="ts">
-import { Notification, Notivue, darkTheme } from "notivue";
 import { computed, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import { PRODUCT_TITLE } from "@/constants/envs";
@@ -28,6 +34,7 @@ import SimpleLayout from "@/layouts/SimpleLayout.vue";
 import { useAdminStore } from "@/stores/admin";
 import { goLoginPage, isExpiredToken } from "@/utils/commands";
 import GlobalDialogConfirm from "@/views/components/dialog/GlobalDialogConfirm.vue";
+import { Toaster } from "vue-sonner";
 
 const route = useRoute();
 const isRouterLoaded = computed((): boolean => route.name !== null);

@@ -100,20 +100,16 @@ const loading = ref(false);
 const search = ref("");
 
 async function fetchList() {
-  try {
-    loading.value = true;
-    const { success, data } = await getApi<ListApiResult<Notice>>(
-      `api/v1/notices?${stringifyParams({
-        page: 1,
-        pageSize: itemsPerPage.value,
-      })}`,
-    );
-    if (success) {
-      serverItems.value = data.items;
-      totalItems.value = data.total;
-    }
-  } finally {
-    loading.value = false;
+  const { success, data } = await getApi<ListApiResult<Notice>>(
+    `api/v1/notices?${stringifyParams({
+      page: 1,
+      pageSize: itemsPerPage.value,
+    })}`,
+    { refLoading: loading },
+  );
+  if (success) {
+    serverItems.value = data.items;
+    totalItems.value = data.total;
   }
 }
 
@@ -127,14 +123,11 @@ async function onClickRemove(val: Notice) {
   if (!(await confirmDelete())) {
     return;
   }
-  loading.value = true;
-  try {
-    const { success } = await deleteApi(`api/v1/notices/${val.id}`);
-    if (success) {
-      await fetchList();
-    }
-  } finally {
-    loading.value = false;
+  const { success } = await deleteApi(`api/v1/notices/${val.id}`, {
+    refLoading: loading,
+  });
+  if (success) {
+    await fetchList();
   }
 }
 </script>

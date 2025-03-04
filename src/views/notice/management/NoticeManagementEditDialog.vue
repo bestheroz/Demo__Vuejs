@@ -66,7 +66,6 @@
 </template>
 
 <script setup lang="ts">
-import { push } from "notivue";
 import { ref } from "vue";
 import { Authority } from "@/definitions/authorities";
 import { useAdminStore } from "@/stores/admin";
@@ -75,6 +74,7 @@ import { postApi, putApi } from "@/utils/apis";
 import { required } from "@/utils/rules";
 import CreatedUpdatedBar from "@/views/components/history/CreatedUpdatedBar.vue";
 import type { Notice } from "@/views/notice/management/types";
+import { toastWarning } from "@/utils/toaster";
 
 const props = defineProps<{
   modelValue: Notice;
@@ -95,7 +95,7 @@ const refForm = ref();
 async function save(): Promise<void> {
   const { valid } = await refForm.value?.validate();
   if (!valid) {
-    push.warning("입력 항목을 확인해주세요.");
+    toastWarning("입력 항목을 확인해주세요.");
     return;
   }
   if (newFlag) {
@@ -110,37 +110,29 @@ async function createItem() {
   if (!(await confirmCreate())) {
     return;
   }
-  loading.value = true;
-  try {
-    const { success } = await postApi<Notice, Notice>(
-      "api/v1/notices",
-      props.modelValue,
-    );
-    if (success) {
-      emits("save");
-      emits("click:cancel");
-    }
-  } finally {
-    loading.value = false;
+  const { success } = await postApi<Notice, Notice>(
+    "api/v1/notices",
+    props.modelValue,
+    { refLoading: loading },
+  );
+  if (success) {
+    emits("save");
+    emits("click:cancel");
   }
 }
 async function updateItem() {
   if (!(await confirmUpdate())) {
     return;
   }
-  loading.value = true;
-  try {
-    const { success } = await putApi<Notice, Notice>(
-      `api/v1/notices/${props.modelValue.id}`,
-      props.modelValue,
-    );
-    loading.value = false;
-    if (success) {
-      emits("save");
-      emits("click:cancel");
-    }
-  } finally {
-    loading.value = false;
+  const { success } = await putApi<Notice, Notice>(
+    `api/v1/notices/${props.modelValue.id}`,
+    props.modelValue,
+    { refLoading: loading },
+  );
+  loading.value = false;
+  if (success) {
+    emits("save");
+    emits("click:cancel");
   }
 }
 </script>

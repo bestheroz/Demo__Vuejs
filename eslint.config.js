@@ -69,6 +69,7 @@ export default [
 
       /* 보안 관련 규칙 */
       ...eslintPluginSecurity.configs["recommended"].rules,
+      "security/detect-object-injection": "off",
 
       /* vuetify 관련 규칙 */
       ...vuetifyeslint.configs["flat/recommended"].rules,
