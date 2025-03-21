@@ -12,6 +12,9 @@ env:
 jobs:
   deploy-sandbox-qa:
     runs-on: ubuntu-latest
+    concurrency:
+      group: deploy-sandbox-qa
+      cancel-in-progress: true
     steps:
       - name: checkout
         uses: actions/checkout@main

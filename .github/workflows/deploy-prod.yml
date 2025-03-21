@@ -12,6 +12,9 @@ env:
 jobs:
   deploy-prod:
     runs-on: ubuntu-latest
+    concurrency:
+      group: deploy-prod
+      cancel-in-progress: true
     steps:
       - name: checkout
         uses: actions/checkout@main
