@@ -20,9 +20,7 @@ jobs:
 
       - name: get tag
         id: tag
-        uses: dawidd6/action-get-tag@master
-        with:
-          strip_v: true
+        uses: olegtarasov/get-tag@master
 
       - name: update version of package.json
         uses: jossef/action-set-json-field@master
