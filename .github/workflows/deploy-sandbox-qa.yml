@@ -13,7 +13,7 @@ jobs:
   deploy-sandbox-qa:
     runs-on: ubuntu-latest
     concurrency:
-      group: deploy-sandbox-qa
+      group: deploy-${{ github.ref_name }}
       cancel-in-progress: true
     steps:
       - name: checkout
