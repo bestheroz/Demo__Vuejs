@@ -38,7 +38,7 @@ jobs:
           replace: VITE_PRODUCT_VERSION=${{ steps.tag.outputs.tag }}
           include: ".env"
 
-      - uses: stefanzweifel/git-auto-commit-action@v4
+      - uses: stefanzweifel/git-auto-commit-action@master
         with:
           commit_message: ⬆️Update version (package.json, .env) to ${{ steps.tag.outputs.tag }}
           branch: main
