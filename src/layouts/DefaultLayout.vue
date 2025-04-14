@@ -75,10 +75,10 @@ const hasRequiredAuthority = (val) =>
 
 const filteredDrawer = computed(() =>
   DRAWERS.filter(hasRequiredAuthority)
-    .map((drawer) => ({
-      ...drawer,
-      children: drawer.children?.filter(hasRequiredAuthority) || [],
+    .map((v) => ({
+      ...v,
+      children: v.children?.filter(hasRequiredAuthority) || [],
     }))
-    .filter((drawer) => drawer.children.length > 0),
+    .filter((v) => v.children.length > 0),
 );
 </script>
