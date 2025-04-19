@@ -22,14 +22,6 @@
             >
               <v-icon>mdi-plus</v-icon>
             </v-btn>
-            <v-btn
-              color="primary"
-              variant="flat"
-              class="ml-2"
-              @click="debouncedFetchList"
-            >
-              <v-icon>mdi-reload</v-icon>
-            </v-btn>
           </v-toolbar>
           <v-data-table-footer />
         </template>
@@ -64,7 +56,6 @@
 </template>
 
 <script setup lang="ts">
-import { useDebounceFn } from "@vueuse/core";
 import { storeToRefs } from "pinia";
 import { computed, ref } from "vue";
 import useEditList from "@/composition/useEditList";
@@ -112,8 +103,6 @@ async function fetchList(
     totalItems.value = data.total;
   }
 }
-
-const debouncedFetchList = useDebounceFn(fetchList, 200);
 
 const { dialog, editItem, onClickAdd, onClickEdit } =
   useEditList<Notice>(defaultNotice);
