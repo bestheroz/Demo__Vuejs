@@ -20,6 +20,11 @@ export default createVuetify({
       persistentHint: true,
       clearable: true,
     },
+    VBtn: {
+      style: {
+        textTransform: "none",
+      },
+    },
     VTextField: {
       color: "primary",
     },
