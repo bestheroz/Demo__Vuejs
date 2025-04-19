@@ -6,7 +6,6 @@
         :items="serverItems"
         :items-length="totalItems"
         :loading="loading"
-        :search="search"
         disable-sort
         show-current-page
         hide-default-footer
@@ -114,7 +113,6 @@ const headers = computed(() => {
 const serverItems = ref<User[]>([]);
 const totalItems = ref(0);
 const loading = ref(false);
-const search = ref("");
 
 async function fetchList(
   { page, itemsPerPage } = { page: 1, itemsPerPage: 10 },
