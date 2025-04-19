@@ -240,7 +240,7 @@ async function executeRequest<T = never, R = T>(
 
     return await _promise;
   } catch (e) {
-    return catchError<R>(e, false);
+    return catchError<R>(e, options?.failureAlert ?? true);
   } finally {
     if (refLoading?.value) {
       refLoading.value = false;
