@@ -2,7 +2,6 @@
   <v-card>
     <v-card-text>
       <v-data-table-server
-        v-model:items-per-page="itemsPerPage"
         :headers="headers"
         :items="serverItems"
         :items-length="totalItems"
@@ -10,6 +9,7 @@
         :search="search"
         disable-sort
         show-current-page
+        hide-default-footer
         @update:options="fetchList"
       >
         <template #top>
@@ -32,6 +32,7 @@
               <v-icon>mdi-reload</v-icon>
             </v-btn>
           </v-toolbar>
+          <v-data-table-footer />
         </template>
         <template #[`item.id`]="{ item }">
           <v-btn variant="plain" color="primary" @click="onClickEdit(item)">
@@ -98,7 +99,6 @@ import UserAvatar from "@/views/components/datatables/UserAvatar.vue";
 
 const { authorities, info } = storeToRefs(useAdminStore());
 
-const itemsPerPage = ref(10);
 const headers = computed(() => {
   const headers: { key: string; title?: string }[] = [
     { title: "ID(KEY)", key: "id" },
@@ -121,11 +121,13 @@ const totalItems = ref(0);
 const loading = ref(false);
 const search = ref("");
 
-async function fetchList() {
+async function fetchList(
+  { page, itemsPerPage } = { page: 1, itemsPerPage: 10 },
+) {
   const { success, data } = await getApi<ListApiResult<Admin>>(
     `api/v1/admins?${stringifyParams({
-      page: 1,
-      pageSize: itemsPerPage.value,
+      page: page,
+      pageSize: itemsPerPage,
     })}`,
     { refLoading: loading },
   );
