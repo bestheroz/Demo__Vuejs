@@ -23,9 +23,15 @@ jobs:
         name: Install pnpm
         with:
           version: latest
-          run_install: |
-            - recursive: true
-              args: [--frozen-lockfile, --strict-peer-dependencies]
+          run_install: false
+
+      - name: Install Node.js
+        uses: actions/setup-node@main
+        with:
+          node-version: 22
+          cache: "pnpm"
+
+      - run: pnpm install --frozen-lockfile --strict-peer-dependencies
 
       - name: Build 🔨
         run: pnpm run build --mode ${{ github.ref_name }}
