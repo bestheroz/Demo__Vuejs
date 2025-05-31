@@ -1,4 +1,5 @@
 import { toast, ToasterProps } from "vue-sonner";
+import "vue-sonner/style.css";
 
 export const toastSuccess = (message: string, options?: ToasterProps) =>
   toast.success(message, { ...options, duration: 2_000 });
