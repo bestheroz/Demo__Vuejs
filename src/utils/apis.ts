@@ -11,7 +11,7 @@ import { useAdminStore } from "@/stores/admin";
 import { getValidatedAccessToken, goLoginPage } from "@/utils/commands";
 import { toastError } from "@/utils/toaster";
 import { toast } from "vue-sonner";
-import { Ref } from "vue";
+import type { Ref } from "vue";
 
 export const axiosInstance = axios.create({
   baseURL: API_HOST,

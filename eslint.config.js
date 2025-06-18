@@ -63,6 +63,14 @@ export default [
           caughtErrorsIgnorePattern: "^_",
         },
       ],
+      "@typescript-eslint/consistent-type-imports": [
+        "error",
+        {
+          prefer: "type-imports", // 타입 전용은 항상 import type
+          disallowTypeAnnotations: false, // 타입 애노테이션 내에서만 쓰면 안 된다고 하려면 true
+          fixStyle: "separate-type-imports",
+        },
+      ],
 
       /* Import/Export 관련 규칙 */
       ...importPlugin.configs["typescript"].rules,

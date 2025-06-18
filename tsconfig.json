@@ -11,6 +11,8 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
+    // 타입 전용 import를 실제 JS에서 제거(removal)하도록
+    "verbatimModuleSyntax": true,
 
     /* Linting */
     "strict": true,
