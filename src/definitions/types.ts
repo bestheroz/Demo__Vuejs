@@ -75,8 +75,8 @@ export interface DataTableHeader {
   title?: string;
   fixed?: boolean;
   valueType?:
-    | "datetimeMinute"
     | "datetime"
+    | "datetimeSeconds"
     | "date"
     | "ID"
     | "number"

@@ -59,7 +59,7 @@ const headers = computed(() => {
     { title: "제목", key: "title" },
     { title: "사용 여부", key: "useFlag", valueType: "switch" },
     { title: "작업자", key: "updatedBy", valueType: "operator" },
-    { title: "작업일시", key: "updatedAt", valueType: "datetimeMinute" },
+    { title: "작업일시", key: "updatedAt", valueType: "datetime" },
   ];
   if (authorities.value.includes(Authority.NOTICE_EDIT)) {
     headers.push({ title: "작업", key: "action", valueType: "button" });

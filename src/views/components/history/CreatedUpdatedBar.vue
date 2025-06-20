@@ -15,17 +15,17 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import type { IdCreatedUpdated } from "@/definitions/types";
-import { formatDatetime } from "@/utils/formatter";
+import { formatDatetimeSeconds } from "@/utils/formatter";
 
 const props = defineProps<{
   modelValue?: IdCreatedUpdated;
 }>();
 
 const createdDateTimeString = computed((): string =>
-  formatDatetime(props.modelValue?.createdAt),
+  formatDatetimeSeconds(props.modelValue?.createdAt),
 );
 
 const updatedDateTimeString = computed((): string =>
-  formatDatetime(props.modelValue?.updatedAt),
+  formatDatetimeSeconds(props.modelValue?.updatedAt),
 );
 </script>

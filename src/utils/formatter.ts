@@ -2,25 +2,25 @@ import dayjs, { extend } from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import {
   DATE_FORMAT_STRING,
+  DATETIME_SECONDS_FORMAT_STRING,
   DATETIME_FORMAT_STRING,
-  DATETIME_MINUTE_FORMAT_STRING,
 } from "@/constants/envs";
 import type { DateTime, SelectItem } from "@/definitions/types";
 import { isEmpty, isNumeric, isValidValue } from "@/utils/rules";
 
 extend(customParseFormat);
 
-export function formatDatetime(
+export function formatDatetimeSeconds(
   value?: DateTime,
-  format = DATETIME_FORMAT_STRING,
+  format = DATETIME_SECONDS_FORMAT_STRING,
 ): string {
   if (isEmpty(value)) return "-";
   return isValidDateFormat(value) ? dayjs(value).format(format) : "-";
 }
 
-export function formatDatetimeMinute(
+export function formatDatetime(
   value?: DateTime,
-  format = DATETIME_MINUTE_FORMAT_STRING,
+  format = DATETIME_FORMAT_STRING,
 ): string {
   if (isEmpty(value)) return "-";
   return isValidDateFormat(value) ? dayjs(value).format(format) : "-";
@@ -38,9 +38,9 @@ export function isValidDateFormat(value: DateTime | undefined): boolean {
   return (
     !!value &&
     (value instanceof Date ||
-      dayjs(value, DATETIME_FORMAT_STRING).isValid() ||
+      dayjs(value, DATETIME_SECONDS_FORMAT_STRING).isValid() ||
       dayjs(value, "YYYYMMDDHHmmss").isValid() ||
-      dayjs(value, DATETIME_MINUTE_FORMAT_STRING).isValid() ||
+      dayjs(value, DATETIME_FORMAT_STRING).isValid() ||
       dayjs(value, "YYYYMMDDHHmm").isValid() ||
       dayjs(value, DATE_FORMAT_STRING).isValid() ||
       dayjs(value, "YYYYMMDD").isValid())

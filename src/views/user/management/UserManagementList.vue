@@ -64,14 +64,14 @@ const headers = computed(() => {
     { title: "로그인 아이디", key: "loginId" },
     { title: "관리자 명", key: "name" },
     { title: "사용 여부", key: "useFlag", valueType: "switch" },
-    { title: "가입 일자", key: "joinedAt", valueType: "datetimeMinute" },
+    { title: "가입 일자", key: "joinedAt", valueType: "datetime" },
     {
       title: "최종 로그인 일시",
       key: "latestActiveAt",
-      valueType: "datetimeMinute",
+      valueType: "datetime",
     },
     { title: "작업자", key: "updatedBy", valueType: "operator" },
-    { title: "작업일시", key: "updatedAt", valueType: "datetimeMinute" },
+    { title: "작업일시", key: "updatedAt", valueType: "datetime" },
   ];
   if (authorities.value.includes(Authority.USER_EDIT)) {
     headers.push({ title: "작업", key: "action", valueType: "button" });

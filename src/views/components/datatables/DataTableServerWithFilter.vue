@@ -41,11 +41,11 @@
       :key="header.key"
       #[`item.${header.key}`]="{ value }"
     >
-      <template v-if="header.valueType === 'datetimeMinute'">{{
-        formatDatetimeMinute(value)
-      }}</template>
-      <template v-else-if="header.valueType === 'datetime'">{{
+      <template v-if="header.valueType === 'datetime'">{{
         formatDatetime(value)
+      }}</template>
+      <template v-else-if="header.valueType === 'datetimeSeconds'">{{
+        formatDatetimeSeconds(value)
       }}</template>
       <template v-else-if="header.valueType === 'date'">{{
         formatDate(value)
@@ -80,8 +80,8 @@ import DataTableHeaderFilter from "@/views/components/datatables/DataTableHeader
 import { computed, ref, useSlots } from "vue";
 import {
   formatDate,
+  formatDatetimeSeconds,
   formatDatetime,
-  formatDatetimeMinute,
   getTitleByValue,
 } from "@/utils/formatter";
 import UserAvatar from "@/views/components/datatables/UserAvatar.vue";
@@ -116,14 +116,14 @@ const slots = useSlots();
 
 const filterHeaders = computed(() =>
   props.headers.map((v) => {
-    if (v.valueType === "datetimeMinute") {
+    if (v.valueType === "datetime") {
       return {
         ...v,
         align: v.align ?? "center",
         filterable: v.filterable ?? false,
         width: v.width ?? 160,
       };
-    } else if (v.valueType === "datetime") {
+    } else if (v.valueType === "datetimeSeconds") {
       return {
         ...v,
         align: v.align ?? "center",
