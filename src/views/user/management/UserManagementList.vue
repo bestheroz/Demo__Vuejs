@@ -63,7 +63,7 @@ const headers = computed(() => {
   const headers: DataTableHeader[] = [
     { title: "ID(KEY)", key: "id", valueType: "ID" },
     { title: "로그인 아이디", key: "loginId" },
-    { title: "관리자 명", key: "name" },
+    { title: "유저 이름", key: "name" },
     { title: "사용 여부", key: "useFlag", valueType: "switch" },
     { title: "가입 일자", key: "joinedAt", valueType: "datetime" },
     {
