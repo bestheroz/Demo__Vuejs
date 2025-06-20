@@ -31,3 +31,11 @@ defineProps<{
   value: UserSimple;
 }>();
 </script>
+<style lang="scss" scoped>
+:deep(.v-btn__content) {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+}
+</style>

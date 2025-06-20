@@ -3,3 +3,77 @@
     width: 130px;
   }
 }
+
+.v-table {
+  line-height: 1.2rem;
+  .v-table__wrapper {
+    box-shadow:
+      -1px 0 2px rgba(180, 180, 180, 0.4),
+      1px 0 2px rgba(180, 180, 180, 0.4);
+    .v-data-table__thead {
+      .v-data-table__td {
+        padding: 0 0.5rem;
+        height: 2rem;
+        border: none;
+        font-weight: bold;
+
+        // 우측에 미세한 shadow (밝은 회색)
+        box-shadow: 1px 0 2px rgba(180, 180, 180, 0.4);
+
+        // 첫번째 셀은 좌우측에 shadow
+        &:first-child {
+          box-shadow:
+            -1px 0 2px rgba(180, 180, 180, 0.4),
+            1px 0 2px rgba(180, 180, 180, 0.4);
+        }
+      }
+    }
+    .v-data-table__tbody {
+      .v-data-table__tr {
+        .v-data-table__td {
+          padding: 0 0.5rem;
+          height: 1.8rem;
+
+          // 우측에 미세한 shadow (밝은 회색)
+          box-shadow: 1px 0 2px rgba(180, 180, 180, 0.35);
+
+          // 첫번째 셀은 좌우측에 shadow
+          &:first-child {
+            box-shadow:
+              -1px 0 2px rgba(180, 180, 180, 0.35),
+              1px 0 2px rgba(180, 180, 180, 0.35);
+          }
+
+          .v-btn {
+            &.v-btn--variant-plain {
+              padding: 0;
+            }
+          }
+
+          .v-switch {
+            vertical-align: middle;
+            > .v-input__control {
+              > .v-selection-control {
+                height: 1.2rem !important;
+                min-height: 1.2rem !important;
+              }
+            }
+          }
+          .v-checkbox {
+            .v-selection-control {
+              min-height: 1.5rem !important;
+            }
+          }
+        }
+      }
+    }
+  }
+  .v-data-table-footer {
+    padding: 0 60px 0 0;
+    .v-field__input {
+      min-height: 1.8rem;
+      height: 1.8rem;
+      padding: 2px 8px;
+    }
+  }
+}

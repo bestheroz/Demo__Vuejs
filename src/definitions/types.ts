@@ -69,3 +69,43 @@ export interface ListApiResult<T> {
   total: number;
   items: T[];
 }
+
+export interface DataTableHeader {
+  key?: string;
+  title?: string;
+  fixed?: boolean;
+  valueType?:
+    | "datetimeMinute"
+    | "datetime"
+    | "date"
+    | "ID"
+    | "number"
+    | "operator"
+    | "switch"
+    | "button"
+    | "textEllipsis";
+  valueSelectItem?: SelectItem[];
+  align?: "start" | "end" | "center";
+  width?: number | string;
+  minWidth?: number | string;
+  maxWidth?: number | string;
+  filterable?: boolean;
+  filterType?: "input" | "select" | "switch";
+  filterSelectItem?: SelectItem[];
+}
+
+export interface DataTableOptions {
+  page: number;
+  itemsPerPage: number;
+  queryParams: string;
+}
+
+export interface FabButtonProp {
+  title: string;
+  color: string;
+  onClick: () => void;
+  icon?: boolean;
+  size?: number;
+  hide?: boolean;
+  disabled?: boolean;
+}

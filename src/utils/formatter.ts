@@ -128,3 +128,18 @@ export function snakeToCamel(str?: string) {
     return m[1].toUpperCase();
   });
 }
+export function getTitleByValue<T = string>(
+  codes: SelectItem<T>[] | null,
+  value: T,
+  defaultLabel?: string,
+): string {
+  if (value === undefined) {
+    return "-";
+  }
+  return (
+    (codes ?? []).find((item) => item.value === value)?.title ||
+    defaultLabel ||
+    value + "" ||
+    "-"
+  );
+}

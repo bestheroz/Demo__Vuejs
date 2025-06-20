@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@rushstack/eslint-patch": "1.11.0",
-    "axios": "1.9.0",
+    "axios": "1.10.0",
     "dayjs": "1.11.13",
     "js-sha512": "0.9.0",
     "jwt-decode": "4.0.0",
@@ -19,30 +19,30 @@
     "pinia-plugin-persistedstate": "4.3.0",
     "qs": "6.14.0",
     "uuid": "11.1.0",
-    "vue": "3.5.16",
+    "vue": "3.5.17",
     "vue-router": "4.5.1",
     "vue-sonner": "2.0.0",
-    "vuetify": "3.8.8"
+    "vuetify": "3.8.10"
   },
   "devDependencies": {
     "@types/crypto-js": "4.2.2",
     "@types/lodash-es": "4.17.12",
-    "@types/node": "22.15.30",
+    "@types/node": "24.0.3",
     "@types/qs": "6.14.0",
     "@types/uuid": "10.0.0",
-    "@typescript-eslint/eslint-plugin": "8.33.1",
-    "@typescript-eslint/parser": "8.33.1",
+    "@typescript-eslint/eslint-plugin": "8.34.1",
+    "@typescript-eslint/parser": "8.34.1",
     "@vitejs/plugin-vue": "5.2.4",
     "@vue/eslint-config-prettier": "10.2.0",
-    "@vueuse/core": "13.3.0",
-    "eslint": "9.28.0",
+    "@vueuse/core": "13.4.0",
+    "eslint": "9.29.0",
     "eslint-plugin-import": "2.31.0",
     "eslint-plugin-security": "3.0.1",
     "eslint-plugin-vue": "10.2.0",
     "eslint-plugin-vuetify": "2.5.2",
     "prettier": "3.5.3",
-    "sass": "1.89.1",
-    "typescript-eslint": "8.33.1",
+    "sass": "1.89.2",
+    "typescript-eslint": "8.34.1",
     "vite": "6.3.5",
     "vite-plugin-checker": "0.9.3",
     "vite-plugin-eslint2": "5.0.3",
@@ -59,6 +59,6 @@
     "supports es6-module"
   ],
   "volta": {
-    "node": "22.14.0"
+    "node": "22.16.0"
   }
 }
