@@ -29,7 +29,7 @@
   <UserManagementEditDialog
     v-if="dialog"
     :model-value="editItem"
-    @save="fetchList"
+    @save="refDataTableServerWithFilter.reload()"
     @click:cancel="dialog = false"
   />
 </template>
@@ -41,6 +41,7 @@ import useEditList from "@/composition/useEditList";
 import { Authority } from "@/definitions/authorities";
 import type {
   DataTableHeader,
+  DataTableOptions,
   FabButtonProp,
   ListApiResult,
 } from "@/definitions/types";
@@ -83,14 +84,16 @@ const serverItems = ref<User[]>([]);
 const totalItems = ref(0);
 const loading = ref(false);
 
-async function fetchList(
-  { page, itemsPerPage } = { page: 1, itemsPerPage: 10 },
-) {
+async function fetchList({
+  page,
+  itemsPerPage,
+  queryParams,
+}: DataTableOptions) {
   const { success, data } = await getApi<ListApiResult<User>>(
     `api/v1/users?${stringifyParams({
       page: page,
       pageSize: itemsPerPage,
-    })}`,
+    })}&${queryParams}`,
     {
       refLoading: loading,
     },
@@ -127,7 +130,7 @@ async function onClickRemove(val: User) {
     refLoading: loading,
   });
   if (success) {
-    await fetchList();
+    await refDataTableServerWithFilter.value.reload();
   }
 }
 </script>
