@@ -3,7 +3,6 @@
     absolute
     :color="open ? '' : color"
     :location="location"
-    size="large"
     icon
     :style="{ margin: margin + 'px' }"
   >
@@ -52,7 +51,7 @@ withDefaults(
       | "right bottom";
     margin?: number;
   }>(),
-  { color: "primary", location: "top right", margin: 10 },
+  { color: "primary", location: "top right", margin: 16 },
 );
 
 const open = ref(false);

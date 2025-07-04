@@ -2,10 +2,10 @@
   <v-menu>
     <template #activator="{ props }">
       <v-btn v-bind="props" variant="plain">
-        <v-avatar color="primary" size="x-small" class="mr-1">
+        <v-avatar color="primary" size="1rem" class="mr-1">
           {{ value.id }}
         </v-avatar>
-        {{ value.name }}
+        <span style="vertical-align: middle">{{ value.name }}</span>
       </v-btn>
     </template>
     <v-card>
