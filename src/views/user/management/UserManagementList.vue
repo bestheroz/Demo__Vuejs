@@ -19,9 +19,12 @@
           </a>
         </template>
         <template #[`item.action`]="{ item }">
-          <v-btn color="error" variant="plain" @click="onClickRemove(item)">
-            <v-icon>mdi-delete</v-icon>
-          </v-btn>
+          <v-btn
+            color="error"
+            variant="plain"
+            icon="mdi-delete"
+            @click="onClickRemove(item)"
+          />
         </template>
       </DataTableServerWithFilter>
     </v-card-text>

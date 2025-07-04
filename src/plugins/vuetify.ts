@@ -19,6 +19,7 @@ export default createVuetify({
       persistentPlaceholder: true,
       persistentHint: true,
       clearable: true,
+      density: "compact",
     },
     VBtn: {
       style: {

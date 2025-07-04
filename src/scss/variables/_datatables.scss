@@ -33,6 +33,7 @@
         .v-data-table__td {
           padding: 0 0.5rem;
           height: 1.8rem;
+          max-width: 500px;
 
           // 우측에 미세한 shadow (밝은 회색)
           box-shadow: 1px 0 2px rgba(180, 180, 180, 0.35);

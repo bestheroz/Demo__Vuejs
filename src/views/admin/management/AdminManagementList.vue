@@ -22,11 +22,10 @@
           <v-btn
             v-if="item.id !== info.id"
             color="error"
+            icon="mdi-delete"
             variant="plain"
             @click="onClickRemove(item)"
-          >
-            <v-icon>mdi-delete</v-icon>
-          </v-btn>
+          />
         </template>
       </DataTableServerWithFilter>
     </v-card-text>

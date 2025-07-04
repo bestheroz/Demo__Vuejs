@@ -3,7 +3,7 @@
     absolute
     :color="open ? '' : color"
     :location="location"
-    size="small"
+    size="large"
     icon
     :style="{ margin: margin + 'px' }"
   >
