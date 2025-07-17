@@ -22,10 +22,14 @@ const refTestUserForm = ref();
 const refTestAdminForm = ref();
 
 async function runAll() {
-  await Promise.all([
-    refTestNoticeForm.value.runAll(),
-    refTestAdminForm.value.runAll(),
-    refTestUserForm.value.runAll(),
-  ]);
+  try {
+    await Promise.allSettled([
+      refTestNoticeForm.value?.runAll(),
+      refTestAdminForm.value?.runAll(),
+      refTestUserForm.value?.runAll(),
+    ]);
+  } catch (error) {
+    console.error("Test execution failed:", error);
+  }
 }
 </script>

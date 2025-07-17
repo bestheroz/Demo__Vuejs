@@ -77,7 +77,7 @@ const filteredDrawer = computed(() =>
   DRAWERS.filter(hasRequiredAuthority)
     .map((v) => ({
       ...v,
-      children: v.children?.filter(hasRequiredAuthority) || [],
+      children: v.children?.filter(hasRequiredAuthority) ?? [],
     }))
     .filter((v) => v.children.length > 0),
 );

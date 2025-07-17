@@ -36,13 +36,17 @@ export function isExpiredToken(token: string): boolean {
       dayjs(),
     );
   } catch (e: unknown) {
-    console.warn(e);
+    console.warn("Token validation failed:", e);
     return true;
   }
 }
 
 export async function signOut(): Promise<void> {
-  goLoginPage().then();
+  try {
+    await goLoginPage();
+  } catch (error) {
+    console.error("Sign out failed:", error);
+  }
 }
 
 export async function goLoginPage(): Promise<void> {
@@ -68,8 +72,12 @@ export async function getNewToken(): Promise<JwtTokens | undefined> {
         })
     ).data;
   } catch (e: unknown) {
-    console.error(e);
-    goLoginPage().then();
+    console.error("Token renewal failed:", e);
+    try {
+      await goLoginPage();
+    } catch (loginError) {
+      console.error("Login redirect failed:", loginError);
+    }
   }
 }
 

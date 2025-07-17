@@ -23,7 +23,7 @@ export function required(val: unknown | unknown[]): string | boolean {
 export const minLength =
   (min: number) =>
   (val: string | unknown[]): string | boolean => {
-    if (isEmpty(val as string)) {
+    if (isEmpty(val)) {
       return true;
     }
     if (Array.isArray(val)) {

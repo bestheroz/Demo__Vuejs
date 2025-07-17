@@ -6,7 +6,7 @@ import {
   DATETIME_FORMAT_STRING,
 } from "@/constants/envs";
 import type { DateTime, SelectItem } from "@/definitions/types";
-import { isEmpty, isNumeric, isValidValue } from "@/utils/rules";
+import { isEmpty, isValidValue } from "@/utils/rules";
 
 extend(customParseFormat);
 
@@ -82,7 +82,7 @@ export function getFilenameFromUrl(url?: string): string {
   const startIndex = url.lastIndexOf("/") + "/".length;
   const endIndex = url.indexOf("?", startIndex);
 
-  if (startIndex === -1) {
+  if (url.lastIndexOf("/") === -1) {
     return url;
   }
 
@@ -101,10 +101,8 @@ export function formatNumber(
   if (isEmpty(value)) {
     return defaultValue;
   }
-  if (!isNumeric(value + "")) {
-    return defaultValue;
-  }
-  if (isNaN(+value!)) {
+  const numValue = +value!;
+  if (isNaN(numValue)) {
     return defaultValue;
   }
   return parseFloat(value + "").toLocaleString("en-US", {

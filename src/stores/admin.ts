@@ -26,8 +26,10 @@ export const useAdminStore = defineStore("admin", {
     loggedIn: (state: AdminInfo): boolean =>
       !!state.tokens.accessToken &&
       !!state.info.id &&
-      !!window.localStorage.getItem("demo-accessToken") &&
-      !!window.localStorage.getItem("demo-refreshToken"),
+      state.tokens.accessToken ===
+        window.localStorage.getItem("demo-accessToken") &&
+      state.tokens.refreshToken ===
+        window.localStorage.getItem("demo-refreshToken"),
     authorities: (state: AdminInfo): string[] => state.info.authorities,
   },
   actions: {

@@ -288,9 +288,13 @@ export async function deleteApi<T = never, R = T>(
 
 export function stringifyParams(obj: Record<string, unknown>): string {
   const safeObject = new Map(
-    Object.entries(obj).filter(
-      ([_, value]) => typeof value !== "string" || value.trim() !== "",
-    ),
+    Object.entries(obj).filter(([_, value]) => {
+      if (value === null || value === undefined) return false;
+      if (typeof value === "string") return value.trim() !== "";
+      if (typeof value === "number") return !isNaN(value);
+      if (typeof value === "boolean") return true;
+      return value !== "";
+    }),
   );
 
   const sanitizedObject = Object.fromEntries(safeObject);
