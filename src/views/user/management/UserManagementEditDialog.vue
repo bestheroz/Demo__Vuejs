@@ -81,7 +81,7 @@
                 :rules="
                   modelValue.password
                     ? [required, minLength(8), maxLength(30)]
-                    : [minLength(8), maxLength(30)]
+                    : []
                 "
                 :class="{ required: modelValue.password }"
                 @update:model-value="onInputPassword"

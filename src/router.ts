@@ -9,8 +9,8 @@ const requireAuth =
   () => async (_to: unknown, _from: unknown, next: NavigationGuardNext) => {
     const { loggedIn } = useAdminStore();
     if (!loggedIn) {
-      next(false);
-      return await goLoginPage();
+      await goLoginPage();
+      return next(false);
     }
     return next();
   };

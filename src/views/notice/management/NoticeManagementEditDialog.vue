@@ -129,7 +129,6 @@ async function updateItem() {
     props.modelValue,
     { refLoading: loading },
   );
-  loading.value = false;
   if (success) {
     emits("save");
     emits("click:cancel");

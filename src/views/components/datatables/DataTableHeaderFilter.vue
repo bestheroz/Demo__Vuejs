@@ -84,7 +84,7 @@ const filterMap = computed(() => finalFilterHeader.value.map((v) => v.key));
 watchDebounced(
   () => props.filterHeader,
   (v) => {
-    fill(Array(v.length), "");
+    filter.value = fill(Array(v.length), "");
   },
   { debounce: 100 },
 );

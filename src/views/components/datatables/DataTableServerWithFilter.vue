@@ -51,7 +51,7 @@
         formatDate(value)
       }}</template>
       <template v-else-if="header.valueType === 'number'">{{
-        (+value)?.toLocaleString() ?? "-"
+        value != null ? (+value).toLocaleString() : "-"
       }}</template>
       <UserAvatar v-else-if="header.valueType === 'operator'" :value="value" />
       <v-switch
