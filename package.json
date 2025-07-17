@@ -21,8 +21,8 @@
     "uuid": "11.1.0",
     "vue": "3.5.17",
     "vue-router": "4.5.1",
-    "vue-sonner": "2.0.1",
-    "vuetify": "3.9.0"
+    "vue-sonner": "2.0.2",
+    "vuetify": "3.9.1"
   },
   "devDependencies": {
     "@types/crypto-js": "4.2.2",
@@ -43,13 +43,13 @@
     "prettier": "3.6.2",
     "sass": "1.89.2",
     "typescript-eslint": "8.37.0",
-    "vite": "7.0.4",
+    "vite": "7.0.5",
     "vite-plugin-checker": "0.10.0",
     "vite-plugin-eslint2": "5.0.4",
     "vite-plugin-vuetify": "2.1.1",
     "vite-tsconfig-paths": "5.1.4",
     "vue-eslint-parser": "10.2.0",
-    "vue-tsc": "3.0.1"
+    "vue-tsc": "3.0.2"
   },
   "browserslist": [
     "last 1 Chrome version",
