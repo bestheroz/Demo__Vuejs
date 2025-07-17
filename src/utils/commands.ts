@@ -58,7 +58,7 @@ export async function getNewToken(): Promise<JwtTokens | undefined> {
         .create({
           baseURL: API_HOST,
           headers: {
-            contentType: "application/json",
+            "Content-Type": "application/json",
           },
         })
         .post<JwtTokens>("api/v1/admin/renew-token", null, {
@@ -96,6 +96,7 @@ export async function getValidatedRefreshToken(): Promise<string> {
   const refreshToken = window.localStorage.getItem("demo-refreshToken");
   if (!refreshToken || isExpiredToken(refreshToken)) {
     await signOut();
+    return "";
   }
-  return refreshToken ?? "";
+  return refreshToken;
 }

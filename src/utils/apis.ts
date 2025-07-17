@@ -77,7 +77,7 @@ axiosInstance.interceptors.response.use(
   async function (error: AxiosError) {
     console.error(error.message);
 
-    const requestId = error.config?.headers?.requestId;
+    const requestId = error.config?.headers?.requestId as string;
     if (requestId) {
       pendingRequests.delete(requestId);
     }
@@ -213,7 +213,7 @@ async function executeRequest<T = never, R = T>(
   };
 
   try {
-    if (refLoading?.value) {
+    if (refLoading) {
       refLoading.value = true;
     }
 
@@ -242,7 +242,7 @@ async function executeRequest<T = never, R = T>(
   } catch (e) {
     return catchError<R>(e, options?.failureAlert ?? true);
   } finally {
-    if (refLoading?.value) {
+    if (refLoading) {
       refLoading.value = false;
     }
   }

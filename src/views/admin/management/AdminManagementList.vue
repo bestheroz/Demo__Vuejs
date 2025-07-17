@@ -114,7 +114,7 @@ const fabButton = ref<FabButtonProp[]>([
     title: "추가",
     color: "primary",
     onClick: onClickAdd,
-    hide: authorities.value.includes(Authority.ADMIN_EDIT),
+    hide: !authorities.value.includes(Authority.ADMIN_EDIT),
   },
   {
     title: "재조회",

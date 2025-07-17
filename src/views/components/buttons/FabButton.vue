@@ -16,7 +16,7 @@
       open-on-hover
     >
       <v-btn
-        v-for="(item, index) in modelValue"
+        v-for="(item, index) in modelValue.filter((v) => !v.hide)"
         :key="index"
         :color="item.color"
         size="large"
