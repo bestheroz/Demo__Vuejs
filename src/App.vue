@@ -49,14 +49,14 @@ const currentLayout = computed(() => {
   return SimpleLayout;
 });
 
-onMounted(() => {
+onMounted(async () => {
   window.document.title = PRODUCT_TITLE;
   const { loggedIn, tokens, clearAdmin } = useAdminStore();
   if (loggedIn && isExpiredToken(tokens.accessToken)) {
     clearAdmin();
-    goLoginPage();
+    await goLoginPage();
   } else if (!loggedIn && route.path !== "/login") {
-    goLoginPage();
+    await goLoginPage();
   }
 });
 </script>
