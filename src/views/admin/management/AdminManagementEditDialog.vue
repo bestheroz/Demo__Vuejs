@@ -150,9 +150,9 @@ import { useAdminStore } from "@/stores/admin";
 import { useConfirmStore } from "@/stores/confirm";
 import { getApi, postApi, putApi, stringifyParams } from "@/utils/apis";
 import { isEmpty, maxLength, minLength, required } from "@/utils/rules";
+import { toastWarning } from "@/utils/toaster";
 import type { Admin, AdminCreate } from "@/views/admin/management/types";
 import CreatedUpdatedBar from "@/views/components/history/CreatedUpdatedBar.vue";
-import { toastWarning } from "@/utils/toaster";
 
 const props = defineProps<{
   modelValue: AdminCreate;

@@ -143,9 +143,9 @@ import { useAdminStore } from "@/stores/admin";
 import { useConfirmStore } from "@/stores/confirm";
 import { getApi, postApi, putApi, stringifyParams } from "@/utils/apis";
 import { isEmpty, maxLength, minLength, required } from "@/utils/rules";
+import { toastWarning } from "@/utils/toaster";
 import CreatedUpdatedBar from "@/views/components/history/CreatedUpdatedBar.vue";
 import type { User, UserCreate } from "@/views/user/management/types";
-import { toastWarning } from "@/utils/toaster";
 
 const props = defineProps<{
   modelValue: UserCreate;

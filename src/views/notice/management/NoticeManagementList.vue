@@ -51,10 +51,10 @@ import type {
 import { useAdminStore } from "@/stores/admin";
 import { useConfirmStore } from "@/stores/confirm";
 import { deleteApi, getApi, stringifyParams } from "@/utils/apis";
+import FabButton from "@/views/components/buttons/FabButton.vue";
+import DataTableServerWithFilter from "@/views/components/datatables/DataTableServerWithFilter.vue";
 import NoticeManagementEditDialog from "@/views/notice/management/NoticeManagementEditDialog.vue";
 import { defaultNotice, type Notice } from "@/views/notice/management/types";
-import DataTableServerWithFilter from "@/views/components/datatables/DataTableServerWithFilter.vue";
-import FabButton from "@/views/components/buttons/FabButton.vue";
 const { authorities } = storeToRefs(useAdminStore());
 
 const headers = computed(() => {

@@ -24,13 +24,13 @@
 import axios, { type AxiosResponse } from "axios";
 import { sha512 } from "js-sha512";
 import { ref } from "vue";
+import { toast } from "vue-sonner";
 import { API_HOST } from "@/constants/envs";
 import { UserType } from "@/definitions/selections";
 import type { JwtTokens } from "@/definitions/types";
 import { useAdminStore } from "@/stores/admin";
 import { catchError } from "@/utils/apis";
 import type { LoginRequest } from "@/views/login/LoginPage.vue";
-import { toast } from "vue-sonner";
 
 const { info } = useAdminStore();
 

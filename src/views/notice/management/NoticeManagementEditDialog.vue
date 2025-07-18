@@ -72,9 +72,9 @@ import { useAdminStore } from "@/stores/admin";
 import { useConfirmStore } from "@/stores/confirm";
 import { postApi, putApi } from "@/utils/apis";
 import { required } from "@/utils/rules";
+import { toastWarning } from "@/utils/toaster";
 import CreatedUpdatedBar from "@/views/components/history/CreatedUpdatedBar.vue";
 import type { Notice } from "@/views/notice/management/types";
-import { toastWarning } from "@/utils/toaster";
 
 const props = defineProps<{
   modelValue: Notice;

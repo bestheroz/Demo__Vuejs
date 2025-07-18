@@ -58,8 +58,8 @@ import {
   type AdminCreate,
   defaultAdminCreate,
 } from "@/views/admin/management/types";
-import DataTableServerWithFilter from "@/views/components/datatables/DataTableServerWithFilter.vue";
 import FabButton from "@/views/components/buttons/FabButton.vue";
+import DataTableServerWithFilter from "@/views/components/datatables/DataTableServerWithFilter.vue";
 
 const { authorities, info } = storeToRefs(useAdminStore());
 

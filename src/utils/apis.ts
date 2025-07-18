@@ -6,12 +6,12 @@ import axios, {
 } from "axios";
 import { stringify } from "qs";
 import { v4 as uuidV4 } from "uuid";
+import type { Ref } from "vue";
+import { toast } from "vue-sonner";
 import { API_HOST } from "@/constants/envs";
 import { useAdminStore } from "@/stores/admin";
 import { getValidatedAccessToken, goLoginPage } from "@/utils/commands";
 import { toastError } from "@/utils/toaster";
-import { toast } from "vue-sonner";
-import type { Ref } from "vue";
 
 export const axiosInstance = axios.create({
   baseURL: API_HOST,

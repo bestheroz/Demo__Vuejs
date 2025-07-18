@@ -26,6 +26,7 @@
 <script setup lang="ts">
 import { computed, onMounted } from "vue";
 import { useRoute } from "vue-router";
+import { Toaster } from "vue-sonner";
 import { PRODUCT_TITLE } from "@/constants/envs";
 import AuthLayout from "@/layouts/AuthLayout.vue";
 import DefaultLayout from "@/layouts/DefaultLayout.vue";
@@ -34,7 +35,6 @@ import SimpleLayout from "@/layouts/SimpleLayout.vue";
 import { useAdminStore } from "@/stores/admin";
 import { goLoginPage, isExpiredToken } from "@/utils/commands";
 import GlobalDialogConfirm from "@/views/components/dialog/GlobalDialogConfirm.vue";
-import { Toaster } from "vue-sonner";
 
 const route = useRoute();
 const isRouterLoaded = computed((): boolean => route.name !== null);

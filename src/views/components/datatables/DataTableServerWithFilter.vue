@@ -75,17 +75,17 @@
 </template>
 
 <script setup lang="ts">
-import type { DataTableHeader, DataTableOptions } from "@/definitions/types";
-import DataTableHeaderFilter from "@/views/components/datatables/DataTableHeaderFilter.vue";
 import { computed, ref, useSlots } from "vue";
+import type { DataTableHeader, DataTableOptions } from "@/definitions/types";
 import {
   formatDate,
   formatDatetimeSeconds,
   formatDatetime,
   getTitleByValue,
 } from "@/utils/formatter";
-import UserAvatar from "@/views/components/datatables/UserAvatar.vue";
 import DataTableColumnEllipsis from "@/views/components/datatables/DataTableColumnEllipsis.vue";
+import DataTableHeaderFilter from "@/views/components/datatables/DataTableHeaderFilter.vue";
+import UserAvatar from "@/views/components/datatables/UserAvatar.vue";
 
 const props = withDefaults(
   defineProps<{

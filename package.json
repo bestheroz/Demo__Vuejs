@@ -9,7 +9,6 @@
     "test": "pnpm exec eslint --fix src && pnpm exec vue-tsc --noEmit"
   },
   "dependencies": {
-    "@rushstack/eslint-patch": "1.12.0",
     "axios": "1.10.0",
     "dayjs": "1.11.13",
     "js-sha512": "0.9.0",

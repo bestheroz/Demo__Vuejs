@@ -51,14 +51,14 @@ import type {
 import { useAdminStore } from "@/stores/admin";
 import { useConfirmStore } from "@/stores/confirm";
 import { deleteApi, getApi, stringifyParams } from "@/utils/apis";
+import FabButton from "@/views/components/buttons/FabButton.vue";
+import DataTableServerWithFilter from "@/views/components/datatables/DataTableServerWithFilter.vue";
 import {
   defaultUserCreate,
   type User,
   type UserCreate,
 } from "@/views/user/management/types";
 import UserManagementEditDialog from "@/views/user/management/UserManagementEditDialog.vue";
-import DataTableServerWithFilter from "@/views/components/datatables/DataTableServerWithFilter.vue";
-import FabButton from "@/views/components/buttons/FabButton.vue";
 
 const { authorities } = storeToRefs(useAdminStore());
 
