@@ -143,9 +143,9 @@ async function run1() {
 }
 async function run2() {
   const response = await postApi<AdminCreate>("api/v1/admins", {
-    loginId: "(Test)loginId",
-    name: "(Test)name",
-    password: "(Test)password",
+    loginId: "TEST_loginId",
+    name: "TEST_name",
+    password: "TEST_password",
     managerFlag: false,
     useFlag: true,
     authorities: [Authority.NOTICE_VIEW],
@@ -160,7 +160,7 @@ async function run3() {
 }
 async function run4() {
   const response = await getApi(
-    `api/v1/admins/check-login-id?loginId=(Test)loginId&adminId=${createdId.value}`,
+    `api/v1/admins/check-login-id?loginId=TEST_loginId&adminId=${createdId.value}`,
   );
   return {
     success: response.success && response.data === true,
@@ -172,8 +172,8 @@ async function run5() {
   const response = await postApi<LoginRequest, JwtTokens>(
     "api/v1/admins/login",
     {
-      loginId: "(Test)loginId",
-      password: "(Test)password",
+      loginId: "TEST_loginId",
+      password: "TEST_password",
     },
   );
   if (response.success) {
@@ -183,9 +183,9 @@ async function run5() {
 }
 async function run6() {
   return await putApi(`api/v1/admins/${createdId.value}`, {
-    loginId: "(Test)loginId_updated",
-    name: "(Test)name_updated",
-    password: "(Test)password_updated",
+    loginId: "TEST_loginId_updated",
+    name: "TEST_name_updated",
+    password: "TEST_password_updated",
     managerFlag: false,
     useFlag: true,
     authorities: [
@@ -199,8 +199,8 @@ async function run7() {
   const response = await postApi<LoginRequest, JwtTokens>(
     `${API_HOST}api/v1/admins/login`,
     {
-      loginId: "(Test)loginId_updated",
-      password: "(Test)password_updated",
+      loginId: "TEST_loginId_updated",
+      password: "TEST_password_updated",
     },
   );
   if (response.success) {
@@ -213,8 +213,8 @@ async function run8() {
     const response = await axios.patch(
       `${API_HOST}api/v1/admins/${createdId.value}/password`,
       {
-        oldPassword: "(Test)password_updated",
-        newPassword: "(Test)password_updated_new",
+        oldPassword: "TEST_password_updated",
+        newPassword: "TEST_password_updated_new",
       },
       {
         headers: {
@@ -234,8 +234,8 @@ async function run9() {
   const response = await postApi<LoginRequest, JwtTokens>(
     "api/v1/admins/login",
     {
-      loginId: "(Test)loginId_updated",
-      password: "(Test)password_updated_new",
+      loginId: "TEST_loginId_updated",
+      password: "TEST_password_updated_new",
     },
   );
   if (response.success) {

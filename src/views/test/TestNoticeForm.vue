@@ -76,8 +76,8 @@ async function run1() {
 }
 async function run2() {
   const response = await postApi<Notice>("api/v1/notices", {
-    title: "(Test)title",
-    content: "(Test)content",
+    title: "TEST_title",
+    content: "TEST_content",
     useFlag: true,
   });
   if (response.success) {
@@ -90,8 +90,8 @@ async function run3() {
 }
 async function run4() {
   return await putApi(`api/v1/notices/${createdId.value}`, {
-    title: "(Test)title_updated",
-    content: "(Test)content2_updated",
+    title: "TEST_title_updated",
+    content: "TEST_content2_updated",
     useFlag: true,
   });
 }
