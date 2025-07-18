@@ -121,14 +121,16 @@ const filterHeaders = computed(() =>
         ...v,
         align: v.align ?? "center",
         filterable: v.filterable ?? false,
-        width: v.width ?? 160,
+        width: v.width ?? 142,
+        minWidth: v.minWidth ?? 142,
       };
     } else if (v.valueType === "datetimeSeconds") {
       return {
         ...v,
         align: v.align ?? "center",
         filterable: v.filterable ?? false,
-        width: v.width ?? 170,
+        width: v.width ?? 150,
+        minWidth: v.minWidth ?? 150,
       };
     } else if (v.valueType === "date") {
       return {
