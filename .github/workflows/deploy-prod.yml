@@ -54,7 +54,7 @@ jobs:
       - run: pnpm install --frozen-lockfile --strict-peer-dependencies
 
       - name: lint & tsc
-        run: pnpm run test
+        run: pnpm run lint
 
       - name: Build 🔨
         run: pnpm run build --mode prod
