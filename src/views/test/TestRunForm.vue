@@ -30,8 +30,7 @@ async function run() {
   result.value = "";
   loading.value = true;
   try {
-    // @ts-expect-error
-    const response: TestResult<unknown> = await props.runFn();
+    const response = (await props.runFn()) as TestResult<unknown>;
     success.value = response.success;
     result.value = JSON.stringify(response.data);
     return response.success;
