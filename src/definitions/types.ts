@@ -109,3 +109,8 @@ export interface FabButtonProp {
   hide?: boolean;
   disabled?: boolean;
 }
+
+export interface LoginRequest {
+  loginId: string;
+  password: string;
+}

@@ -5,9 +5,19 @@
     </v-card-title>
     <v-card-subtitle>ver {{ PRODUCT_VERSION }}</v-card-subtitle>
     <v-card-text style="border: 1px solid #0000001a">
-      <v-form ref="refForm">
+      <v-form
+        ref="refForm"
+        role="form"
+        aria-label="로그인 폼"
+        @submit.prevent="login"
+      >
         <div class="d-inline-flex">
-          <v-radio-group v-model="type" class="required mr-4 mt-1" hide-details>
+          <v-radio-group
+            v-model="type"
+            class="required mr-4 mt-1"
+            hide-details
+            aria-label="사용자 유형 선택"
+          >
             <v-radio :value="UserType.ADMIN" :label="UserType.ADMIN" />
             <v-radio :value="UserType.USER" :label="UserType.USER" />
           </v-radio-group>
@@ -15,10 +25,13 @@
         <v-text-field
           v-model="loginId"
           :hide-details="false"
-          :rules="[required]"
+          :rules="[required, isAlphanumeric]"
           label="아이디"
           name="loginId"
           class="required"
+          autocomplete="username"
+          aria-describedby="loginId-help"
+          maxlength="50"
           @keyup.enter="login"
         />
         <v-text-field
@@ -30,18 +43,26 @@
           :type="showPassword ? 'text' : 'password'"
           name="password"
           class="required"
+          autocomplete="current-password"
+          maxlength="100"
+          :aria-label="
+            showPassword ? '비밀번호 (현재 표시됨)' : '비밀번호 (숨김)'
+          "
           @keyup.enter="login"
           @click:append="showPassword = !showPassword"
         />
         <v-btn
+          type="submit"
           color="primary"
           :loading="loading"
+          :disabled="loading"
           block
           height="40"
           class="mb-4"
+          :aria-label="loading ? '로그인 처리 중...' : '로그인'"
           @click="login"
         >
-          로그인
+          {{ loading ? "처리중..." : "로그인" }}
         </v-btn>
       </v-form>
     </v-card-text>
@@ -55,11 +76,11 @@ import { sha512 } from "js-sha512";
 import { onMounted, onUnmounted, ref } from "vue";
 import { API_HOST, PRODUCT_TITLE, PRODUCT_VERSION } from "@/constants/envs";
 import { UserType } from "@/definitions/selections";
-import type { JwtTokens } from "@/definitions/types";
+import type { JwtTokens, LoginRequest } from "@/definitions/types";
 import { useAdminStore } from "@/stores/admin";
 import { catchError } from "@/utils/apis";
 import { routerReplace } from "@/utils/commands";
-import { required } from "@/utils/rules";
+import { required, isAlphanumeric } from "@/utils/rules";
 
 const loginId = ref("developer");
 const password = ref("1");
@@ -67,11 +88,6 @@ const loading = ref(false);
 const showPassword = ref(false);
 
 const type = ref(UserType.ADMIN);
-
-export interface LoginRequest {
-  loginId: string;
-  password: string;
-}
 
 const refForm = ref();
 const reloadable = ref(true);

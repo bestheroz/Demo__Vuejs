@@ -89,10 +89,9 @@ import { storeToRefs } from "pinia";
 import { ref } from "vue";
 import { API_HOST } from "@/constants/envs";
 import { Authority } from "@/definitions/authorities";
-import type { JwtTokens } from "@/definitions/types";
+import type { JwtTokens, LoginRequest } from "@/definitions/types";
 import { useAdminStore } from "@/stores/admin";
 import { catchError, deleteApi, getApi, postApi, putApi } from "@/utils/apis";
-import type { LoginRequest } from "@/views/login/LoginPage.vue";
 import TestRunForm from "@/views/test/TestRunForm.vue";
 import type { UserCreate } from "@/views/user/management/types";
 
@@ -247,7 +246,7 @@ async function run10() {
       `${API_HOST}api/v1/users/renew-token`,
       {
         headers: {
-          AuthorizationR: `Bearer ${token.value?.refreshToken}`,
+          Authorization: `Bearer ${token.value?.refreshToken}`,
         },
       },
     );
