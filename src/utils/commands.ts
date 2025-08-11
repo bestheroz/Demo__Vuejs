@@ -67,7 +67,7 @@ export async function getNewToken(): Promise<JwtTokens | undefined> {
         })
         .post<JwtTokens>("api/v1/admin/renew-token", null, {
           headers: {
-            AuthorizationR: `Bearer ${await getValidatedRefreshToken()}`,
+            Authorization: `Bearer ${await getValidatedRefreshToken()}`,
           },
         })
     ).data;

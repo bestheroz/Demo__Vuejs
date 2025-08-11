@@ -35,6 +35,14 @@ export interface ApiOptions {
 
 export const pendingRequests: Map<string, AbortController> = new Map();
 
+const DEFAULT_SUCCESS_MESSAGES: Record<string, string> = {
+  get: "조회되었습니다.",
+  post: "등록되었습니다.",
+  put: "수정되었습니다.",
+  patch: "수정되었습니다.",
+  delete: "삭제되었습니다.",
+} as const;
+
 axiosInstance.interceptors.request.use(
   async function (config) {
     if (!config.headers) {
@@ -204,13 +212,6 @@ async function executeRequest<T = never, R = T>(
   } = { ...getDefaultOptions(method, options) };
 
   const controller = new AbortController();
-  const defaultSuccessMessages: Record<string, string> = {
-    get: "조회되었습니다.",
-    post: "등록되었습니다.",
-    put: "수정되었습니다.",
-    patch: "수정되었습니다.",
-    delete: "삭제되었습니다.",
-  };
 
   try {
     if (refLoading) {
@@ -230,7 +231,9 @@ async function executeRequest<T = never, R = T>(
       toast.promise(
         _promise,
         getPromiseMessage(
-          successMessage ?? defaultSuccessMessages[method] ?? "처리되었습니다.",
+          successMessage ??
+            DEFAULT_SUCCESS_MESSAGES[method] ??
+            "처리되었습니다.",
           successAlert,
           failureAlert,
           failureMessage,
