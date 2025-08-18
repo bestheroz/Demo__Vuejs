@@ -37,6 +37,7 @@
 
 <script setup lang="ts">
 import { computed } from "vue";
+import { logger } from "@/utils/logger";
 
 const props = withDefaults(
   defineProps<{
@@ -60,7 +61,7 @@ const maxTooltipWidth = computed((): number => {
     const match = props.tooltipWidth.match(/^(\d*\.?\d+)(px|rem)?$/);
 
     if (!match) {
-      console.warn(`Invalid tooltipWidth format: ${props.tooltipWidth}`);
+      logger.warn(`Invalid tooltipWidth format: ${props.tooltipWidth}`);
       return 0;
     }
 

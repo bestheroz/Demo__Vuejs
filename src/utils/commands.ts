@@ -7,6 +7,7 @@ import { type JwtTokens } from "@/definitions/types";
 import router from "@/router";
 import { useAdminStore } from "@/stores/admin";
 import { stringifyParams } from "@/utils/apis";
+import { logger } from "@/utils/logger";
 
 function formatPath(val: string): string {
   const _path = val.split("?");
@@ -36,7 +37,7 @@ export function isExpiredToken(token: string): boolean {
       dayjs(),
     );
   } catch (e: unknown) {
-    console.warn("Token validation failed:", e);
+    logger.warn("Token validation failed:", e);
     return true;
   }
 }
@@ -45,7 +46,7 @@ export async function signOut(): Promise<void> {
   try {
     await goLoginPage();
   } catch (error) {
-    console.error("Sign out failed:", error);
+    logger.error("Sign out failed:", error);
   }
 }
 
@@ -72,11 +73,11 @@ export async function getNewToken(): Promise<JwtTokens | undefined> {
         })
     ).data;
   } catch (e: unknown) {
-    console.error("Token renewal failed:", e);
+    logger.error("Token renewal failed:", e);
     try {
       await goLoginPage();
     } catch (loginError) {
-      console.error("Login redirect failed:", loginError);
+      logger.error("Login redirect failed:", loginError);
     }
   }
 }

@@ -36,7 +36,7 @@ export function formatDate(
 
 export function isValidDateFormat(value: DateTime | undefined): boolean {
   return (
-    !!value &&
+    Boolean(value) &&
     (value instanceof Date ||
       dayjs(value, DATETIME_SECONDS_FORMAT_STRING).isValid() ||
       dayjs(value, "YYYYMMDDHHmmss").isValid() ||
@@ -51,16 +51,18 @@ export function formatTextOfSelectItem<T = string>(
   codes: SelectItem<T>[] | null,
   value: T,
   defaultLabel?: string,
+  useStrictComparison = false,
 ): string {
   if (!isValidValue(value)) {
     return "-";
   }
-  return (
-    // 간혹 value 가 string|number 가 <T> 와 맞지 않는 케이스가 발생 == 비교로 처리
-    (codes ?? []).find((item) => item.value == value)?.title ??
-    defaultLabel ??
-    (value ?? "-") + ""
-  );
+
+  const items = codes ?? [];
+  const item = useStrictComparison
+    ? items.find((item) => item.value === value)
+    : items.find((item) => item.value == value); // 간혹 value 가 string|number 가 <T> 와 맞지 않는 케이스가 발생
+
+  return item?.title ?? defaultLabel ?? String(value ?? "-");
 }
 export function getValueOfSelectItem<T = string>(
   codes: SelectItem<T>[] | null,
@@ -126,18 +128,12 @@ export function snakeToCamel(str?: string) {
     return m[1].toUpperCase();
   });
 }
+// getTitleByValue는 formatTextOfSelectItem의 별칭으로 사용 (하위 호환성 유지)
 export function getTitleByValue<T = string>(
   codes: SelectItem<T>[] | null,
   value: T,
   defaultLabel?: string,
 ): string {
-  if (value === undefined) {
-    return "-";
-  }
-  return (
-    (codes ?? []).find((item) => item.value === value)?.title ||
-    defaultLabel ||
-    value + "" ||
-    "-"
-  );
+  // 엄격한 비교(===)를 사용하는 버전으로 formatTextOfSelectItem 호출
+  return formatTextOfSelectItem(codes, value, defaultLabel, true);
 }

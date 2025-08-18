@@ -11,6 +11,7 @@ import { toast } from "vue-sonner";
 import { API_HOST } from "@/constants/envs";
 import { useAdminStore } from "@/stores/admin";
 import { getValidatedAccessToken, goLoginPage } from "@/utils/commands";
+import { logger } from "@/utils/logger";
 import { toastError } from "@/utils/toaster";
 
 export const axiosInstance = axios.create({
@@ -46,7 +47,7 @@ const DEFAULT_SUCCESS_MESSAGES: Record<string, string> = {
 axiosInstance.interceptors.request.use(
   async function (config) {
     if (!config.headers) {
-      console.error("Failed to set 'request headers' : headers is not exist");
+      logger.error("Failed to set 'request headers' : headers is not exist");
       return {} as InternalAxiosRequestConfig;
     }
     const accessToken = await getValidatedAccessToken();
@@ -83,7 +84,7 @@ axiosInstance.interceptors.response.use(
     return { ...response, success: Math.floor(response.status / 100) === 2 };
   },
   async function (error: AxiosError) {
-    console.error(error.message);
+    logger.error(error.message);
 
     const requestId = error.config?.headers?.requestId as string;
     if (requestId) {
@@ -111,7 +112,7 @@ axiosInstance.interceptors.response.use(
         return;
       }
     }
-    console.error(error);
+    logger.error(error);
     return Promise.reject(error);
   },
 );
@@ -153,43 +154,62 @@ function getPromiseMessage<T>(
         }
       : undefined,
     error: failureAlert
-      ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        (e: any) => {
-          console.warn(e);
-          return failureMessage ?? e.response?.data?.message ?? e.message;
+      ? (e: unknown) => {
+          logger.warn(e);
+          if (axios.isAxiosError(e)) {
+            return failureMessage ?? e.response?.data?.message ?? e.message;
+          }
+          return (
+            failureMessage ??
+            (e instanceof Error ? e.message : "알 수 없는 오류가 발생했습니다")
+          );
         }
       : undefined,
   };
 }
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function catchError<T>(e: any, alert: boolean = true): ApiResponse<T> {
+export function catchError<T>(
+  e: unknown,
+  alert: boolean = true,
+): ApiResponse<T> {
+  if (!axios.isAxiosError(e)) {
+    logger.error("Non-Axios error:", e);
+    if (alert) {
+      toastError(
+        e instanceof Error ? e.message : "알 수 없는 오류가 발생했습니다",
+      );
+    }
+    throw e;
+  }
+
   if (e.code === "ERR_CANCELED") {
     return {
-      status: e.status,
-      statusText: e.statusText,
-      config: e.config,
-      headers: e.headers,
+      status: e.response?.status ?? 0,
+      statusText: e.response?.statusText ?? "",
+      config: e.config as InternalAxiosRequestConfig,
+      headers: e.response?.headers ?? {},
       request: e.request,
       data: e.response?.data as T,
       success: false,
     };
   }
-  if (Math.floor(e.status / 100) === 4) {
-    console.warn(e);
-    if (alert) {
+
+  const status = e.response?.status ?? 0;
+  if (Math.floor(status / 100) === 4) {
+    logger.warn(e);
+    if (alert && e.response?.data?.message) {
       toastError(e.response.data.message);
     }
     return {
-      status: e.status,
-      statusText: e.statusText,
-      config: e.config,
-      headers: e.headers,
+      status,
+      statusText: e.response?.statusText ?? "",
+      config: e.config as InternalAxiosRequestConfig,
+      headers: e.response?.headers ?? {},
       request: e.request,
-      data: e.response.data as T,
+      data: e.response?.data as T,
       success: false,
     };
   } else {
-    console.error(e);
+    logger.error(e);
     if (alert) {
       toastError(e.response?.data?.message ?? e.message);
     }

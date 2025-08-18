@@ -16,6 +16,7 @@ import PageBreadcrumbs from "@/views/components/breadcrumbs/PageBreadcrumbs.vue"
 import TestAdminForm from "@/views/test/TestAdminForm.vue";
 import TestNoticeForm from "@/views/test/TestNoticeForm.vue";
 import TestUserForm from "@/views/test/TestUserForm.vue";
+import { logger } from "@/utils/logger";
 
 const refTestNoticeForm = ref();
 const refTestUserForm = ref();
@@ -29,7 +30,7 @@ async function runAll() {
       refTestUserForm.value?.runAll(),
     ]);
   } catch (error) {
-    console.error("Test execution failed:", error);
+    logger.error("Test execution failed:", error);
   }
 }
 </script>

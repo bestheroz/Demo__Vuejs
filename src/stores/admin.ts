@@ -2,6 +2,7 @@ import { jwtDecode } from "jwt-decode";
 import { defineStore } from "pinia";
 import type { JwtTokens, TokenClaims } from "@/definitions/types";
 import { getNewToken, signOut } from "@/utils/commands";
+import { logger } from "@/utils/logger";
 interface AdminInfo {
   tokens: JwtTokens;
   info: TokenClaims;
@@ -24,8 +25,8 @@ export const useAdminStore = defineStore("admin", {
   }),
   getters: {
     loggedIn: (state: AdminInfo): boolean =>
-      !!state.tokens.accessToken &&
-      !!state.info.id &&
+      Boolean(state.tokens.accessToken) &&
+      Boolean(state.info.id) &&
       state.tokens.accessToken ===
         window.localStorage.getItem("demo-accessToken") &&
       state.tokens.refreshToken ===
@@ -67,7 +68,7 @@ export const useAdminStore = defineStore("admin", {
         this.info.managerFlag = decoded.managerFlag;
         this.info.authorities = decoded.authorities;
       } catch (error: unknown) {
-        console.error("Failed to decode JWT token:", error);
+        logger.error("Failed to decode JWT token:", error);
         signOut().then();
       }
     },
