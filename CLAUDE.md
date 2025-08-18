@@ -232,3 +232,4 @@ if (await confirmDelete()) {
 - **번들러**: Vite 7.1.2
 - **TypeScript**: ESNext 타겟
 - **API 서버**: 기본 `http://localhost:8000/`
+- 항상 작업 마무리에 pnpm run lint 를 수행해줘.

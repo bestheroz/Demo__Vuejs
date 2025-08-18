@@ -1,47 +1,27 @@
 import { ENVIRONMENT } from "@/constants/envs";
+import { createConsola } from "consola";
 
-type LogLevel = "debug" | "info" | "warn" | "error";
+const consola = createConsola({
+  level: ENVIRONMENT === "prod" ? 3 : 4,
+});
+
+// consola의 LogFn 타입과 호환되는 로거 메서드 타입
+type LogMethod = (message: unknown, ...args: unknown[]) => void;
 
 interface Logger {
-  debug: (...args: unknown[]) => void;
-  info: (...args: unknown[]) => void;
-  warn: (...args: unknown[]) => void;
-  error: (...args: unknown[]) => void;
+  debug: LogMethod;
+  info: LogMethod;
+  warn: LogMethod;
+  error: LogMethod;
 }
 
-const LOG_LEVELS: Record<string, LogLevel[]> = {
-  production: ["error"],
-  sandbox: ["warn", "error"],
-  local: ["debug", "info", "warn", "error"],
-};
-
-const allowedLevels = LOG_LEVELS[ENVIRONMENT] || LOG_LEVELS.local;
-
-const shouldLog = (level: LogLevel): boolean => {
-  return allowedLevels.includes(level);
-};
-
+// consola 메서드를 직접 바인딩하여 타입 안정성 확보
 export const logger: Logger = {
-  debug: (...args: unknown[]) => {
-    if (shouldLog("debug")) {
-      console.log("[DEBUG]", ...args);
-    }
-  },
-  info: (...args: unknown[]) => {
-    if (shouldLog("info")) {
-      console.info("[INFO]", ...args);
-    }
-  },
-  warn: (...args: unknown[]) => {
-    if (shouldLog("warn")) {
-      console.warn("[WARN]", ...args);
-    }
-  },
-  error: (...args: unknown[]) => {
-    if (shouldLog("error")) {
-      console.error("[ERROR]", ...args);
-    }
-  },
+  debug: consola.log.bind(consola),
+  info: consola.info.bind(consola),
+  warn: consola.warn.bind(consola),
+  error: consola.error.bind(consola),
 };
 
+// default export도 제공하여 import 유연성 확보
 export default logger;
