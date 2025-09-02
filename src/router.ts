@@ -1,4 +1,3 @@
-import { CanceledError } from "axios";
 import type { NavigationGuardNext, RouteRecordRaw } from "vue-router";
 import { createRouter, createWebHistory } from "vue-router";
 import { useAdminStore } from "@/stores/admin";
@@ -137,15 +136,7 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   pendingRequests.forEach((controller) => {
-    try {
-      controller.abort(`Route change: ${from.path} to ${to.path}`);
-    } catch (e: unknown) {
-      if (e instanceof CanceledError) {
-        // ignore
-      } else {
-        throw e;
-      }
-    }
+    controller.abort(`Route change: ${from.path} to ${to.path}`);
   });
   pendingRequests.clear();
   next();

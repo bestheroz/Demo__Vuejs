@@ -22,6 +22,3 @@ export const logger: Logger = {
   warn: consola.warn.bind(consola),
   error: consola.error.bind(consola),
 };
-
-// default export도 제공하여 import 유연성 확보
-export default logger;
