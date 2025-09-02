@@ -38,6 +38,7 @@ npm run lint
 - ESLint 자동 수정 포함 (`--fix`)
 - Vue TypeScript 컴파일러 검사 (`vue-tsc --noEmit`)
 - 두 작업이 순차적으로 실행됨
+- **중요**: 작업 완료 후 항상 실행
 
 ## 환경 변수 설정
 
@@ -145,6 +146,10 @@ VITE_TIME_FORMAT_STRING="HH:mm"
 - 토큰 검증: `isExpiredToken()`, `getValidatedAccessToken()`, `getValidatedRefreshToken()`
 - 인증 플로우: `signOut()`, `goLoginPage()`, `getNewToken()`
 
+**Logger (`src/utils/logger.ts`)**:
+- 환경별 로그 레벨 자동 설정 (개발: 5, 프로덕션: 2)
+- consola 기반 통합 로깅 시스템
+
 ### Composables
 
 **`useEditList` (`src/composition/useEditList.ts`)**:
@@ -227,9 +232,13 @@ if (await confirmDelete()) {
 ```
 
 ## 환경 설정
-- **Node.js**: 22.18.0 (Volta로 버전 고정)
+- **Node.js**: 22.19.0 (Volta로 버전 고정)
 - **패키지 매니저**: PNPM 권장
-- **번들러**: Vite 7.1.2
+- **번들러**: Vite 7.1.4
 - **TypeScript**: ESNext 타겟
 - **API 서버**: 기본 `http://localhost:8000/`
-- 항상 작업 마무리에 pnpm run lint 를 수행해줘.
+
+## 작업 완료 체크리스트
+- 코드 변경 후 항상 `pnpm lint` 실행하여 코드 품질 검증
+- TypeScript 타입 에러 확인 (vue-tsc 포함)
+- ESLint 규칙 준수 확인
