@@ -32,7 +32,7 @@
         <v-select
           v-model="filter[index]"
           :items="[
-            { title: '전체', value: undefined },
+            { title: '전체', value: null },
             { title: '사용', value: true },
             { title: '미사용', value: false },
           ]"
@@ -47,7 +47,7 @@
         >
           <template #prepend-inner>
             <v-icon
-              v-if="filter[index] !== undefined"
+              v-if="filter[index] !== null"
               size="small"
               :color="filter[index] === true ? 'primary' : 'grey'"
             >
@@ -97,7 +97,7 @@ const emits = defineEmits<{
 }>();
 
 const filter = ref<(string | boolean | null | undefined)[]>(
-  fill(Array(props.filterHeader.length), undefined),
+  fill(Array(props.filterHeader.length), null),
 );
 const finalFilterHeader = computed<DataTableHeader[]>(() =>
   props.filterHeader.map((v, index) => ({
@@ -110,7 +110,7 @@ const filterMap = computed(() => finalFilterHeader.value.map((v) => v.key));
 watchDebounced(
   () => props.filterHeader,
   (v) => {
-    filter.value = fill(Array(v.length), undefined);
+    filter.value = fill(Array(v.length), null);
   },
   { debounce: 100 },
 );
@@ -149,9 +149,10 @@ watchDebounced(
   border-bottom: 1px solid rgba(var(--v-theme-on-surface), 0.08);
 
   .filter-cell {
-    padding: 2px 4px;
+    padding: 1px 4px;
     position: relative;
     vertical-align: middle;
+    height: 100%;
 
     &--disabled {
       background: transparent;
@@ -195,7 +196,7 @@ watchDebounced(
 
     :deep(.v-field__input) {
       padding: 0 12px;
-      min-height: 32px;
+      min-height: 28px;
       font-size: 0.875rem;
     }
 

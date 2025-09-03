@@ -265,8 +265,18 @@ defineExpose({ reload });
   :deep(tbody tr) {
     transition: background-color 0.2s ease;
 
+    // 홀수 행 (1, 3, 5...)
+    &:nth-child(odd) {
+      background: rgba(var(--v-theme-surface), 1);
+    }
+
+    // 짝수 행 (2, 4, 6...)
+    &:nth-child(even) {
+      background: rgba(var(--v-theme-surface-variant), 0.03);
+    }
+
     &:hover {
-      background: rgba(var(--v-theme-primary), 0.04);
+      background: rgba(var(--v-theme-primary), 0.04) !important;
     }
   }
 
