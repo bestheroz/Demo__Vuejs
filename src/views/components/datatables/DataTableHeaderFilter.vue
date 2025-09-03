@@ -32,7 +32,7 @@
         <v-select
           v-model="filter[index]"
           :items="[
-            { title: '전체', value: null },
+            { title: '전체', value: undefined },
             { title: '사용', value: true },
             { title: '미사용', value: false },
           ]"
@@ -47,7 +47,7 @@
         >
           <template #prepend-inner>
             <v-icon
-              v-if="filter[index] !== null && filter[index] !== undefined"
+              v-if="filter[index] !== undefined"
               size="small"
               :color="filter[index] === true ? 'primary' : 'grey'"
             >
@@ -70,11 +70,7 @@
           :clearable="true"
           class="filter-input"
           v-else-if="data.filterable !== false"
-        >
-          <template #prepend-inner>
-            <v-icon size="small" color="grey">mdi-magnify</v-icon>
-          </template>
-        </v-text-field>
+        />
       </td>
     </tr>
   </thead>
@@ -100,8 +96,8 @@ const emits = defineEmits<{
   (e: "update:model-value", v: string): void;
 }>();
 
-const filter = ref<(string | boolean | null)[]>(
-  fill(Array(props.filterHeader.length), ""),
+const filter = ref<(string | boolean | null | undefined)[]>(
+  fill(Array(props.filterHeader.length), undefined),
 );
 const finalFilterHeader = computed<DataTableHeader[]>(() =>
   props.filterHeader.map((v, index) => ({
@@ -114,7 +110,7 @@ const filterMap = computed(() => finalFilterHeader.value.map((v) => v.key));
 watchDebounced(
   () => props.filterHeader,
   (v) => {
-    filter.value = fill(Array(v.length), "");
+    filter.value = fill(Array(v.length), undefined);
   },
   { debounce: 100 },
 );
