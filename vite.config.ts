@@ -35,10 +35,6 @@ export default defineConfig(({ command }) => {
     plugins: plugins,
     server: {
       port: 3000,
-      // Hot Module Replacement
-      hmr: {
-        overlay: isServe,
-      },
     },
     resolve: {
       alias: {
