@@ -9,7 +9,7 @@ import vuetify, { transformAssetUrls } from "vite-plugin-vuetify";
 
 const projectRootDir = resolve(__dirname);
 export default defineConfig(({ command }) => {
-  const isServe = command === "serve";
+  const isDev = command === "dev";
   const isBuild = command === "build";
 
   const plugins: (Plugin[] | PluginOption)[] = [
@@ -21,14 +21,14 @@ export default defineConfig(({ command }) => {
     tsconfigPaths(),
     {
       ...eslint({ fix: true, lintInWorker: true }),
-      apply: "serve",
+      apply: "dev",
     },
     {
       ...checker({
         vueTsc: true,
         typescript: true,
       }),
-      apply: "serve",
+      apply: "dev",
     },
   ];
   return {
@@ -37,7 +37,7 @@ export default defineConfig(({ command }) => {
       port: 3000,
       // Hot Module Replacement
       hmr: {
-        overlay: isServe,
+        overlay: isDev,
       },
     },
     resolve: {
@@ -46,7 +46,7 @@ export default defineConfig(({ command }) => {
       },
     },
     css: {
-      devSourcemap: isServe,
+      devSourcemap: isDev,
     },
     build: {
       target: "esnext",
