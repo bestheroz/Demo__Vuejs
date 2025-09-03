@@ -76,5 +76,8 @@
       height: 1.8rem;
       padding: 2px 8px;
     }
+    .mdi-close-circle::before {
+      display: none;
+    }
   }
 }

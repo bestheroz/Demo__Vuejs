@@ -104,7 +104,7 @@ export interface FabButtonProp {
   title: string;
   color: string;
   onClick: () => void;
-  icon?: boolean;
+  icon?: string;
   size?: number;
   hide?: boolean;
   disabled?: boolean;
