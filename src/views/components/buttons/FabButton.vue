@@ -1,8 +1,9 @@
 <template>
   <v-fab
     absolute
-    :color="open ? 'grey-darken-4' : color"
+    :color="open ? '' : color"
     :location="location"
+    size="large"
     icon
     :style="{
       margin: margin + 'px',
@@ -28,21 +29,6 @@
         variant="elevated"
         rounded="pill"
         :elevation="8"
-        :style="{
-          marginBottom:
-            index < modelValue.filter((v) => !v.hide).length - 1 ? '12px' : '0',
-          minWidth: '160px',
-          background:
-            item.color === 'blue-darken-2'
-              ? 'linear-gradient(135deg, #1565C0 0%, #0D47A1 100%)'
-              : item.color === 'grey-darken-2'
-                ? 'linear-gradient(135deg, #616161 0%, #424242 100%)'
-                : '',
-          border: '2px solid rgba(255,255,255,0.15)',
-          transition: 'all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1)',
-          animationDelay: `${index * 0.08}s`,
-          fontWeight: '600',
-        }"
         class="fab-menu-item"
         @click="item.onClick"
       >
