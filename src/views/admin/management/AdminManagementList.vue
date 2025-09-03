@@ -14,18 +14,33 @@
           <v-data-table-footer />
         </template>
         <template #[`item.id`]="{ item }">
-          <a href="javascript:void(0)" @click="onClickEdit(item)">
+          <v-chip
+            color="primary"
+            variant="tonal"
+            size="small"
+            class="cursor-pointer font-weight-medium"
+            @click="onClickEdit(item)"
+          >
             {{ item.id }}
-          </a>
+          </v-chip>
         </template>
         <template #[`item.action`]="{ item }">
-          <v-btn
-            v-if="item.id !== info.id"
-            color="error"
-            icon="mdi-delete"
-            variant="plain"
-            @click="onClickRemove(item)"
-          />
+          <div class="d-flex justify-center gap-1">
+            <v-tooltip text="삭제" location="top">
+              <template v-slot:activator="{ props }">
+                <v-btn
+                  v-if="item.id !== info.id"
+                  v-bind="props"
+                  icon="mdi-delete-outline"
+                  size="small"
+                  variant="tonal"
+                  color="error"
+                  density="comfortable"
+                  @click="onClickRemove(item)"
+                />
+              </template>
+            </v-tooltip>
+          </div>
         </template>
       </DataTableServerWithFilter>
     </v-card-text>
@@ -65,7 +80,7 @@ const { authorities, info } = storeToRefs(useAdminStore());
 
 const headers = computed(() => {
   const headers: DataTableHeader[] = [
-    { title: "ID(KEY)", key: "id" },
+    { title: "ID(KEY)", key: "id", valueType: "ID" },
     { title: "로그인 아이디", key: "loginId" },
     { title: "관리자 명", key: "name" },
     { title: "사용 여부", key: "useFlag", valueType: "switch" },
@@ -112,13 +127,15 @@ const refDataTableServerWithFilter = ref();
 const fabButton = ref<FabButtonProp[]>([
   {
     title: "추가",
-    color: "primary",
+    color: "blue-darken-2",
+    icon: "mdi-plus-circle",
     onClick: onClickAdd,
     hide: !authorities.value.includes(Authority.ADMIN_EDIT),
   },
   {
     title: "재조회",
-    color: "secondary",
+    color: "grey-darken-2",
+    icon: "mdi-refresh",
     onClick: () => refDataTableServerWithFilter.value.reload(),
   },
 ]);

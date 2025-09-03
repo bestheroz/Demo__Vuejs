@@ -14,17 +14,32 @@
           <v-data-table-footer />
         </template>
         <template #[`item.id`]="{ item }">
-          <a href="javascript:void(0)" @click="onClickEdit(item)">
+          <v-chip
+            color="primary"
+            variant="tonal"
+            size="small"
+            class="cursor-pointer font-weight-medium"
+            @click="onClickEdit(item)"
+          >
             {{ item.id }}
-          </a>
+          </v-chip>
         </template>
         <template #[`item.action`]="{ item }">
-          <v-btn
-            color="error"
-            variant="plain"
-            icon="mdi-delete"
-            @click="onClickRemove(item)"
-          />
+          <div class="d-flex justify-center gap-1">
+            <v-tooltip text="삭제" location="top">
+              <template v-slot:activator="{ props }">
+                <v-btn
+                  v-bind="props"
+                  icon="mdi-delete-outline"
+                  size="small"
+                  variant="tonal"
+                  color="error"
+                  density="comfortable"
+                  @click="onClickRemove(item)"
+                />
+              </template>
+            </v-tooltip>
+          </div>
         </template>
       </DataTableServerWithFilter>
     </v-card-text>
@@ -113,13 +128,15 @@ const refDataTableServerWithFilter = ref();
 const fabButton = ref<FabButtonProp[]>([
   {
     title: "추가",
-    color: "primary",
+    color: "blue-darken-2",
+    icon: "mdi-plus-circle",
     onClick: onClickAdd,
     hide: !authorities.value.includes(Authority.USER_EDIT),
   },
   {
     title: "재조회",
-    color: "secondary",
+    color: "grey-darken-2",
+    icon: "mdi-refresh",
     onClick: () => refDataTableServerWithFilter.value.reload(),
   },
 ]);
