@@ -1,52 +1,80 @@
 <template>
   <thead>
     <tr id="datatable-header-filter" class="text-center">
-      <td v-if="!filterFirstColumn" />
+      <td v-if="!filterFirstColumn" class="filter-cell" />
       <td
         v-for="(data, index) in finalFilterHeader"
         :key="data.key"
-        :style="{
-          boxShadow:
-            data.filterable === false
-              ? '0 2px 2px -2px rgba(211, 211, 211, 0.4), 0 4px 6px -3px rgba(0, 0, 0, 0.08)'
-              : '',
-        }"
+        class="filter-cell"
+        :class="{ 'filter-cell--disabled': data.filterable === false }"
       >
-        <div></div>
         <v-autocomplete
           v-model.trim="filter[index]"
           :items="data.filterSelectItem"
-          variant="outlined"
+          variant="solo-filled"
+          density="compact"
+          flat
           hide-details
-          width="98%"
-          style="justify-self: center"
+          single-line
+          :placeholder="`${data.title} 검색`"
+          :clearable="true"
+          class="filter-input"
           v-if="
             data.filterable !== false &&
             data.filterType === 'select' &&
             data.filterSelectItem
           "
-        />
+        >
+          <template #prepend-inner>
+            <v-icon size="small" color="grey">mdi-filter-variant</v-icon>
+          </template>
+        </v-autocomplete>
         <v-select
-          v-model.trim="filter[index]"
+          v-model="filter[index]"
           :items="[
-            { title: '예', value: true },
-            { title: '아니요', value: false },
+            { title: '전체', value: null },
+            { title: '사용', value: true },
+            { title: '미사용', value: false },
           ]"
-          variant="outlined"
+          variant="solo-filled"
+          density="compact"
+          flat
           hide-details
-          width="95%"
-          style="justify-self: center"
+          single-line
+          :clearable="false"
+          class="filter-input"
           v-else-if="data.filterable !== false && data.filterType === 'switch'"
-        />
+        >
+          <template #prepend-inner>
+            <v-icon
+              v-if="filter[index] !== null && filter[index] !== undefined"
+              size="small"
+              :color="filter[index] === true ? 'primary' : 'grey'"
+            >
+              {{
+                filter[index] === true
+                  ? "mdi-toggle-switch"
+                  : "mdi-toggle-switch-off-outline"
+              }}
+            </v-icon>
+          </template>
+        </v-select>
         <v-text-field
           v-model.trim="filter[index]"
-          variant="outlined"
+          variant="solo-filled"
+          density="compact"
+          flat
           hide-details
-          width="99%"
-          height="20px"
-          style="justify-self: center"
+          single-line
+          :placeholder="`${data.title} 검색`"
+          :clearable="true"
+          class="filter-input"
           v-else-if="data.filterable !== false"
-        />
+        >
+          <template #prepend-inner>
+            <v-icon size="small" color="grey">mdi-magnify</v-icon>
+          </template>
+        </v-text-field>
       </td>
     </tr>
   </thead>
@@ -72,7 +100,9 @@ const emits = defineEmits<{
   (e: "update:model-value", v: string): void;
 }>();
 
-const filter = ref<string[]>(fill(Array(props.filterHeader.length), ""));
+const filter = ref<(string | boolean | null)[]>(
+  fill(Array(props.filterHeader.length), ""),
+);
 const finalFilterHeader = computed<DataTableHeader[]>(() =>
   props.filterHeader.map((v, index) => ({
     ...v,
@@ -97,8 +127,14 @@ watchDebounced(
       stringifyParams(
         filter.value.reduce(
           (acc, cur, index) => {
+            // undefined, null, 빈 문자열은 필터에서 제외
             if (cur === undefined || cur === "" || cur === null) return acc;
-            if (filterMap.value[index]) {
+
+            // boolean 값만 문자열로 변환하여 전송
+            if (filterMap.value[index] && typeof cur === "boolean") {
+              acc[filterMap.value[index]] = String(cur);
+            } else if (filterMap.value[index] && typeof cur === "string") {
+              // 문자열 값은 그대로 전송
               acc[filterMap.value[index]] = cur;
             }
             return acc;
@@ -113,20 +149,76 @@ watchDebounced(
 </script>
 <style lang="scss" scoped>
 #datatable-header-filter {
-  :deep(input) {
-    padding: 2px 8px;
-    min-height: 1.8rem;
+  background: rgba(var(--v-theme-surface-variant), 0.04);
+  border-bottom: 1px solid rgba(var(--v-theme-on-surface), 0.08);
+
+  .filter-cell {
+    padding: 2px 4px;
+    position: relative;
+    vertical-align: middle;
+
+    &--disabled {
+      background: transparent;
+
+      &::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: repeating-linear-gradient(
+          45deg,
+          transparent,
+          transparent 10px,
+          rgba(var(--v-theme-on-surface), 0.03) 10px,
+          rgba(var(--v-theme-on-surface), 0.03) 20px
+        );
+        pointer-events: none;
+      }
+    }
   }
-  :deep(.v-field__input) {
-    padding: 2px 8px;
-    min-height: 1.8rem;
-  }
-  :deep(.v-input--density-compact) {
-    height: 1.8rem;
-  }
-  :deep(td) {
-    padding: 0;
-    height: 1.8rem;
+
+  .filter-input {
+    width: 100%;
+    max-width: 100%;
+
+    :deep(.v-field) {
+      background: rgba(var(--v-theme-surface), 0.9);
+      border-radius: 6px;
+      transition: all 0.2s ease;
+
+      &:hover {
+        background: rgba(var(--v-theme-surface), 1);
+      }
+
+      &.v-field--focused {
+        background: rgba(var(--v-theme-surface), 1);
+        box-shadow:
+          0 0 0 2px rgba(var(--v-theme-primary), 0.1),
+          0 0 0 1px rgba(var(--v-theme-primary), 0.3);
+      }
+    }
+
+    :deep(.v-field__input) {
+      padding: 0 12px;
+      min-height: 32px;
+      font-size: 0.875rem;
+    }
+
+    :deep(.v-field__prepend-inner) {
+      padding-left: 8px;
+    }
+
+    :deep(.v-field__append-inner) {
+      padding-right: 4px;
+    }
+
+    :deep(.v-field__clearable) {
+      margin-inline-start: 2px;
+    }
+
+    :deep(input::placeholder) {
+      color: rgba(var(--v-theme-on-surface), 0.3);
+      font-size: 0.8125rem;
+    }
   }
 }
 </style>
