@@ -21,14 +21,14 @@ export default defineConfig(({ command }) => {
     tsconfigPaths(),
     {
       ...eslint({ fix: true, lintInWorker: true }),
-      apply: "serve",
+      apply: isServe,
     },
     {
       ...checker({
         vueTsc: true,
         typescript: true,
       }),
-      apply: "serve",
+      apply: isServe,
     },
   ];
   return {
