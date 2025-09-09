@@ -2,7 +2,7 @@ import { ENVIRONMENT } from "@/constants/envs";
 import { createConsola } from "consola";
 
 const consola = createConsola({
-  level: ENVIRONMENT === "prod" ? 3 : 4,
+  level: ENVIRONMENT === "prod" ? 3 : 5,
 });
 
 // consola의 LogFn 타입과 호환되는 로거 메서드 타입
