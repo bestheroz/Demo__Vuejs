@@ -10,13 +10,13 @@ Vue.js 3 + TypeScript + Vuetify를 사용한 관리자 대시보드 프로젝트
 
 ### 개발 서버 실행
 ```bash
-pnpm serve
+pnpm dev
 # 또는
-npm run serve
+npm run dev
 ```
 - 포트: 3000
 - HMR 활성화
-- 실시간 ESLint 검사 (serve 모드에서만)
+- 실시간 ESLint 검사 (개발 모드에서만)
 - Vite checker 플러그인으로 TypeScript 실시간 검사
 
 ### 빌드
@@ -234,7 +234,7 @@ if (await confirmDelete()) {
 ## 환경 설정
 - **Node.js**: 22.19.0 (Volta로 버전 고정)
 - **패키지 매니저**: PNPM 권장
-- **번들러**: Vite 7.1.4
+- **번들러**: Vite 7.1.9
 - **TypeScript**: ESNext 타겟
 - **API 서버**: 기본 `http://localhost:8000/`
 
