@@ -232,9 +232,9 @@ if (await confirmDelete()) {
 ```
 
 ## 환경 설정
-- **Node.js**: 22.19.0 (Volta로 버전 고정)
+- **Node.js**: 22.21.0 (Volta로 버전 고정)
 - **패키지 매니저**: PNPM 권장
-- **번들러**: Vite 7.1.9
+- **번들러**: Vite 7.1.12
 - **TypeScript**: ESNext 타겟
 - **API 서버**: 기본 `http://localhost:8000/`
 
@@ -242,3 +242,4 @@ if (await confirmDelete()) {
 - 코드 변경 후 항상 `pnpm lint` 실행하여 코드 품질 검증
 - TypeScript 타입 에러 확인 (vue-tsc 포함)
 - ESLint 규칙 준수 확인
+- 개발 서버가 실행 중이면 HMR 및 실시간 타입 체크 자동 수행
