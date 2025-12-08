@@ -1,5 +1,5 @@
 import type { UnwrapRef } from "vue";
-import { ref } from "vue";
+import { ref, toRaw } from "vue";
 
 export default function useEditList<T>(initItemFunc: () => T) {
   const items = ref<T[]>([]);
@@ -14,7 +14,7 @@ export default function useEditList<T>(initItemFunc: () => T) {
   };
 
   const onClickEdit = (val: T): void => {
-    editItem.value = structuredClone(val) as UnwrapRef<T>;
+    editItem.value = structuredClone(toRaw(val)) as UnwrapRef<T>;
     dialog.value = true;
   };
 
