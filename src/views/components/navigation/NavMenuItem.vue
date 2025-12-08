@@ -41,14 +41,6 @@ function movePage(item: Drawer): void {
   if (!item.url || item.url === route.fullPath) {
     return;
   }
-  if (item.type === "W") {
-    popupWindow(item.url);
-  } else if (item.url) {
-    routerPush(item.url);
-  }
-}
-
-function popupWindow(url: string): void {
-  window.open(url, "_blank");
+  routerPush(item.url);
 }
 </script>

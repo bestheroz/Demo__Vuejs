@@ -120,13 +120,11 @@ export function formatFileSizeToKb(bytes?: number) {
   // 소수점 둘째자리까지만 표시
   return formatNumber(bytes / 1024) + " KB";
 }
-export function snakeToCamel(str?: string) {
+export function snakeToCamel(str?: string): string {
   if (!str) {
     return "";
   }
-  return str.toLowerCase().replace(/(_\w)/g, function (m) {
-    return m[1].toUpperCase();
-  });
+  return str.toLowerCase().replace(/(_\w)/g, (m) => m[1].toUpperCase());
 }
 // getTitleByValue는 formatTextOfSelectItem의 별칭으로 사용 (하위 호환성 유지)
 export function getTitleByValue<T = string>(

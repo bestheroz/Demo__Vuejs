@@ -74,12 +74,16 @@ const { authorities } = storeToRefs(useAdminStore());
 const hasRequiredAuthority = (val: Drawer): boolean =>
   !val.authority || authorities.value.includes(val.authority);
 
-const filteredDrawer = computed<Drawer[]>(() =>
-  DRAWERS.filter(hasRequiredAuthority)
-    .map((v) => ({
-      ...v,
-      children: v.children?.filter(hasRequiredAuthority) ?? [],
-    }))
-    .filter((v) => v.children.length > 0),
-);
+const filteredDrawer = computed<Drawer[]>(() => {
+  const result: Drawer[] = [];
+  for (const drawer of DRAWERS) {
+    if (!hasRequiredAuthority(drawer)) continue;
+    const filteredChildren =
+      drawer.children?.filter(hasRequiredAuthority) ?? [];
+    if (filteredChildren.length > 0) {
+      result.push({ ...drawer, children: filteredChildren });
+    }
+  }
+  return result;
+});
 </script>
