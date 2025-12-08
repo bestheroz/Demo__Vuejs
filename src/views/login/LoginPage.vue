@@ -60,7 +60,6 @@
           height="40"
           class="mb-4"
           :aria-label="loading ? '로그인 처리 중...' : '로그인'"
-          @click="login"
         >
           {{ loading ? "처리중..." : "로그인" }}
         </v-btn>

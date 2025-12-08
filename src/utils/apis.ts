@@ -312,7 +312,7 @@ export async function deleteApi<T = never, R = T>(
 }
 
 export function stringifyParams(obj: Record<string, unknown>): string {
-  const safeObject = new Map(
+  const sanitizedObject = Object.fromEntries(
     Object.entries(obj).filter(([_, value]) => {
       if (value === null || value === undefined) return false;
       if (typeof value === "string") return value.trim() !== "";
@@ -321,8 +321,6 @@ export function stringifyParams(obj: Record<string, unknown>): string {
       return value !== "";
     }),
   );
-
-  const sanitizedObject = Object.fromEntries(safeObject);
 
   return stringify(sanitizedObject, {
     arrayFormat: "repeat",

@@ -1,7 +1,7 @@
 <template>
   <v-menu>
     <template #activator="{ props }">
-      <div class="mr-4">Developer</div>
+      <div class="mr-4">{{ info.name }}</div>
       <v-btn icon size="36" v-bind="props" class="mr-6">
         <v-avatar size="36" color="rgb(var(--v-theme-secondary))">
           <v-icon size="24" color="white">mdi-account</v-icon>
@@ -19,5 +19,9 @@
   </v-menu>
 </template>
 <script setup lang="ts">
+import { storeToRefs } from "pinia";
+import { useAdminStore } from "@/stores/admin";
 import { signOut } from "@/utils/commands";
+
+const { info } = storeToRefs(useAdminStore());
 </script>

@@ -107,7 +107,7 @@ export function formatNumber(
   if (isNaN(numValue)) {
     return defaultValue;
   }
-  return parseFloat(value + "").toLocaleString("en-US", {
+  return numValue.toLocaleString("en-US", {
     minimumFractionDigits: fractionDigits,
     maximumFractionDigits: fractionDigits,
   });
