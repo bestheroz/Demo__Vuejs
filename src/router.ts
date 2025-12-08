@@ -1,11 +1,20 @@
-import type { NavigationGuardNext, RouteRecordRaw } from "vue-router";
+import type {
+  NavigationGuardNext,
+  RouteLocationNormalized,
+  RouteRecordRaw,
+} from "vue-router";
 import { createRouter, createWebHistory } from "vue-router";
 import { useAdminStore } from "@/stores/admin";
 import { pendingRequests } from "@/utils/apis";
 import { goLoginPage } from "@/utils/commands";
 
 const requireAuth =
-  () => async (_to: unknown, _from: unknown, next: NavigationGuardNext) => {
+  () =>
+  async (
+    _to: RouteLocationNormalized,
+    _from: RouteLocationNormalized,
+    next: NavigationGuardNext,
+  ) => {
     const { loggedIn } = useAdminStore();
     if (!loggedIn) {
       await goLoginPage();

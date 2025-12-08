@@ -1,4 +1,4 @@
-import dayjs, { extend } from "dayjs";
+import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import {
   DATE_FORMAT_STRING,
@@ -8,7 +8,7 @@ import {
 import type { DateTime, SelectItem } from "@/definitions/types";
 import { isEmpty, isValidValue } from "@/utils/rules";
 
-extend(customParseFormat);
+dayjs.extend(customParseFormat);
 
 export function formatDatetimeSeconds(
   value?: DateTime,

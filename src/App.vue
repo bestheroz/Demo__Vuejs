@@ -72,8 +72,8 @@ onMounted(async () => {
   transition-timing-function: ease;
 }
 
-.fade-enter,
-.fade-leave-active {
+.fade-enter-from,
+.fade-leave-to {
   opacity: 0;
 }
 </style>

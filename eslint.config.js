@@ -1,5 +1,4 @@
-import tseslint from "@typescript-eslint/eslint-plugin";
-import tsparser from "@typescript-eslint/parser";
+import tseslint from "typescript-eslint";
 import eslintConfigPrettier from "@vue/eslint-config-prettier";
 import vueeslint from "eslint-plugin-vue";
 import vueParser from "vue-eslint-parser";
@@ -17,7 +16,7 @@ export default [
     languageOptions: {
       parser: vueParser,
       parserOptions: {
-        parser: tsparser,
+        parser: tseslint.parser,
         ecmaVersion: "latest",
         sourceType: "module",
         project: "./tsconfig.json",
@@ -40,7 +39,7 @@ export default [
       reportUnusedDisableDirectives: true,
     },
     plugins: {
-      "@typescript-eslint": tseslint,
+      "@typescript-eslint": tseslint.plugin,
       vue: vueeslint,
       vuetify: vuetifyeslint,
       import: importPlugin,
@@ -48,7 +47,7 @@ export default [
     },
     rules: {
       /* TypeScript 관련 규칙 */
-      ...tseslint.configs.recommended.rules,
+      ...tseslint.configs.recommended.at(-1).rules,
       "@typescript-eslint/ban-ts-comment": "off",
       "@typescript-eslint/no-unused-vars": [
         "error",

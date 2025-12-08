@@ -193,7 +193,7 @@ const filterHeaders = computed(() =>
         width: v.width ?? "8rem",
         maxWidth: v.maxWidth ?? "8rem",
       };
-    } else if (!!v.valueSelectItem) {
+    } else if (v.valueSelectItem) {
       return {
         ...v,
         valueSelectItem: v.valueSelectItem,
