@@ -3,11 +3,12 @@ import dayjs from "dayjs";
 import { jwtDecode } from "jwt-decode";
 import { parse } from "qs";
 import { API_HOST } from "@/constants/envs";
-import { type JwtTokens } from "@/definitions/types";
+import type { JwtTokens } from "@/definitions/types";
 import router from "@/router";
 import { useAdminStore } from "@/stores/admin";
 import { stringifyParams } from "@/utils/apis";
 import { logger } from "@/utils/logger";
+import { tokenStorage } from "@/utils/storage";
 
 function formatPath(val: string): string {
   const _path = val.split("?");
@@ -83,7 +84,7 @@ export async function getNewToken(): Promise<JwtTokens | undefined> {
 }
 
 export async function getValidatedAccessToken(): Promise<string> {
-  let accessToken = window.localStorage.getItem("demo-accessToken");
+  let accessToken = tokenStorage.getAccessToken();
   if (!accessToken || accessToken === "undefined") {
     await signOut();
     return "";
@@ -93,7 +94,7 @@ export async function getValidatedAccessToken(): Promise<string> {
     if (isExpiredToken(accessToken)) {
       const { reIssueAccessToken } = useAdminStore();
       await reIssueAccessToken();
-      accessToken = window.localStorage.getItem("demo-accessToken");
+      accessToken = tokenStorage.getAccessToken();
     }
   } catch (_: unknown) {
     await signOut();
@@ -102,7 +103,7 @@ export async function getValidatedAccessToken(): Promise<string> {
 }
 
 export async function getValidatedRefreshToken(): Promise<string> {
-  const refreshToken = window.localStorage.getItem("demo-refreshToken");
+  const refreshToken = tokenStorage.getRefreshToken();
   if (!refreshToken || isExpiredToken(refreshToken)) {
     await signOut();
     return "";

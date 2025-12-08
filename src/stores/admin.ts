@@ -3,6 +3,8 @@ import { defineStore } from "pinia";
 import type { JwtTokens, TokenClaims } from "@/definitions/types";
 import { getNewToken, signOut } from "@/utils/commands";
 import { logger } from "@/utils/logger";
+import { tokenStorage } from "@/utils/storage";
+
 interface AdminInfo {
   tokens: JwtTokens;
   info: TokenClaims;
@@ -27,27 +29,18 @@ export const useAdminStore = defineStore("admin", {
     loggedIn: (state: AdminInfo): boolean =>
       Boolean(state.tokens.accessToken) &&
       Boolean(state.info.id) &&
-      state.tokens.accessToken ===
-        window.localStorage.getItem("demo-accessToken") &&
-      state.tokens.refreshToken ===
-        window.localStorage.getItem("demo-refreshToken"),
+      state.tokens.accessToken === tokenStorage.getAccessToken() &&
+      state.tokens.refreshToken === tokenStorage.getRefreshToken(),
     authorities: (state: AdminInfo): string[] => state.info.authorities,
   },
   actions: {
     clearAdmin(): void {
-      window.localStorage.removeItem("demo-accessToken");
-      window.localStorage.removeItem("demo-refreshToken");
-      this.tokens = { accessToken: "", refreshToken: "" };
-      this.info.id = 0;
-      this.info.loginId = "";
-      this.info.name = "";
-      this.info.type = "";
-      this.info.managerFlag = false;
-      this.info.authorities = [];
+      tokenStorage.clearTokens();
+      this.$reset();
     },
 
     async reIssueAccessToken(): Promise<void> {
-      window.localStorage.removeItem("demo-accessToken");
+      tokenStorage.removeAccessToken();
       this.tokens.accessToken = "";
       const newToken = await getNewToken();
       if (newToken) {
@@ -57,16 +50,17 @@ export const useAdminStore = defineStore("admin", {
 
     saveTokens(tokens: JwtTokens): void {
       try {
-        window.localStorage.setItem("demo-accessToken", tokens.accessToken);
-        window.localStorage.setItem("demo-refreshToken", tokens.refreshToken);
+        tokenStorage.setTokens(tokens.accessToken, tokens.refreshToken);
         this.tokens = { ...tokens };
         const decoded = jwtDecode<TokenClaims>(tokens.accessToken);
-        this.info.id = decoded.id;
-        this.info.loginId = decoded.loginId;
-        this.info.name = decoded.name;
-        this.info.type = decoded.type;
-        this.info.managerFlag = decoded.managerFlag;
-        this.info.authorities = decoded.authorities;
+        this.info = {
+          id: decoded.id,
+          loginId: decoded.loginId,
+          name: decoded.name,
+          type: decoded.type,
+          managerFlag: decoded.managerFlag,
+          authorities: decoded.authorities,
+        };
       } catch (error: unknown) {
         logger.error("Failed to decode JWT token:", error);
         void signOut();

@@ -1,5 +1,6 @@
 import type {
   NavigationGuardNext,
+  NavigationGuardWithThis,
   RouteLocationNormalized,
   RouteRecordRaw,
 } from "vue-router";
@@ -8,20 +9,18 @@ import { useAdminStore } from "@/stores/admin";
 import { pendingRequests } from "@/utils/apis";
 import { goLoginPage } from "@/utils/commands";
 
-const requireAuth =
-  () =>
-  async (
-    _to: RouteLocationNormalized,
-    _from: RouteLocationNormalized,
-    next: NavigationGuardNext,
-  ) => {
-    const { loggedIn } = useAdminStore();
-    if (!loggedIn) {
-      await goLoginPage();
-      return next(false);
-    }
-    return next();
-  };
+const requireAuth: NavigationGuardWithThis<undefined> = async (
+  _to: RouteLocationNormalized,
+  _from: RouteLocationNormalized,
+  next: NavigationGuardNext,
+) => {
+  const { loggedIn } = useAdminStore();
+  if (!loggedIn) {
+    await goLoginPage();
+    return next(false);
+  }
+  return next();
+};
 
 const admin: RouteRecordRaw[] = [
   {
@@ -69,7 +68,7 @@ const routes = (): RouteRecordRaw[] => {
   return [
     {
       path: "/admin",
-      beforeEnter: requireAuth(),
+      beforeEnter: requireAuth,
       children: admin.map((v) => ({
         ...v,
         meta: {
@@ -79,7 +78,7 @@ const routes = (): RouteRecordRaw[] => {
     },
     {
       path: "/user",
-      beforeEnter: requireAuth(),
+      beforeEnter: requireAuth,
       children: user.map((v) => ({
         ...v,
         meta: {
@@ -89,7 +88,7 @@ const routes = (): RouteRecordRaw[] => {
     },
     {
       path: "/notice",
-      beforeEnter: requireAuth(),
+      beforeEnter: requireAuth,
       children: notice.map((v) => ({
         ...v,
         meta: {
@@ -99,7 +98,7 @@ const routes = (): RouteRecordRaw[] => {
     },
     {
       path: "/test",
-      beforeEnter: requireAuth(),
+      beforeEnter: requireAuth,
       children: test.map((v) => ({
         ...v,
         meta: {
@@ -109,7 +108,7 @@ const routes = (): RouteRecordRaw[] => {
     },
     {
       path: "/",
-      beforeEnter: requireAuth(),
+      beforeEnter: requireAuth,
       component: async () => import("@/views/HomePage.vue"),
       meta: {
         layout: "default",
