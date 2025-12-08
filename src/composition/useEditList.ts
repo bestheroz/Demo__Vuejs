@@ -1,4 +1,3 @@
-import { cloneDeep } from "lodash-es";
 import type { UnwrapRef } from "vue";
 import { ref } from "vue";
 
@@ -15,7 +14,7 @@ export default function useEditList<T>(initItemFunc: () => T) {
   };
 
   const onClickEdit = (val: T): void => {
-    editItem.value = cloneDeep<T>(val) as UnwrapRef<T>;
+    editItem.value = structuredClone(val) as UnwrapRef<T>;
     dialog.value = true;
   };
 
