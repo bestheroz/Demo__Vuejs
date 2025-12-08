@@ -1,4 +1,4 @@
-import type { Plugin, PluginOption } from "vite";
+import type { PluginOption } from "vite";
 import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
 import { resolve } from "node:path";
@@ -12,27 +12,22 @@ export default defineConfig(({ command }) => {
   const isServe = command === "serve";
   const isBuild = command === "build";
 
-  const plugins: (Plugin[] | PluginOption)[] = [
+  const plugins: PluginOption[] = [
     vue({
       template: { transformAssetUrls },
       isProduction: isBuild,
     }),
     vuetify({ autoImport: false }),
     tsconfigPaths(),
-    {
-      ...eslint({ fix: true, lintInWorker: true }),
-      apply: isServe,
-    },
-    {
-      ...checker({
+    isServe && eslint({ fix: true, lintInWorker: true }),
+    isServe &&
+      checker({
         vueTsc: true,
         typescript: true,
       }),
-      apply: isServe,
-    },
   ];
   return {
-    plugins: plugins,
+    plugins,
     server: {
       port: 3000,
     },
