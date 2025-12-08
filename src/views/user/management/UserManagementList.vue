@@ -125,7 +125,7 @@ async function fetchList({
 const { dialog, editItem, onClickAdd, onClickEdit } =
   useEditList<UserCreate>(defaultUserCreate);
 const refDataTableServerWithFilter = ref();
-const fabButton = ref<FabButtonProp[]>([
+const fabButton = computed<FabButtonProp[]>(() => [
   {
     title: "추가",
     color: "blue-darken-2",

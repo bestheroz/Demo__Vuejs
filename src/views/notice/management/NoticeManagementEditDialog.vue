@@ -66,6 +66,7 @@
 </template>
 
 <script setup lang="ts">
+import { storeToRefs } from "pinia";
 import { ref } from "vue";
 import { Authority } from "@/definitions/authorities";
 import { useAdminStore } from "@/stores/admin";
@@ -85,7 +86,7 @@ const emits = defineEmits<{
   (e: "save"): void;
 }>();
 
-const { authorities } = useAdminStore();
+const { authorities } = storeToRefs(useAdminStore());
 
 const loading = ref(false);
 
