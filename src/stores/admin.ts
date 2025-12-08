@@ -69,7 +69,7 @@ export const useAdminStore = defineStore("admin", {
         this.info.authorities = decoded.authorities;
       } catch (error: unknown) {
         logger.error("Failed to decode JWT token:", error);
-        signOut().then();
+        void signOut();
       }
     },
   },
