@@ -80,6 +80,7 @@ export async function getNewToken(): Promise<JwtTokens | undefined> {
     } catch (loginError) {
       logger.error("Login redirect failed:", loginError);
     }
+    return undefined;
   }
 }
 

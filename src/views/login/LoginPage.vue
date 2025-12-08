@@ -81,6 +81,7 @@ import { useAdminStore } from "@/stores/admin";
 import { catchError } from "@/utils/apis";
 import { routerReplace } from "@/utils/commands";
 import { required, isAlphanumeric } from "@/utils/rules";
+import { tokenStorage } from "@/utils/storage";
 
 const loginId = ref("developer");
 const password = ref("1");
@@ -89,11 +90,11 @@ const showPassword = ref(false);
 
 const type = ref(UserType.ADMIN);
 
-const refForm = ref();
+const refForm = ref<{ validate: () => Promise<{ valid: boolean }> }>();
 const reloadable = ref(true);
 async function login(): Promise<void> {
-  const { valid } = await refForm.value?.validate();
-  if (!valid) {
+  const formValidation = await refForm.value?.validate();
+  if (!formValidation?.valid) {
     return;
   }
   loading.value = true;
@@ -121,8 +122,8 @@ async function login(): Promise<void> {
 const { pause } = useIntervalFn(() => {
   if (
     reloadable.value &&
-    window.localStorage.getItem("demo-refreshToken") &&
-    window.localStorage.getItem("demo-accessToken")
+    tokenStorage.getRefreshToken() &&
+    tokenStorage.getAccessToken()
   ) {
     window.location.reload();
   }
@@ -131,17 +132,14 @@ onUnmounted(() => {
   pause();
 });
 onMounted(async () => {
-  if (
-    window.localStorage.getItem("demo-refreshToken") &&
-    window.localStorage.getItem("demo-accessToken")
-  ) {
+  if (tokenStorage.getRefreshToken() && tokenStorage.getAccessToken()) {
     await routerReplace("/");
     return;
   }
 
   const { clearAdmin } = useAdminStore();
   clearAdmin();
-  window.localStorage.clear();
+  tokenStorage.clearTokens();
   window.sessionStorage.clear();
 });
 </script>

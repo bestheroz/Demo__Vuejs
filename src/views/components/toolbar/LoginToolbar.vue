@@ -53,7 +53,7 @@ async function login() {
           saveTokens(data);
           return "로그인 성공 => " + type.value;
         },
-        error(e) {
+        error(e: unknown) {
           return catchError(e, true);
         },
       },

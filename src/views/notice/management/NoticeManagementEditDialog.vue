@@ -81,8 +81,8 @@ const props = defineProps<{
 }>();
 
 const emits = defineEmits<{
-  (e: "click:cancel");
-  (e: "save");
+  (e: "click:cancel"): void;
+  (e: "save"): void;
 }>();
 
 const { authorities } = useAdminStore();
@@ -91,10 +91,10 @@ const loading = ref(false);
 
 const newFlag = !props.modelValue.id;
 
-const refForm = ref();
+const refForm = ref<{ validate: () => Promise<{ valid: boolean }> }>();
 async function save(): Promise<void> {
-  const { valid } = await refForm.value?.validate();
-  if (!valid) {
+  const formValidation = await refForm.value?.validate();
+  if (!formValidation?.valid) {
     toastWarning("입력 항목을 확인해주세요.");
     return;
   }

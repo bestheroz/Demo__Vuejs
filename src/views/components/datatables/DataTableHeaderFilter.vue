@@ -78,7 +78,6 @@
 
 <script setup lang="ts">
 import { watchDebounced } from "@vueuse/core";
-import { fill } from "lodash-es";
 import { computed, ref } from "vue";
 import type { DataTableHeader } from "@/definitions/types";
 import { stringifyParams } from "@/utils/apis";
@@ -97,7 +96,7 @@ const emits = defineEmits<{
 }>();
 
 const filter = ref<(string | boolean | null | undefined)[]>(
-  fill(Array(props.filterHeader.length), null),
+  new Array(props.filterHeader.length).fill(null),
 );
 const finalFilterHeader = computed<DataTableHeader[]>(() =>
   props.filterHeader.map((v, index) => ({
@@ -110,7 +109,7 @@ const filterMap = computed(() => finalFilterHeader.value.map((v) => v.key));
 watchDebounced(
   () => props.filterHeader,
   (v) => {
-    filter.value = fill(Array(v.length), null);
+    filter.value = new Array(v.length).fill(null);
   },
   { debounce: 100 },
 );

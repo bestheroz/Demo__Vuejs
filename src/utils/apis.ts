@@ -16,6 +16,7 @@ import { toastError } from "@/utils/toaster";
 
 export const axiosInstance = axios.create({
   baseURL: API_HOST,
+  timeout: 30000, // 30 seconds
   headers: {
     "Content-Type": "application/json;charset=UTF-8",
   },
@@ -147,10 +148,11 @@ function getPromiseMessage<T>(
 ) {
   return {
     success: successAlert
-      ? ({ success }: ApiResponse<T>) => {
+      ? ({ success }: ApiResponse<T>): string | undefined => {
           if (successAlert && success) {
             return successMessage;
           }
+          return undefined;
         }
       : undefined,
     error: failureAlert

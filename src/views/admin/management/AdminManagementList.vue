@@ -78,7 +78,7 @@ import DataTableServerWithFilter from "@/views/components/datatables/DataTableSe
 
 const { authorities, info } = storeToRefs(useAdminStore());
 
-const headers = computed(() => {
+const headers = computed<DataTableHeader[]>(() => {
   const headers: DataTableHeader[] = [
     { title: "ID(KEY)", key: "id", valueType: "ID" },
     { title: "로그인 아이디", key: "loginId" },
