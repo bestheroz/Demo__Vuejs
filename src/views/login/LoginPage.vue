@@ -61,7 +61,7 @@
           class="mb-4"
           :aria-label="loading ? '로그인 처리 중...' : '로그인'"
         >
-          {{ loading ? "처리중..." : "로그인" }}
+          {{ loading ? "처리중..." : "Login Go" }}
         </v-btn>
       </v-form>
     </v-card-text>
