@@ -1,3 +1,4 @@
+import type { Ref } from "vue";
 import axios, {
   type AxiosError,
   type AxiosResponse,
@@ -6,7 +7,6 @@ import axios, {
 } from "axios";
 import { stringify } from "qs";
 import { v4 as uuidV4 } from "uuid";
-import type { Ref } from "vue";
 import { toast } from "vue-sonner";
 import { API_HOST } from "@/constants/envs";
 import { useAdminStore } from "@/stores/admin";

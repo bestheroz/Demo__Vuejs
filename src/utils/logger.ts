@@ -1,5 +1,5 @@
-import { ENVIRONMENT } from "@/constants/envs";
 import { createConsola } from "consola";
+import { ENVIRONMENT } from "@/constants/envs";
 
 const consola = createConsola({
   level: ENVIRONMENT === "prod" ? 3 : 5,

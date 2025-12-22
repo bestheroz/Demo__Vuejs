@@ -142,6 +142,7 @@
 </template>
 
 <script setup lang="ts">
+import type { Admin, AdminCreate } from "@/views/admin/management/types";
 import { useDebounceFn } from "@vueuse/core";
 import { sha512 } from "js-sha512";
 import { storeToRefs } from "pinia";
@@ -152,7 +153,6 @@ import { useConfirmStore } from "@/stores/confirm";
 import { getApi, postApi, putApi, stringifyParams } from "@/utils/apis";
 import { isEmpty, maxLength, minLength, required } from "@/utils/rules";
 import { toastWarning } from "@/utils/toaster";
-import type { Admin, AdminCreate } from "@/views/admin/management/types";
 import CreatedUpdatedBar from "@/views/components/history/CreatedUpdatedBar.vue";
 
 const props = defineProps<{

@@ -4,10 +4,8 @@ import vue from "@vitejs/plugin-vue";
 import { resolve } from "node:path";
 import eslint from "vite-plugin-eslint2";
 import checker from "vite-plugin-checker";
-import tsconfigPaths from "vite-tsconfig-paths";
 import vuetify, { transformAssetUrls } from "vite-plugin-vuetify";
 
-const projectRootDir = resolve(__dirname);
 export default defineConfig(({ command }) => {
   const isServe = command === "serve";
   const isBuild = command === "build";
@@ -18,7 +16,6 @@ export default defineConfig(({ command }) => {
       isProduction: isBuild,
     }),
     vuetify({ autoImport: false }),
-    tsconfigPaths(),
     isServe && eslint({ fix: true, lintInWorker: true }),
     isServe &&
       checker({
@@ -33,7 +30,7 @@ export default defineConfig(({ command }) => {
     },
     resolve: {
       alias: {
-        "@": resolve(projectRootDir, "./src"),
+        "@": resolve(import.meta.dirname, "./src"),
       },
     },
     css: {

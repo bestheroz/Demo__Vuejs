@@ -1,3 +1,4 @@
+import type { DateTime, SelectItem } from "@/definitions/types";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import {
@@ -5,7 +6,6 @@ import {
   DATETIME_SECONDS_FORMAT_STRING,
   DATETIME_FORMAT_STRING,
 } from "@/constants/envs";
-import type { DateTime, SelectItem } from "@/definitions/types";
 import { isEmpty, isValidValue } from "@/utils/rules";
 
 dayjs.extend(customParseFormat);
@@ -124,7 +124,7 @@ export function snakeToCamel(str?: string): string {
   if (!str) {
     return "";
   }
-  return str.toLowerCase().replace(/(_\w)/g, (m) => m[1].toUpperCase());
+  return str.toLowerCase().replace(/_(\w)/g, (_, c: string) => c.toUpperCase());
 }
 // getTitleByValue는 formatTextOfSelectItem의 별칭으로 사용 (하위 호환성 유지)
 export function getTitleByValue<T = string>(

@@ -53,16 +53,16 @@
 </template>
 
 <script setup lang="ts">
-import { storeToRefs } from "pinia";
-import { computed, ref } from "vue";
-import useEditList from "@/composition/useEditList";
-import { Authority } from "@/definitions/authorities";
 import type {
   DataTableHeader,
   DataTableOptions,
   FabButtonProp,
   ListApiResult,
 } from "@/definitions/types";
+import { storeToRefs } from "pinia";
+import { computed, ref } from "vue";
+import useEditList from "@/composition/useEditList";
+import { Authority } from "@/definitions/authorities";
 import { useAdminStore } from "@/stores/admin";
 import { useConfirmStore } from "@/stores/confirm";
 import { deleteApi, getApi, stringifyParams } from "@/utils/apis";

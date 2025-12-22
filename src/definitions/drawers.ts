@@ -1,6 +1,6 @@
+import type { Drawer } from "@/definitions/types";
 import { Authority } from "@/definitions/authorities";
 import { MenuType } from "@/definitions/selections";
-import type { Drawer } from "@/definitions/types";
 export const DRAWERS: Drawer[] = [
   {
     name: "공지",

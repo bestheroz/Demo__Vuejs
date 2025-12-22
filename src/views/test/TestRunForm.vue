@@ -13,8 +13,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
 import type { TestResult } from "@/views/test/type";
+import { ref } from "vue";
 
 const props = defineProps<{
   title: string;

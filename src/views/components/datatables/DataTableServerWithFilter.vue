@@ -93,8 +93,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, useSlots } from "vue";
 import type { DataTableHeader, DataTableOptions } from "@/definitions/types";
+import { computed, ref, useSlots } from "vue";
 import {
   formatDate,
   formatDatetimeSeconds,

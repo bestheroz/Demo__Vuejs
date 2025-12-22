@@ -27,9 +27,9 @@
 </template>
 
 <script setup lang="ts">
+import type { Drawer } from "@/definitions/types";
 import { useRoute } from "vue-router";
 import { MenuType } from "@/definitions/selections";
-import type { Drawer } from "@/definitions/types";
 import { routerPush } from "@/utils/commands";
 
 defineProps<{

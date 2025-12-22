@@ -1,15 +1,15 @@
 import tseslint from "typescript-eslint";
-import eslintConfigPrettier from "@vue/eslint-config-prettier";
+import eslintConfigPrettier from "eslint-config-prettier";
 import vueeslint from "eslint-plugin-vue";
 import vueParser from "vue-eslint-parser";
 import vuetifyeslint from "eslint-plugin-vuetify";
-import importPlugin from "eslint-plugin-import";
+import * as importX from "eslint-plugin-import-x";
 import eslintPluginSecurity from "eslint-plugin-security";
 
 const isDevelopment = process.env.NODE_ENV === "development";
 const isProduction = process.env.NODE_ENV === "production";
 
-export default [
+export default tseslint.config(
   {
     files: ["src/**/*.{ts,vue}"],
     ignores: ["node_modules/**/*", "dist/**/*"],
@@ -19,8 +19,8 @@ export default [
         parser: tseslint.parser,
         ecmaVersion: "latest",
         sourceType: "module",
-        project: "./tsconfig.json",
-        tsconfigRootDir: new URL(".", import.meta.url).pathname,
+        projectService: true,
+        tsconfigRootDir: import.meta.dirname,
         ecmaFeatures: { jsx: false },
         extraFileExtensions: [".vue"],
         vueFeatures: {
@@ -36,13 +36,13 @@ export default [
       },
     },
     linterOptions: {
-      reportUnusedDisableDirectives: true,
+      reportUnusedDisableDirectives: "error",
     },
     plugins: {
       "@typescript-eslint": tseslint.plugin,
       vue: vueeslint,
       vuetify: vuetifyeslint,
-      import: importPlugin,
+      "import-x": importX,
       security: eslintPluginSecurity,
     },
     rules: {
@@ -70,7 +70,22 @@ export default [
       ],
 
       /* Import/Export 관련 규칙 */
-      "import/no-duplicates": "error",
+      "import-x/no-duplicates": "error",
+      "import-x/order": [
+        "error",
+        {
+          groups: [
+            "type",
+            "builtin",
+            "external",
+            "internal",
+            "parent",
+            "sibling",
+            "index",
+          ],
+          "newlines-between": "never",
+        },
+      ],
 
       /* 보안 관련 규칙 */
       ...eslintPluginSecurity.configs.recommended.rules,
@@ -85,7 +100,7 @@ export default [
       "vue/component-name-in-template-casing": ["error", "PascalCase"],
       "vue/component-definition-name-casing": ["error", "PascalCase"],
       "vue/multi-word-component-names": "off",
-      "vue/no-v-html": "off", // 필요에 따라 조정
+      "vue/no-v-html": "off",
 
       /* 환경별 규칙 */
       "no-console": isProduction
@@ -106,6 +121,5 @@ export default [
       "lines-between-class-members": "off",
     },
   },
-  // Prettier 설정은 마지막에 적용
   eslintConfigPrettier,
-];
+);
