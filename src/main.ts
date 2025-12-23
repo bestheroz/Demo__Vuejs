@@ -1,9 +1,9 @@
 import { createApp } from "vue";
 import App from "@/App.vue";
 import vuetify from "@/plugins/vuetify";
-import "@/scss/main.scss";
 import router from "@/router";
 import pinia from "@/stores";
+import "@/scss/main.scss";
 
 const app = createApp(App);
 

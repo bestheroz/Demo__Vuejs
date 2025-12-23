@@ -14,6 +14,7 @@
     "noEmit": true,
     "jsx": "preserve",
     "verbatimModuleSyntax": true,
+    "erasableSyntaxOnly": true,
 
     /* Linting */
     "strict": true,

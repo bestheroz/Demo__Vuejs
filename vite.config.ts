@@ -39,6 +39,20 @@ export default defineConfig(({ command }) => {
     build: {
       target: "esnext",
       sourcemap: isBuild,
+      cssCodeSplit: true,
+      cssMinify: "lightningcss",
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            vue: ["vue", "vue-router", "pinia"],
+            vuetify: ["vuetify"],
+          },
+        },
+      },
+    },
+    esbuild: {
+      legalComments: "none",
+      drop: isBuild ? ["debugger"] : [],
     },
   };
 });
