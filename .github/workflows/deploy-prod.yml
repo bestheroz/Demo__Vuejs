@@ -36,7 +36,7 @@ jobs:
       - name: Install pnpm
         uses: pnpm/action-setup@master
         with:
-          version: 'lastest'
+          version: 'latest'
 
       - name: Install Node.js
         uses: actions/setup-node@main
