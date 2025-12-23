@@ -17,17 +17,17 @@ jobs:
       cancel-in-progress: true
     steps:
       - name: checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@main
         with:
           fetch-depth: 1
 
       - name: Install pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@master
         with:
-          version: 9
+          version: 'lastest'
 
       - name: Install Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@main
         with:
           node-version-file: 'package.json'
           cache: 'pnpm'

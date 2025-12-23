@@ -15,7 +15,7 @@ jobs:
       cancel-in-progress: false
     steps:
       - name: checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@main
         with:
           ref: main
           fetch-depth: 1
