@@ -48,9 +48,12 @@ export default tseslint.config(
       security: eslintPluginSecurity,
     },
     rules: {
-      /* TypeScript 관련 규칙 */
-      ...tseslint.configs.recommended.at(-1).rules,
+      /* TypeScript 관련 규칙 - strict 기반 */
+      ...tseslint.configs.strict.at(-1).rules,
       "@typescript-eslint/ban-ts-comment": "off",
+      "@typescript-eslint/no-non-null-assertion": "off",
+      "@typescript-eslint/no-dynamic-delete": "off",
+      "@typescript-eslint/unified-signatures": "off",
       "@typescript-eslint/no-unused-vars": [
         "error",
         {

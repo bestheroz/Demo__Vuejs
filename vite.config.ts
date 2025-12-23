@@ -41,11 +41,18 @@ export default defineConfig(({ command }) => {
       sourcemap: isBuild,
       cssCodeSplit: true,
       cssMinify: "lightningcss",
+      minify: "esbuild",
+      reportCompressedSize: false,
+      modulePreload: { polyfill: false },
       rollupOptions: {
         output: {
-          manualChunks: {
-            vue: ["vue", "vue-router", "pinia"],
-            vuetify: ["vuetify"],
+          manualChunks: (id) => {
+            if (id.includes("node_modules")) {
+              if (id.includes("vue") || id.includes("pinia")) return "vue";
+              if (id.includes("vuetify")) return "vuetify";
+              if (id.includes("axios") || id.includes("qs")) return "http";
+              return "vendor";
+            }
           },
         },
       },

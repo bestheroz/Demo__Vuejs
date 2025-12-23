@@ -34,7 +34,7 @@ export const minLength =
 export const maxLength =
   (max: number) =>
   (val: string): string | boolean => {
-    if (isEmpty(val as string)) {
+    if (isEmpty(val)) {
       return true;
     }
     if (Array.isArray(val)) {
