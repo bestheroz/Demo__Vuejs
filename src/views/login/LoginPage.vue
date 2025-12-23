@@ -3,7 +3,7 @@ import type { JwtTokens, LoginRequest } from "@/definitions/types";
 import { useIntervalFn } from "@vueuse/core";
 import axios, { type AxiosResponse } from "axios";
 import { sha512 } from "js-sha512";
-import { onMounted, onUnmounted, ref } from "vue";
+import { onMounted, onUnmounted, ref, useTemplateRef } from "vue";
 import { API_HOST, PRODUCT_TITLE, PRODUCT_VERSION } from "@/constants/envs";
 import { UserType } from "@/definitions/selections";
 import { useAdminStore } from "@/stores/admin";
@@ -19,7 +19,7 @@ const showPassword = ref(false);
 
 const type = ref(UserType.ADMIN);
 
-const refForm = ref<{ validate: () => Promise<{ valid: boolean }> }>();
+const refForm = useTemplateRef<{ validate: () => Promise<{ valid: boolean }> }>("refForm");
 const reloadable = ref(true);
 async function login(): Promise<void> {
   const formValidation = await refForm.value?.validate();

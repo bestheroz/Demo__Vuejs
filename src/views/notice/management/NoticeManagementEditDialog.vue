@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Notice } from "@/views/notice/management/types";
 import { storeToRefs } from "pinia";
-import { ref } from "vue";
+import { ref, useTemplateRef } from "vue";
 import { Authority } from "@/definitions/authorities";
 import { useAdminStore } from "@/stores/admin";
 import { useConfirmStore } from "@/stores/confirm";
@@ -14,7 +14,7 @@ const props = defineProps<{
   modelValue: Notice;
 }>();
 
-const emits = defineEmits<{
+const emit = defineEmits<{
   (e: "click:cancel"): void;
   (e: "save"): void;
 }>();
@@ -25,7 +25,7 @@ const loading = ref(false);
 
 const newFlag = !props.modelValue.id;
 
-const refForm = ref<{ validate: () => Promise<{ valid: boolean }> }>();
+const refForm = useTemplateRef<{ validate: () => Promise<{ valid: boolean }> }>("refForm");
 async function save(): Promise<void> {
   const formValidation = await refForm.value?.validate();
   if (!formValidation?.valid) {
@@ -50,8 +50,8 @@ async function createItem() {
     { refLoading: loading },
   );
   if (success) {
-    emits("save");
-    emits("click:cancel");
+    emit("save");
+    emit("click:cancel");
   }
 }
 async function updateItem() {
@@ -64,8 +64,8 @@ async function updateItem() {
     { refLoading: loading },
   );
   if (success) {
-    emits("save");
-    emits("click:cancel");
+    emit("save");
+    emit("click:cancel");
   }
 }
 </script>
@@ -73,8 +73,8 @@ async function updateItem() {
 <template>
   <v-bottom-sheet
     max-width="100%"
-    @keydown.esc="emits('click:cancel')"
-    @update:model-value="(val) => !val && emits('click:cancel')"
+    @keydown.esc="emit('click:cancel')"
+    @update:model-value="(val) => !val && emit('click:cancel')"
   >
     <v-card>
       <v-card-title> {{ newFlag ? "추가" : "수정" }} </v-card-title>
@@ -117,7 +117,7 @@ async function updateItem() {
           density="default"
           size="x-large"
           height="40"
-          @click="emits('click:cancel')"
+          @click="emit('click:cancel')"
           >닫기</v-btn
         >
         <v-btn

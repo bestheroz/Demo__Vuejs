@@ -17,11 +17,11 @@ const props = withDefaults(
   },
 );
 
-const emits = defineEmits<{
+const emit = defineEmits<{
   (e: "save"): void;
 }>();
 
-const { dialog } = useVModels(props, emits);
+const { dialog } = useVModels(props, emit);
 </script>
 
 <template>
@@ -47,7 +47,7 @@ const { dialog } = useVModels(props, emits);
         height="40"
         width="100"
         :loading="loading ?? false"
-        @click="emits('save')"
+        @click="emit('save')"
       >
         {{ saveBtnTitle }}
       </v-btn>

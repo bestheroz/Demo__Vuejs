@@ -13,7 +13,7 @@ const props = withDefaults(
   { filterFirstColumn: false },
 );
 
-const emits = defineEmits<{
+const emit = defineEmits<{
   (e: "update:model-value", v: string): void;
 }>();
 
@@ -39,7 +39,7 @@ watchDebounced(
 watchDebounced(
   () => [props.originalItems, filter.value],
   () => {
-    emits(
+    emit(
       "update:model-value",
       stringifyParams(
         filter.value.reduce<Record<string, string>>(

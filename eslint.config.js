@@ -126,6 +126,21 @@ export default tseslint.config(
       "vue/require-typed-ref": "warn",
       "vue/no-required-prop-with-default": "error",
       "vue/no-ref-object-reactivity-loss": "error",
+      /* Vue 3.5+ 새 규칙 */
+      "vue/prefer-use-template-ref": "error",
+      "vue/require-macro-variable-name": [
+        "error",
+        {
+          defineProps: "props",
+          defineEmits: "emit",
+          defineSlots: "slots",
+          useSlots: "slots",
+          useAttrs: "attrs",
+        },
+      ],
+      "vue/no-use-v-else-with-v-for": "error",
+      "vue/require-explicit-slots": "warn",
+      "vue/slot-name-casing": ["error", "camelCase"],
 
       /* 환경별 규칙 */
       "no-console": isProduction

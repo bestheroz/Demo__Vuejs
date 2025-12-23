@@ -3,7 +3,7 @@ import type { JwtTokens, LoginRequest } from "@/definitions/types";
 import type { UserCreate } from "@/views/user/management/types";
 import axios from "axios";
 import { storeToRefs } from "pinia";
-import { ref } from "vue";
+import { ref, useTemplateRef } from "vue";
 import { API_HOST } from "@/constants/envs";
 import { Authority } from "@/definitions/authorities";
 import { useAdminStore } from "@/stores/admin";
@@ -14,40 +14,41 @@ const { authorities } = storeToRefs(useAdminStore());
 
 const loading = ref(false);
 
-const refTestRunForm1 = ref();
-const refTestRunForm2 = ref();
-const refTestRunForm3 = ref();
-const refTestRunForm4 = ref();
-const refTestRunForm5 = ref();
-const refTestRunForm6 = ref();
-const refTestRunForm7 = ref();
-const refTestRunForm8 = ref();
-const refTestRunForm9 = ref();
-const refTestRunForm10 = ref();
-const refTestRunForm11 = ref();
-const refTestRunForm12 = ref();
+type TestRunFormRef = { run: () => Promise<boolean> };
+const refTestRunForm1 = useTemplateRef<TestRunFormRef>("refTestRunForm1");
+const refTestRunForm2 = useTemplateRef<TestRunFormRef>("refTestRunForm2");
+const refTestRunForm3 = useTemplateRef<TestRunFormRef>("refTestRunForm3");
+const refTestRunForm4 = useTemplateRef<TestRunFormRef>("refTestRunForm4");
+const refTestRunForm5 = useTemplateRef<TestRunFormRef>("refTestRunForm5");
+const refTestRunForm6 = useTemplateRef<TestRunFormRef>("refTestRunForm6");
+const refTestRunForm7 = useTemplateRef<TestRunFormRef>("refTestRunForm7");
+const refTestRunForm8 = useTemplateRef<TestRunFormRef>("refTestRunForm8");
+const refTestRunForm9 = useTemplateRef<TestRunFormRef>("refTestRunForm9");
+const refTestRunForm10 = useTemplateRef<TestRunFormRef>("refTestRunForm10");
+const refTestRunForm11 = useTemplateRef<TestRunFormRef>("refTestRunForm11");
+const refTestRunForm12 = useTemplateRef<TestRunFormRef>("refTestRunForm12");
 async function runAll() {
   const [, success2] = await Promise.all([
-    refTestRunForm1.value.run(),
-    refTestRunForm2.value.run(),
+    refTestRunForm1.value?.run(),
+    refTestRunForm2.value?.run(),
   ]);
   if (!success2) return;
 
   const [, , , success6] = await Promise.all([
-    refTestRunForm3.value.run(),
-    refTestRunForm4.value.run(),
-    refTestRunForm5.value.run(),
-    refTestRunForm6.value.run(),
+    refTestRunForm3.value?.run(),
+    refTestRunForm4.value?.run(),
+    refTestRunForm5.value?.run(),
+    refTestRunForm6.value?.run(),
   ]);
   if (!success6) return;
-  const success7 = await refTestRunForm7.value.run();
+  const success7 = await refTestRunForm7.value?.run();
   if (!success7) return;
-  const success8 = await refTestRunForm8.value.run();
+  const success8 = await refTestRunForm8.value?.run();
   if (!success8) return;
-  if (!(await refTestRunForm9.value.run())) return;
-  if (!(await refTestRunForm10.value.run())) return;
-  if (!(await refTestRunForm11.value.run())) return;
-  if (!(await refTestRunForm12.value.run())) return;
+  if (!(await refTestRunForm9.value?.run())) return;
+  if (!(await refTestRunForm10.value?.run())) return;
+  if (!(await refTestRunForm11.value?.run())) return;
+  if (!(await refTestRunForm12.value?.run())) return;
 }
 
 const createdId = ref<number | undefined>(undefined);
