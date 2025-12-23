@@ -3,7 +3,7 @@ import type { User, UserCreate } from "@/views/user/management/types";
 import { useDebounceFn } from "@vueuse/core";
 import { sha512 } from "js-sha512";
 import { storeToRefs } from "pinia";
-import { ref } from "vue";
+import { ref, useTemplateRef } from "vue";
 import { Authority } from "@/definitions/authorities";
 import { useAdminStore } from "@/stores/admin";
 import { useConfirmStore } from "@/stores/confirm";
@@ -16,7 +16,7 @@ const props = defineProps<{
   modelValue: UserCreate;
 }>();
 
-const emits = defineEmits<{
+const emit = defineEmits<{
   (e: "click:cancel"): void;
   (e: "save"): void;
 }>();
@@ -30,7 +30,7 @@ const newFlag = !props.modelValue.id;
 const password = ref("");
 const passwordErrorMessages = ref<string[]>([]);
 
-const refForm = ref<{ validate: () => Promise<{ valid: boolean }> }>();
+const refForm = useTemplateRef<{ validate: () => Promise<{ valid: boolean }> }>("refForm");
 async function save(): Promise<void> {
   if (!isEmpty(errorText.value) || !isEmpty(passwordErrorMessages.value)) {
     toastWarning("입력 항목을 확인해주세요.");
@@ -65,8 +65,8 @@ async function createItem() {
     { refLoading: loading },
   );
   if (success) {
-    emits("save");
-    emits("click:cancel");
+    emit("save");
+    emit("click:cancel");
   }
 }
 async function updateItem() {
@@ -84,8 +84,8 @@ async function updateItem() {
     { refLoading: loading },
   );
   if (success) {
-    emits("save");
-    emits("click:cancel");
+    emit("save");
+    emit("click:cancel");
   }
 }
 
@@ -130,8 +130,8 @@ function onInputPassword() {
 <template>
   <v-bottom-sheet
     max-width="100%"
-    @keydown.esc="emits('click:cancel')"
-    @update:model-value="(val) => !val && emits('click:cancel')"
+    @keydown.esc="emit('click:cancel')"
+    @update:model-value="(val) => !val && emit('click:cancel')"
   >
     <v-card>
       <v-card-title> {{ newFlag ? "추가" : "수정" }} </v-card-title>
@@ -243,7 +243,7 @@ function onInputPassword() {
           density="default"
           size="x-large"
           height="40"
-          @click="emits('click:cancel')"
+          @click="emit('click:cancel')"
           >닫기</v-btn
         >
         <v-btn

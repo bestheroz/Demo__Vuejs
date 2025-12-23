@@ -29,7 +29,7 @@ const props = withDefaults(
   { itemsPerPage: 25, itemValue: "id" },
 );
 
-const emits = defineEmits<{
+const emit = defineEmits<{
   (e: "update:options", v: DataTableOptions): void;
 }>();
 
@@ -136,7 +136,7 @@ function onUpdateQueryParams(val: string) {
 }
 
 function reload() {
-  emits("update:options", lastOptions.value);
+  emit("update:options", lastOptions.value);
 }
 
 defineExpose({ reload });

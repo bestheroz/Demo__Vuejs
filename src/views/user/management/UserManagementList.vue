@@ -6,7 +6,7 @@ import type {
   ListApiResult,
 } from "@/definitions/types";
 import { storeToRefs } from "pinia";
-import { computed, ref } from "vue";
+import { computed, ref, useTemplateRef } from "vue";
 import useEditList from "@/composition/useEditList";
 import { Authority } from "@/definitions/authorities";
 import { useAdminStore } from "@/stores/admin";
@@ -70,7 +70,7 @@ async function fetchList({
 
 const { dialog, editItem, onClickAdd, onClickEdit } =
   useEditList<UserCreate>(defaultUserCreate);
-const refDataTableServerWithFilter = ref();
+const refDataTableServerWithFilter = useTemplateRef<{ reload: () => void }>("refDataTableServerWithFilter");
 const fabButton = computed<FabButtonProp[]>(() => [
   {
     title: "추가",
@@ -83,7 +83,7 @@ const fabButton = computed<FabButtonProp[]>(() => [
     title: "재조회",
     color: "grey-darken-2",
     icon: "mdi-refresh",
-    onClick: () => refDataTableServerWithFilter.value.reload(),
+    onClick: () => refDataTableServerWithFilter.value?.reload(),
   },
 ]);
 
@@ -96,7 +96,7 @@ async function onClickRemove(val: User) {
     refLoading: loading,
   });
   if (success) {
-    await refDataTableServerWithFilter.value.reload();
+    await refDataTableServerWithFilter.value?.reload();
   }
 }
 </script>
@@ -150,7 +150,7 @@ async function onClickRemove(val: User) {
   <UserManagementEditDialog
     v-if="dialog"
     :model-value="editItem"
-    @save="refDataTableServerWithFilter.reload()"
+    @save="refDataTableServerWithFilter?.reload()"
     @click:cancel="dialog = false"
   />
 </template>

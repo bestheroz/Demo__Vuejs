@@ -1,13 +1,14 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { useTemplateRef } from "vue";
 import PageBreadcrumbs from "@/views/components/breadcrumbs/PageBreadcrumbs.vue";
 import TestAdminForm from "@/views/test/TestAdminForm.vue";
 import TestNoticeForm from "@/views/test/TestNoticeForm.vue";
 import TestUserForm from "@/views/test/TestUserForm.vue";
 
-const refTestNoticeForm = ref();
-const refTestUserForm = ref();
-const refTestAdminForm = ref();
+type TestFormRef = { runAll: () => Promise<void> };
+const refTestNoticeForm = useTemplateRef<TestFormRef>("refTestNoticeForm");
+const refTestUserForm = useTemplateRef<TestFormRef>("refTestUserForm");
+const refTestAdminForm = useTemplateRef<TestFormRef>("refTestAdminForm");
 
 async function runAll() {
   await Promise.allSettled([

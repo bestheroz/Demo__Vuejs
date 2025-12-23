@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Notice } from "@/views/notice/management/types";
 import { storeToRefs } from "pinia";
-import { ref } from "vue";
+import { ref, useTemplateRef } from "vue";
 import { Authority } from "@/definitions/authorities";
 import { useAdminStore } from "@/stores/admin";
 import { deleteApi, getApi, postApi, putApi } from "@/utils/apis";
@@ -11,19 +11,20 @@ const { authorities } = storeToRefs(useAdminStore());
 
 const loading = ref(false);
 
-const refTestRunForm1 = ref();
-const refTestRunForm2 = ref();
-const refTestRunForm3 = ref();
-const refTestRunForm4 = ref();
-const refTestRunForm5 = ref();
+type TestRunFormRef = { run: () => Promise<boolean> };
+const refTestRunForm1 = useTemplateRef<TestRunFormRef>("refTestRunForm1");
+const refTestRunForm2 = useTemplateRef<TestRunFormRef>("refTestRunForm2");
+const refTestRunForm3 = useTemplateRef<TestRunFormRef>("refTestRunForm3");
+const refTestRunForm4 = useTemplateRef<TestRunFormRef>("refTestRunForm4");
+const refTestRunForm5 = useTemplateRef<TestRunFormRef>("refTestRunForm5");
 async function runAll() {
   const [, success2] = await Promise.all([
-    refTestRunForm1.value.run(),
-    refTestRunForm2.value.run(),
+    refTestRunForm1.value?.run(),
+    refTestRunForm2.value?.run(),
   ]);
   if (!success2) return;
-  await Promise.all([refTestRunForm3.value.run(), refTestRunForm4.value.run()]);
-  await refTestRunForm5.value.run();
+  await Promise.all([refTestRunForm3.value?.run(), refTestRunForm4.value?.run()]);
+  await refTestRunForm5.value?.run();
 }
 
 const createdId = ref<number | undefined>(undefined);
