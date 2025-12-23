@@ -120,7 +120,7 @@ watchDebounced(
     emits(
       "update:model-value",
       stringifyParams(
-        filter.value.reduce(
+        filter.value.reduce<Record<string, string>>(
           (acc, cur, index) => {
             // undefined, null, 빈 문자열은 필터에서 제외
             if (cur === undefined || cur === "" || cur === null) return acc;
@@ -134,7 +134,7 @@ watchDebounced(
             }
             return acc;
           },
-          {} as Record<string, string>,
+          {},
         ),
       ),
     );

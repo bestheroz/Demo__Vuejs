@@ -34,9 +34,9 @@ export async function routerReplace(path: string): Promise<void> {
 
 export function isExpiredToken(token: string): boolean {
   try {
-    return dayjs((jwtDecode(token) as { exp: number }).exp * 1000).isBefore(
-      dayjs(),
-    );
+    const { exp } = jwtDecode(token);
+    if (exp === undefined) return true;
+    return dayjs(exp * 1000).isBefore(dayjs());
   } catch (e: unknown) {
     logger.warn("Token validation failed:", e);
     return true;
