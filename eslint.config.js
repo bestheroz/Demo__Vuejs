@@ -4,6 +4,7 @@ import vueeslint from "eslint-plugin-vue";
 import vueParser from "vue-eslint-parser";
 import vuetifyeslint from "eslint-plugin-vuetify";
 import * as importX from "eslint-plugin-import-x";
+import perfectionist from "eslint-plugin-perfectionist";
 import eslintPluginSecurity from "eslint-plugin-security";
 
 const isDevelopment = process.env.NODE_ENV === "development";
@@ -43,6 +44,7 @@ export default tseslint.config(
       vue: vueeslint,
       vuetify: vuetifyeslint,
       "import-x": importX,
+      perfectionist,
       security: eslintPluginSecurity,
     },
     rules: {
@@ -71,9 +73,11 @@ export default tseslint.config(
 
       /* Import/Export 관련 규칙 */
       "import-x/no-duplicates": "error",
-      "import-x/order": [
+      "perfectionist/sort-imports": [
         "error",
         {
+          type: "natural",
+          order: "asc",
           groups: [
             "type",
             "builtin",
@@ -82,10 +86,15 @@ export default tseslint.config(
             "parent",
             "sibling",
             "index",
+            "side-effect",
+            "style",
           ],
-          "newlines-between": "never",
+          newlinesBetween: "ignore",
+          internalPattern: ["^@/.+"],
         },
       ],
+      "perfectionist/sort-named-imports": ["error", { type: "natural" }],
+      "perfectionist/sort-named-exports": ["error", { type: "natural" }],
 
       /* 보안 관련 규칙 */
       ...eslintPluginSecurity.configs.recommended.rules,

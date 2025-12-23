@@ -97,8 +97,8 @@ import type { DataTableHeader, DataTableOptions } from "@/definitions/types";
 import { computed, ref, useSlots } from "vue";
 import {
   formatDate,
-  formatDatetimeSeconds,
   formatDatetime,
+  formatDatetimeSeconds,
   getTitleByValue,
 } from "@/utils/formatter";
 import DataTableColumnEllipsis from "@/views/components/datatables/DataTableColumnEllipsis.vue";

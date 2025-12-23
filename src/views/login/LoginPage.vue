@@ -79,7 +79,7 @@ import { UserType } from "@/definitions/selections";
 import { useAdminStore } from "@/stores/admin";
 import { catchError } from "@/utils/apis";
 import { routerReplace } from "@/utils/commands";
-import { required, isAlphanumeric } from "@/utils/rules";
+import { isAlphanumeric, required } from "@/utils/rules";
 import { tokenStorage } from "@/utils/storage";
 
 const loginId = ref("developer");
