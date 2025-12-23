@@ -1,3 +1,11 @@
+<script setup lang="ts">
+import type { UserSimple } from "@/definitions/types";
+
+defineProps<{
+  value: UserSimple;
+}>();
+</script>
+
 <template>
   <v-menu>
     <template #activator="{ props }">
@@ -23,14 +31,6 @@
     </v-card>
   </v-menu>
 </template>
-
-<script setup lang="ts">
-import type { UserSimple } from "@/definitions/types";
-
-defineProps<{
-  value: UserSimple;
-}>();
-</script>
 <style lang="scss" scoped>
 :deep(.v-btn__content) {
   white-space: nowrap;

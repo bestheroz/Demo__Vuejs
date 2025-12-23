@@ -1,3 +1,35 @@
+<script lang="ts" setup>
+import type { Drawer } from "@/definitions/types";
+import { storeToRefs } from "pinia";
+import { computed, ref } from "vue";
+import { PRODUCT_TITLE, PRODUCT_VERSION } from "@/constants/envs";
+import { DRAWERS } from "@/definitions/drawers";
+import { useAdminStore } from "@/stores/admin";
+import NavMenu from "@/views/components/navigation/NavMenu.vue";
+import LoginToolbar from "@/views/components/toolbar/LoginToolbar.vue";
+import ToolbarAdmin from "@/views/components/toolbar/ToolbarAdmin.vue";
+
+const drawer = ref(true);
+
+const { authorities } = storeToRefs(useAdminStore());
+
+const hasRequiredAuthority = (val: Drawer): boolean =>
+  !val.authority || authorities.value.includes(val.authority);
+
+const filteredDrawer = computed<Drawer[]>(() => {
+  const result: Drawer[] = [];
+  for (const drawer of DRAWERS) {
+    if (!hasRequiredAuthority(drawer)) continue;
+    const filteredChildren =
+      drawer.children?.filter(hasRequiredAuthority) ?? [];
+    if (filteredChildren.length > 0) {
+      result.push({ ...drawer, children: filteredChildren });
+    }
+  }
+  return result;
+});
+</script>
+
 <template>
   <div class="d-flex flex-grow-1">
     <!-- Navigation -->
@@ -55,35 +87,3 @@
     </v-main>
   </div>
 </template>
-
-<script lang="ts" setup>
-import type { Drawer } from "@/definitions/types";
-import { storeToRefs } from "pinia";
-import { computed, ref } from "vue";
-import { PRODUCT_TITLE, PRODUCT_VERSION } from "@/constants/envs";
-import { DRAWERS } from "@/definitions/drawers";
-import { useAdminStore } from "@/stores/admin";
-import NavMenu from "@/views/components/navigation/NavMenu.vue";
-import LoginToolbar from "@/views/components/toolbar/LoginToolbar.vue";
-import ToolbarAdmin from "@/views/components/toolbar/ToolbarAdmin.vue";
-
-const drawer = ref(true);
-
-const { authorities } = storeToRefs(useAdminStore());
-
-const hasRequiredAuthority = (val: Drawer): boolean =>
-  !val.authority || authorities.value.includes(val.authority);
-
-const filteredDrawer = computed<Drawer[]>(() => {
-  const result: Drawer[] = [];
-  for (const drawer of DRAWERS) {
-    if (!hasRequiredAuthority(drawer)) continue;
-    const filteredChildren =
-      drawer.children?.filter(hasRequiredAuthority) ?? [];
-    if (filteredChildren.length > 0) {
-      result.push({ ...drawer, children: filteredChildren });
-    }
-  }
-  return result;
-});
-</script>

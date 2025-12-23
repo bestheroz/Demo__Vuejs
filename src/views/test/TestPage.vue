@@ -1,15 +1,3 @@
-<template>
-  <div class="w-100">
-    <PageBreadcrumbs :items="['테스트', '통합']" />
-    <v-btn variant="elevated" color="primary" class="mb-4" @click="runAll"
-      >통합 테스트 시작</v-btn
-    >
-    <TestNoticeForm ref="refTestNoticeForm" />
-    <TestUserForm ref="refTestUserForm" />
-    <TestAdminForm ref="refTestAdminForm" />
-  </div>
-</template>
-
 <script setup lang="ts">
 import { ref } from "vue";
 import PageBreadcrumbs from "@/views/components/breadcrumbs/PageBreadcrumbs.vue";
@@ -29,3 +17,15 @@ async function runAll() {
   ]);
 }
 </script>
+
+<template>
+  <div class="w-100">
+    <PageBreadcrumbs :items="['테스트', '통합']" />
+    <v-btn variant="elevated" color="primary" class="mb-4" @click="runAll"
+      >통합 테스트 시작</v-btn
+    >
+    <TestNoticeForm ref="refTestNoticeForm" />
+    <TestUserForm ref="refTestUserForm" />
+    <TestAdminForm ref="refTestAdminForm" />
+  </div>
+</template>

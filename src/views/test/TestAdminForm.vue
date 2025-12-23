@@ -1,88 +1,3 @@
-<template>
-  <v-card>
-    <v-card-title>
-      <span>
-        관리자
-        <v-btn
-          v-if="authorities.includes(Authority.ADMIN_EDIT)"
-          color="primary"
-          :loading="loading"
-          variant="plain"
-          class="text-h5"
-          @click="runAll"
-          >모두 테스트</v-btn
-        >
-      </span>
-    </v-card-title>
-    <v-card-text>
-      <v-row dense>
-        <TestRunForm ref="refTestRunForm1" title="조회" :run-fn="run1" />
-        <TestRunForm ref="refTestRunForm2" title="추가" :run-fn="run2" />
-        <TestRunForm
-          ref="refTestRunForm3"
-          :disabled="!createdId"
-          title="상세조회"
-          :run-fn="run3"
-        />
-        <TestRunForm
-          ref="refTestRunForm4"
-          :disabled="!createdId"
-          title="ID 중복확인"
-          :run-fn="run4"
-        />
-        <TestRunForm
-          ref="refTestRunForm5"
-          :disabled="!createdId"
-          title="로그인"
-          :run-fn="run5"
-        />
-        <TestRunForm
-          ref="refTestRunForm6"
-          :disabled="!createdId"
-          title="수정"
-          :run-fn="run6"
-        />
-        <TestRunForm
-          ref="refTestRunForm7"
-          title="수정 후 로그인"
-          :disabled="!createdId"
-          :run-fn="run7"
-        />
-        <TestRunForm
-          ref="refTestRunForm8"
-          title="비밀번호 변경"
-          :disabled="!createdId || !token"
-          :run-fn="run8"
-        />
-        <TestRunForm
-          ref="refTestRunForm9"
-          title="비밀번호 변경 후 로그인"
-          :disabled="!createdId"
-          :run-fn="run9"
-        />
-        <TestRunForm
-          ref="refTestRunForm10"
-          title="유저 토큰 갱신"
-          :disabled="!token"
-          :run-fn="run10"
-        />
-        <TestRunForm
-          ref="refTestRunForm11"
-          title="유저 로그아웃"
-          :disabled="!token"
-          :run-fn="run11"
-        />
-        <TestRunForm
-          ref="refTestRunForm12"
-          :disabled="!createdId"
-          title="삭제"
-          :run-fn="run12"
-        />
-      </v-row>
-    </v-card-text>
-  </v-card>
-</template>
-
 <script setup lang="ts">
 import type { JwtTokens, LoginRequest } from "@/definitions/types";
 import type { AdminCreate } from "@/views/admin/management/types";
@@ -295,3 +210,88 @@ async function run12() {
 
 defineExpose({ runAll });
 </script>
+
+<template>
+  <v-card>
+    <v-card-title>
+      <span>
+        관리자
+        <v-btn
+          v-if="authorities.includes(Authority.ADMIN_EDIT)"
+          color="primary"
+          :loading="loading"
+          variant="plain"
+          class="text-h5"
+          @click="runAll"
+          >모두 테스트</v-btn
+        >
+      </span>
+    </v-card-title>
+    <v-card-text>
+      <v-row dense>
+        <TestRunForm ref="refTestRunForm1" title="조회" :run-fn="run1" />
+        <TestRunForm ref="refTestRunForm2" title="추가" :run-fn="run2" />
+        <TestRunForm
+          ref="refTestRunForm3"
+          :disabled="!createdId"
+          title="상세조회"
+          :run-fn="run3"
+        />
+        <TestRunForm
+          ref="refTestRunForm4"
+          :disabled="!createdId"
+          title="ID 중복확인"
+          :run-fn="run4"
+        />
+        <TestRunForm
+          ref="refTestRunForm5"
+          :disabled="!createdId"
+          title="로그인"
+          :run-fn="run5"
+        />
+        <TestRunForm
+          ref="refTestRunForm6"
+          :disabled="!createdId"
+          title="수정"
+          :run-fn="run6"
+        />
+        <TestRunForm
+          ref="refTestRunForm7"
+          title="수정 후 로그인"
+          :disabled="!createdId"
+          :run-fn="run7"
+        />
+        <TestRunForm
+          ref="refTestRunForm8"
+          title="비밀번호 변경"
+          :disabled="!createdId || !token"
+          :run-fn="run8"
+        />
+        <TestRunForm
+          ref="refTestRunForm9"
+          title="비밀번호 변경 후 로그인"
+          :disabled="!createdId"
+          :run-fn="run9"
+        />
+        <TestRunForm
+          ref="refTestRunForm10"
+          title="유저 토큰 갱신"
+          :disabled="!token"
+          :run-fn="run10"
+        />
+        <TestRunForm
+          ref="refTestRunForm11"
+          title="유저 로그아웃"
+          :disabled="!token"
+          :run-fn="run11"
+        />
+        <TestRunForm
+          ref="refTestRunForm12"
+          :disabled="!createdId"
+          title="삭제"
+          :run-fn="run12"
+        />
+      </v-row>
+    </v-card-text>
+  </v-card>
+</template>

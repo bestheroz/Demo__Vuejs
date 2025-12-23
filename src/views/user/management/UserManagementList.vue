@@ -1,57 +1,3 @@
-<template>
-  <v-card>
-    <v-card-text>
-      <DataTableServerWithFilter
-        ref="refDataTableServerWithFilter"
-        :headers="headers"
-        :items="serverItems"
-        :items-length="totalItems"
-        :loading="loading"
-        @update:options="fetchList"
-      >
-        <template #top>
-          <FabButton v-model="fabButton" />
-          <v-data-table-footer />
-        </template>
-        <template #[`item.id`]="{ item }">
-          <v-chip
-            color="primary"
-            variant="tonal"
-            size="small"
-            class="cursor-pointer font-weight-medium"
-            @click="onClickEdit(item)"
-          >
-            {{ item.id }}
-          </v-chip>
-        </template>
-        <template #[`item.action`]="{ item }">
-          <div class="d-flex justify-center gap-1">
-            <v-tooltip text="삭제" location="top">
-              <template v-slot:activator="{ props }">
-                <v-btn
-                  v-bind="props"
-                  icon="mdi-delete-outline"
-                  size="small"
-                  variant="tonal"
-                  color="error"
-                  density="comfortable"
-                  @click="onClickRemove(item)"
-                />
-              </template>
-            </v-tooltip>
-          </div>
-        </template>
-      </DataTableServerWithFilter>
-    </v-card-text>
-  </v-card>
-  <UserManagementEditDialog
-    v-if="dialog"
-    :model-value="editItem"
-    @save="refDataTableServerWithFilter.reload()"
-    @click:cancel="dialog = false"
-  />
-</template>
-
 <script setup lang="ts">
 import type {
   DataTableHeader,
@@ -154,3 +100,57 @@ async function onClickRemove(val: User) {
   }
 }
 </script>
+
+<template>
+  <v-card>
+    <v-card-text>
+      <DataTableServerWithFilter
+        ref="refDataTableServerWithFilter"
+        :headers="headers"
+        :items="serverItems"
+        :items-length="totalItems"
+        :loading="loading"
+        @update:options="fetchList"
+      >
+        <template #top>
+          <FabButton v-model="fabButton" />
+          <v-data-table-footer />
+        </template>
+        <template #[`item.id`]="{ item }">
+          <v-chip
+            color="primary"
+            variant="tonal"
+            size="small"
+            class="cursor-pointer font-weight-medium"
+            @click="onClickEdit(item)"
+          >
+            {{ item.id }}
+          </v-chip>
+        </template>
+        <template #[`item.action`]="{ item }">
+          <div class="d-flex justify-center gap-1">
+            <v-tooltip text="삭제" location="top">
+              <template v-slot:activator="{ props }">
+                <v-btn
+                  v-bind="props"
+                  icon="mdi-delete-outline"
+                  size="small"
+                  variant="tonal"
+                  color="error"
+                  density="comfortable"
+                  @click="onClickRemove(item)"
+                />
+              </template>
+            </v-tooltip>
+          </div>
+        </template>
+      </DataTableServerWithFilter>
+    </v-card-text>
+  </v-card>
+  <UserManagementEditDialog
+    v-if="dialog"
+    :model-value="editItem"
+    @save="refDataTableServerWithFilter.reload()"
+    @click:cancel="dialog = false"
+  />
+</template>

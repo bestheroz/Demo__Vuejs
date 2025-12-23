@@ -1,3 +1,29 @@
+<script setup lang="ts">
+import { useVModels } from "@vueuse/core";
+
+const props = withDefaults(
+  defineProps<{
+    dialog: boolean;
+    loading?: boolean;
+    saveBtnTitle?: string;
+    closeBtnTitle?: string;
+    saveBtn?: boolean;
+  }>(),
+  {
+    loading: false,
+    saveBtnTitle: "저장",
+    closeBtnTitle: "취소",
+    saveBtn: true,
+  },
+);
+
+const emits = defineEmits<{
+  (e: "save"): void;
+}>();
+
+const { dialog } = useVModels(props, emits);
+</script>
+
 <template>
   <v-card-actions style="background-color: var(--v-theme-secondary)">
     <v-row class="px-6 py-1 justify-end">
@@ -28,29 +54,3 @@
     </v-row>
   </v-card-actions>
 </template>
-
-<script setup lang="ts">
-import { useVModels } from "@vueuse/core";
-
-const props = withDefaults(
-  defineProps<{
-    dialog: boolean;
-    loading?: boolean;
-    saveBtnTitle?: string;
-    closeBtnTitle?: string;
-    saveBtn?: boolean;
-  }>(),
-  {
-    loading: false,
-    saveBtnTitle: "저장",
-    closeBtnTitle: "취소",
-    saveBtn: true,
-  },
-);
-
-const emits = defineEmits<{
-  (e: "save"): void;
-}>();
-
-const { dialog } = useVModels(props, emits);
-</script>

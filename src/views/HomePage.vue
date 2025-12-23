@@ -1,12 +1,3 @@
-<template>
-  <div class="flex-grow-1 align-center justify-center d-flex flex-column">
-    <h1
-      style="font-size: 3rem; color: rgb(var(--v-theme-primary))"
-      v-text="PRODUCT_TITLE"
-    />
-    <h1 :style="`color: ${color}`" v-text="now" />
-  </div>
-</template>
 <script lang="ts" setup>
 import { useIntervalFn } from "@vueuse/core";
 import dayjs from "dayjs";
@@ -40,3 +31,12 @@ onMounted(() => {
   color.value = getRandomColor();
 });
 </script>
+<template>
+  <div class="flex-grow-1 align-center justify-center d-flex flex-column">
+    <h1
+      style="font-size: 3rem; color: rgb(var(--v-theme-primary))"
+      v-text="PRODUCT_TITLE"
+    />
+    <h1 :style="`color: ${color}`" v-text="now" />
+  </div>
+</template>

@@ -1,28 +1,3 @@
-<template>
-  <v-app>
-    <input type="text" style="width: 0; height: 0" />
-    <component :is="currentLayout" v-if="isRouterLoaded">
-      <router-view v-slot="{ Component }">
-        <transition name="fade" mode="out-in">
-          <component :is="Component" />
-        </transition>
-      </router-view>
-    </component>
-    <GlobalDialogConfirm />
-    <input type="text" style="width: 0; height: 0" />
-    <Toaster
-      richColors
-      theme="dark"
-      position="top-right"
-      :expand="true"
-      :visibleToasts="99"
-      :toastOptions="{
-        duration: 2_000,
-      }"
-    />
-  </v-app>
-</template>
-
 <script setup lang="ts">
 import { computed, onMounted } from "vue";
 import { useRoute } from "vue-router";
@@ -60,6 +35,31 @@ onMounted(async () => {
   }
 });
 </script>
+
+<template>
+  <v-app>
+    <input type="text" style="width: 0; height: 0" />
+    <component :is="currentLayout" v-if="isRouterLoaded">
+      <router-view v-slot="{ Component }">
+        <transition name="fade" mode="out-in">
+          <component :is="Component" />
+        </transition>
+      </router-view>
+    </component>
+    <GlobalDialogConfirm />
+    <input type="text" style="width: 0; height: 0" />
+    <Toaster
+      richColors
+      theme="dark"
+      position="top-right"
+      :expand="true"
+      :visibleToasts="99"
+      :toastOptions="{
+        duration: 2_000,
+      }"
+    />
+  </v-app>
+</template>
 
 <style scoped>
 /**

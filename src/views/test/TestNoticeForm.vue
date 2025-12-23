@@ -1,46 +1,3 @@
-<template>
-  <v-card>
-    <v-card-title>
-      <span>
-        공지
-        <v-btn
-          v-if="authorities.includes(Authority.NOTICE_EDIT)"
-          color="primary"
-          :loading="loading"
-          variant="plain"
-          class="text-h5"
-          @click="runAll"
-          >모두 테스트</v-btn
-        >
-      </span>
-    </v-card-title>
-    <v-card-text>
-      <v-row dense>
-        <TestRunForm ref="refTestRunForm1" title="조회" :run-fn="run1" />
-        <TestRunForm ref="refTestRunForm2" title="추가" :run-fn="run2" />
-        <TestRunForm
-          ref="refTestRunForm3"
-          :disabled="!createdId"
-          title="상세조회"
-          :run-fn="run3"
-        />
-        <TestRunForm
-          ref="refTestRunForm4"
-          :disabled="!createdId"
-          title="수정"
-          :run-fn="run4"
-        />
-        <TestRunForm
-          ref="refTestRunForm5"
-          :disabled="!createdId"
-          title="삭제"
-          :run-fn="run5"
-        />
-      </v-row>
-    </v-card-text>
-  </v-card>
-</template>
-
 <script setup lang="ts">
 import type { Notice } from "@/views/notice/management/types";
 import { storeToRefs } from "pinia";
@@ -108,3 +65,46 @@ async function run5() {
 
 defineExpose({ runAll });
 </script>
+
+<template>
+  <v-card>
+    <v-card-title>
+      <span>
+        공지
+        <v-btn
+          v-if="authorities.includes(Authority.NOTICE_EDIT)"
+          color="primary"
+          :loading="loading"
+          variant="plain"
+          class="text-h5"
+          @click="runAll"
+          >모두 테스트</v-btn
+        >
+      </span>
+    </v-card-title>
+    <v-card-text>
+      <v-row dense>
+        <TestRunForm ref="refTestRunForm1" title="조회" :run-fn="run1" />
+        <TestRunForm ref="refTestRunForm2" title="추가" :run-fn="run2" />
+        <TestRunForm
+          ref="refTestRunForm3"
+          :disabled="!createdId"
+          title="상세조회"
+          :run-fn="run3"
+        />
+        <TestRunForm
+          ref="refTestRunForm4"
+          :disabled="!createdId"
+          title="수정"
+          :run-fn="run4"
+        />
+        <TestRunForm
+          ref="refTestRunForm5"
+          :disabled="!createdId"
+          title="삭제"
+          :run-fn="run5"
+        />
+      </v-row>
+    </v-card-text>
+  </v-card>
+</template>

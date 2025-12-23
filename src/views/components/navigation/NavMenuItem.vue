@@ -1,3 +1,22 @@
+<script setup lang="ts">
+import type { Drawer } from "@/definitions/types";
+import { useRoute } from "vue-router";
+import { MenuType } from "@/definitions/selections";
+import { routerPush } from "@/utils/commands";
+
+defineProps<{
+  drawer: Drawer;
+}>();
+
+const route = useRoute();
+function movePage(item: Drawer): void {
+  if (!item.url || item.url === route.fullPath) {
+    return;
+  }
+  routerPush(item.url);
+}
+</script>
+
 <template>
   <v-list-group
     v-if="drawer.type === MenuType.GROUP"
@@ -25,22 +44,3 @@
     @click="movePage(drawer)"
   />
 </template>
-
-<script setup lang="ts">
-import type { Drawer } from "@/definitions/types";
-import { useRoute } from "vue-router";
-import { MenuType } from "@/definitions/selections";
-import { routerPush } from "@/utils/commands";
-
-defineProps<{
-  drawer: Drawer;
-}>();
-
-const route = useRoute();
-function movePage(item: Drawer): void {
-  if (!item.url || item.url === route.fullPath) {
-    return;
-  }
-  routerPush(item.url);
-}
-</script>

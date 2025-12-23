@@ -113,6 +113,15 @@ export default tseslint.config(
       "vue/component-definition-name-casing": ["error", "PascalCase"],
       "vue/multi-word-component-names": "off",
       "vue/no-v-html": "off",
+      "vue/block-order": ["error", { order: ["script", "template", "style"] }],
+      "vue/define-macros-order": [
+        "error",
+        {
+          order: ["defineOptions", "defineProps", "defineEmits", "defineSlots"],
+          defineExposeLast: true,
+        },
+      ],
+      "vue/prefer-define-options": "error",
 
       /* 환경별 규칙 */
       "no-console": isProduction

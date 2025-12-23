@@ -1,3 +1,36 @@
+<script setup lang="ts">
+import type { FabButtonProp } from "@/definitions/types";
+import { ref } from "vue";
+
+withDefaults(
+  defineProps<{
+    color?: string;
+    location?:
+      | "top left"
+      | "top center"
+      | "top right"
+      | "left center"
+      | "center center"
+      | "right center"
+      | "left bottom"
+      | "bottom center"
+      | "right bottom";
+    margin?: number;
+  }>(),
+  {
+    color: "blue-darken-2",
+    location: "top right",
+    margin: 16,
+  },
+);
+
+const modelValue = defineModel<FabButtonProp[]>("modelValue", {
+  required: true,
+});
+
+const open = ref(false);
+</script>
+
 <template>
   <v-fab
     absolute
@@ -41,39 +74,6 @@
     </v-speed-dial>
   </v-fab>
 </template>
-
-<script setup lang="ts">
-import type { FabButtonProp } from "@/definitions/types";
-import { ref } from "vue";
-
-const modelValue = defineModel<FabButtonProp[]>("modelValue", {
-  required: true,
-});
-
-withDefaults(
-  defineProps<{
-    color?: string;
-    location?:
-      | "top left"
-      | "top center"
-      | "top right"
-      | "left center"
-      | "center center"
-      | "right center"
-      | "left bottom"
-      | "bottom center"
-      | "right bottom";
-    margin?: number;
-  }>(),
-  {
-    color: "blue-darken-2",
-    location: "top right",
-    margin: 16,
-  },
-);
-
-const open = ref(false);
-</script>
 
 <style scoped>
 .fab-menu-item {
