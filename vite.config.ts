@@ -28,10 +28,6 @@ export default defineConfig(({ command }) => {
     server: {
       port: 3000,
     },
-    preview: {
-      port: 4173,
-      strictPort: true,
-    },
     resolve: {
       alias: {
         "@": resolve(import.meta.dirname, "./src"),
