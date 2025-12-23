@@ -7,25 +7,23 @@
 
     /* Bundler mode */
     "moduleResolution": "bundler",
+    "moduleDetection": "force",
     "allowImportingTsExtensions": false,
     "resolveJsonModule": true,
     "isolatedModules": true,
+    "noEmit": true,
     "jsx": "preserve",
-    // 타입 전용 import를 실제 JS에서 제거(removal)하도록
     "verbatimModuleSyntax": true,
 
     /* Linting */
     "strict": true,
     "allowJs": false,
-    "alwaysStrict": true,
     "noImplicitAny": true,
     "noUnusedLocals": true,
-    "strictNullChecks": true,
-    "noImplicitReturns": true,
     "noUnusedParameters": true,
-    "strictBindCallApply": true,
     "noFallthroughCasesInSwitch": true,
-    "strictPropertyInitialization": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
 
     /* Customization */
     "allowSyntheticDefaultImports": true,
@@ -38,18 +36,9 @@
     "types": ["vuetify", "vite/client", "vue"],
 
     "esModuleInterop": true,
-    "experimentalDecorators": false,
     "forceConsistentCasingInFileNames": true,
-
-    // vue3
     "useDefineForClassFields": true
   },
-  "include": [
-    "src",
-    "src/**/*.json",
-    "src/**/*.ts",
-    "src/**/*.d.ts",
-    "src/**/*.vue"
-  ],
-  "exclude": ["**/node_modules", "**/.*/"]
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.vue"],
+  "exclude": ["node_modules", "dist"]
 }

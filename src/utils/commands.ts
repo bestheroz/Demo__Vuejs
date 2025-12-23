@@ -1,9 +1,9 @@
+import type { JwtTokens } from "@/definitions/types";
 import axios from "axios";
 import dayjs from "dayjs";
 import { jwtDecode } from "jwt-decode";
 import { parse } from "qs";
 import { API_HOST } from "@/constants/envs";
-import type { JwtTokens } from "@/definitions/types";
 import router from "@/router";
 import { useAdminStore } from "@/stores/admin";
 import { stringifyParams } from "@/utils/apis";

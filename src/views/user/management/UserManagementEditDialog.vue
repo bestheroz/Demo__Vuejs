@@ -135,6 +135,7 @@
 </template>
 
 <script setup lang="ts">
+import type { User, UserCreate } from "@/views/user/management/types";
 import { useDebounceFn } from "@vueuse/core";
 import { sha512 } from "js-sha512";
 import { storeToRefs } from "pinia";
@@ -146,7 +147,6 @@ import { getApi, postApi, putApi, stringifyParams } from "@/utils/apis";
 import { isEmpty, maxLength, minLength, required } from "@/utils/rules";
 import { toastWarning } from "@/utils/toaster";
 import CreatedUpdatedBar from "@/views/components/history/CreatedUpdatedBar.vue";
-import type { User, UserCreate } from "@/views/user/management/types";
 
 const props = defineProps<{
   modelValue: UserCreate;

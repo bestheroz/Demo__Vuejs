@@ -69,13 +69,13 @@
 </template>
 
 <script lang="ts" setup>
+import type { JwtTokens, LoginRequest } from "@/definitions/types";
 import { useIntervalFn } from "@vueuse/core";
 import axios, { type AxiosResponse } from "axios";
 import { sha512 } from "js-sha512";
 import { onMounted, onUnmounted, ref } from "vue";
 import { API_HOST, PRODUCT_TITLE, PRODUCT_VERSION } from "@/constants/envs";
 import { UserType } from "@/definitions/selections";
-import type { JwtTokens, LoginRequest } from "@/definitions/types";
 import { useAdminStore } from "@/stores/admin";
 import { catchError } from "@/utils/apis";
 import { routerReplace } from "@/utils/commands";

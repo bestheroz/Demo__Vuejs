@@ -21,13 +21,13 @@
 </template>
 
 <script setup lang="ts">
+import type { JwtTokens, LoginRequest } from "@/definitions/types";
 import axios, { type AxiosResponse } from "axios";
 import { sha512 } from "js-sha512";
 import { ref } from "vue";
 import { toast } from "vue-sonner";
 import { API_HOST } from "@/constants/envs";
 import { UserType } from "@/definitions/selections";
-import type { JwtTokens, LoginRequest } from "@/definitions/types";
 import { useAdminStore } from "@/stores/admin";
 import { catchError } from "@/utils/apis";
 

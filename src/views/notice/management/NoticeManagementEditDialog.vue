@@ -66,6 +66,7 @@
 </template>
 
 <script setup lang="ts">
+import type { Notice } from "@/views/notice/management/types";
 import { storeToRefs } from "pinia";
 import { ref } from "vue";
 import { Authority } from "@/definitions/authorities";
@@ -75,7 +76,6 @@ import { postApi, putApi } from "@/utils/apis";
 import { required } from "@/utils/rules";
 import { toastWarning } from "@/utils/toaster";
 import CreatedUpdatedBar from "@/views/components/history/CreatedUpdatedBar.vue";
-import type { Notice } from "@/views/notice/management/types";
 
 const props = defineProps<{
   modelValue: Notice;

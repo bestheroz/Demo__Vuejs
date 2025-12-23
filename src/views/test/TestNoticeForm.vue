@@ -42,12 +42,12 @@
 </template>
 
 <script setup lang="ts">
+import type { Notice } from "@/views/notice/management/types";
 import { storeToRefs } from "pinia";
 import { ref } from "vue";
 import { Authority } from "@/definitions/authorities";
 import { useAdminStore } from "@/stores/admin";
 import { deleteApi, getApi, postApi, putApi } from "@/utils/apis";
-import type { Notice } from "@/views/notice/management/types";
 import TestRunForm from "@/views/test/TestRunForm.vue";
 
 const { authorities } = storeToRefs(useAdminStore());

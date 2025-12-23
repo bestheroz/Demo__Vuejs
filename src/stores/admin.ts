@@ -1,6 +1,6 @@
+import type { JwtTokens, TokenClaims } from "@/definitions/types";
 import { jwtDecode } from "jwt-decode";
 import { defineStore } from "pinia";
-import type { JwtTokens, TokenClaims } from "@/definitions/types";
 import { getNewToken, signOut } from "@/utils/commands";
 import { logger } from "@/utils/logger";
 import { tokenStorage } from "@/utils/storage";

@@ -43,8 +43,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
 import type { FabButtonProp } from "@/definitions/types";
+import { ref } from "vue";
 
 const modelValue = defineModel<FabButtonProp[]>("modelValue", {
   required: true,

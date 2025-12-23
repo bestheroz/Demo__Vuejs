@@ -13,8 +13,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
 import type { IdCreatedUpdated } from "@/definitions/types";
+import { computed } from "vue";
 import { formatDatetimeSeconds } from "@/utils/formatter";
 
 const props = defineProps<{

@@ -1,6 +1,6 @@
+import type { Confirm, ConfirmResolveResponse } from "@/definitions/types";
 import { defineStore } from "pinia";
 import { v4 as uuidV4 } from "uuid";
-import type { Confirm, ConfirmResolveResponse } from "@/definitions/types";
 
 export const useConfirmStore = defineStore("confirm", {
   state: () => {

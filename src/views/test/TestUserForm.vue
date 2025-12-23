@@ -84,16 +84,16 @@
 </template>
 
 <script setup lang="ts">
+import type { JwtTokens, LoginRequest } from "@/definitions/types";
+import type { UserCreate } from "@/views/user/management/types";
 import axios from "axios";
 import { storeToRefs } from "pinia";
 import { ref } from "vue";
 import { API_HOST } from "@/constants/envs";
 import { Authority } from "@/definitions/authorities";
-import type { JwtTokens, LoginRequest } from "@/definitions/types";
 import { useAdminStore } from "@/stores/admin";
 import { catchError, deleteApi, getApi, postApi, putApi } from "@/utils/apis";
 import TestRunForm from "@/views/test/TestRunForm.vue";
-import type { UserCreate } from "@/views/user/management/types";
 
 const { authorities } = storeToRefs(useAdminStore());
 
