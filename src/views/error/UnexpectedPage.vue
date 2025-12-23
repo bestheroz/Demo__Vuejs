@@ -1,3 +1,9 @@
+<script setup lang="ts">
+import { useRouter } from "vue-router";
+
+const { replace } = useRouter();
+</script>
+
 <template>
   <v-card class="text-center w-100 error-page pa-3">
     <v-img
@@ -12,12 +18,6 @@
     </v-btn>
   </v-card>
 </template>
-
-<script setup lang="ts">
-import { useRouter } from "vue-router";
-
-const { replace } = useRouter();
-</script>
 
 <style>
 .error-page {

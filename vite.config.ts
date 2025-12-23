@@ -28,6 +28,10 @@ export default defineConfig(({ command }) => {
     server: {
       port: 3000,
     },
+    preview: {
+      port: 4173,
+      strictPort: true,
+    },
     resolve: {
       alias: {
         "@": resolve(import.meta.dirname, "./src"),
@@ -43,6 +47,7 @@ export default defineConfig(({ command }) => {
       cssMinify: "lightningcss",
       minify: "esbuild",
       reportCompressedSize: false,
+      chunkSizeWarningLimit: 1000,
       modulePreload: { polyfill: false },
       rollupOptions: {
         output: {

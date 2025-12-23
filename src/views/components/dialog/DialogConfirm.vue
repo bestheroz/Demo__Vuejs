@@ -1,3 +1,25 @@
+<script lang="ts" setup>
+import type { ConfirmResolveResponse } from "@/definitions/types";
+
+withDefaults(
+  defineProps<{
+    uuid: string;
+    title?: string;
+    content: string;
+    cancelButtonTitle?: string;
+    confirmButtonTitle?: string;
+    width?: string;
+    resolver: (value: ConfirmResolveResponse) => void;
+  }>(),
+  {
+    title: undefined,
+    cancelButtonTitle: "취소",
+    confirmButtonTitle: "확인",
+    width: "400px",
+  },
+);
+</script>
+
 <template>
   <v-dialog
     :model-value="true"
@@ -38,25 +60,3 @@
     </v-card>
   </v-dialog>
 </template>
-
-<script lang="ts" setup>
-import type { ConfirmResolveResponse } from "@/definitions/types";
-
-withDefaults(
-  defineProps<{
-    uuid: string;
-    title?: string;
-    content: string;
-    cancelButtonTitle?: string;
-    confirmButtonTitle?: string;
-    width?: string;
-    resolver: (value: ConfirmResolveResponse) => void;
-  }>(),
-  {
-    title: undefined,
-    cancelButtonTitle: "취소",
-    confirmButtonTitle: "확인",
-    width: "400px",
-  },
-);
-</script>

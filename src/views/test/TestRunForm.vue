@@ -1,17 +1,3 @@
-<template>
-  <v-col cols="1">
-    <v-btn
-      :color="success ? 'success' : success === false ? 'error' : 'secondary'"
-      :disabled="disabled"
-      :loading="loading"
-      block
-      @click="run"
-      >{{ title }}</v-btn
-    >
-  </v-col>
-  <v-col cols="11">{{ result }} </v-col>
-</template>
-
 <script setup lang="ts">
 import type { TestResult } from "@/views/test/type";
 import { ref } from "vue";
@@ -41,3 +27,17 @@ async function run() {
 
 defineExpose({ run });
 </script>
+
+<template>
+  <v-col cols="1">
+    <v-btn
+      :color="success ? 'success' : success === false ? 'error' : 'secondary'"
+      :disabled="disabled"
+      :loading="loading"
+      block
+      @click="run"
+      >{{ title }}</v-btn
+    >
+  </v-col>
+  <v-col cols="11">{{ result }} </v-col>
+</template>

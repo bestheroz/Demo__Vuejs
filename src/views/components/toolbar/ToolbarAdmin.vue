@@ -1,3 +1,10 @@
+<script setup lang="ts">
+import { storeToRefs } from "pinia";
+import { useAdminStore } from "@/stores/admin";
+import { signOut } from "@/utils/commands";
+
+const { info } = storeToRefs(useAdminStore());
+</script>
 <template>
   <v-menu>
     <template #activator="{ props }">
@@ -18,10 +25,3 @@
     </v-list>
   </v-menu>
 </template>
-<script setup lang="ts">
-import { storeToRefs } from "pinia";
-import { useAdminStore } from "@/stores/admin";
-import { signOut } from "@/utils/commands";
-
-const { info } = storeToRefs(useAdminStore());
-</script>

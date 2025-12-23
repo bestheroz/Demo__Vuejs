@@ -1,97 +1,3 @@
-<template>
-  <div class="data-table-wrapper">
-    <v-data-table-server
-      v-model="modelValue"
-      :select-strategy="singleSelect ? 'single' : 'all'"
-      :show-select="showSelect"
-      fixed-header
-      :headers="filterHeaders"
-      :items="items"
-      :items-length="itemsLength"
-      :loading="loading"
-      :item-value="itemValue"
-      :show-expand="showExpand"
-      :items-per-page="itemsPerPage"
-      disable-sort
-      show-current-page
-      :hide-default-footer="!showDefaultFooter"
-      class="custom-data-table"
-      @update:options="onUpdateOptions"
-    >
-      <template #loading>
-        <v-skeleton-loader type="table-row@10" />
-      </template>
-      <template #thead>
-        <DataTableHeaderFilter
-          v-if="!hideFilter"
-          :filter-header="filterHeaders"
-          :original-items="items"
-          :filter-first-column="true"
-          @update:model-value="onUpdateQueryParams"
-        />
-      </template>
-
-      <template
-        v-for="header in headers.filter((v) => !!v.valueSelectItem)"
-        :key="header.key"
-        #[`item.${header.key}`]="{ value }"
-      >
-        <span class="data-cell-value">
-          {{ getTitleByValue(header.valueSelectItem ?? [], value) }}
-        </span>
-      </template>
-      <template
-        v-for="header in filterHeaders.filter((v) => !!v.valueType)"
-        :key="header.key"
-        #[`item.${header.key}`]="{ value }"
-      >
-        <template v-if="header.valueType === 'datetime'"
-          ><span class="data-cell-value data-cell-value--datetime">{{
-            formatDatetime(value)
-          }}</span></template
-        >
-        <template v-else-if="header.valueType === 'datetimeSeconds'"
-          ><span class="data-cell-value data-cell-value--datetime">{{
-            formatDatetimeSeconds(value)
-          }}</span></template
-        >
-        <template v-else-if="header.valueType === 'date'"
-          ><span class="data-cell-value data-cell-value--date">{{
-            formatDate(value)
-          }}</span></template
-        >
-        <template v-else-if="header.valueType === 'number'"
-          ><span class="data-cell-value data-cell-value--number">{{
-            value != null ? (+value).toLocaleString() : "-"
-          }}</span></template
-        >
-        <UserAvatar
-          v-else-if="header.valueType === 'operator'"
-          :value="value"
-        />
-        <v-switch
-          v-else-if="header.valueType === 'switch'"
-          class="d-inline-block custom-switch"
-          :model-value="value"
-          color="primary"
-          density="compact"
-          disabled
-        />
-        <DataTableColumnEllipsis
-          v-else-if="header.valueType === 'textEllipsis'"
-          :text="value"
-          :width="header.width"
-        />
-      </template>
-
-      <!-- useSlots로 동적 슬롯 전달 -->
-      <template v-for="(_slot, name) in slots" :key="name" #[name]="slotData">
-        <slot :name="name" v-bind="slotData" />
-      </template>
-    </v-data-table-server>
-  </div>
-</template>
-
 <script setup lang="ts">
 import type { DataTableHeader, DataTableOptions } from "@/definitions/types";
 import { computed, ref, useSlots } from "vue";
@@ -235,6 +141,100 @@ function reload() {
 
 defineExpose({ reload });
 </script>
+
+<template>
+  <div class="data-table-wrapper">
+    <v-data-table-server
+      v-model="modelValue"
+      :select-strategy="singleSelect ? 'single' : 'all'"
+      :show-select="showSelect"
+      fixed-header
+      :headers="filterHeaders"
+      :items="items"
+      :items-length="itemsLength"
+      :loading="loading"
+      :item-value="itemValue"
+      :show-expand="showExpand"
+      :items-per-page="itemsPerPage"
+      disable-sort
+      show-current-page
+      :hide-default-footer="!showDefaultFooter"
+      class="custom-data-table"
+      @update:options="onUpdateOptions"
+    >
+      <template #loading>
+        <v-skeleton-loader type="table-row@10" />
+      </template>
+      <template #thead>
+        <DataTableHeaderFilter
+          v-if="!hideFilter"
+          :filter-header="filterHeaders"
+          :original-items="items"
+          :filter-first-column="true"
+          @update:model-value="onUpdateQueryParams"
+        />
+      </template>
+
+      <template
+        v-for="header in headers.filter((v) => !!v.valueSelectItem)"
+        :key="header.key"
+        #[`item.${header.key}`]="{ value }"
+      >
+        <span class="data-cell-value">
+          {{ getTitleByValue(header.valueSelectItem ?? [], value) }}
+        </span>
+      </template>
+      <template
+        v-for="header in filterHeaders.filter((v) => !!v.valueType)"
+        :key="header.key"
+        #[`item.${header.key}`]="{ value }"
+      >
+        <template v-if="header.valueType === 'datetime'"
+          ><span class="data-cell-value data-cell-value--datetime">{{
+            formatDatetime(value)
+          }}</span></template
+        >
+        <template v-else-if="header.valueType === 'datetimeSeconds'"
+          ><span class="data-cell-value data-cell-value--datetime">{{
+            formatDatetimeSeconds(value)
+          }}</span></template
+        >
+        <template v-else-if="header.valueType === 'date'"
+          ><span class="data-cell-value data-cell-value--date">{{
+            formatDate(value)
+          }}</span></template
+        >
+        <template v-else-if="header.valueType === 'number'"
+          ><span class="data-cell-value data-cell-value--number">{{
+            value != null ? (+value).toLocaleString() : "-"
+          }}</span></template
+        >
+        <UserAvatar
+          v-else-if="header.valueType === 'operator'"
+          :value="value"
+        />
+        <v-switch
+          v-else-if="header.valueType === 'switch'"
+          class="d-inline-block custom-switch"
+          :model-value="value"
+          color="primary"
+          density="compact"
+          disabled
+        />
+        <DataTableColumnEllipsis
+          v-else-if="header.valueType === 'textEllipsis'"
+          :text="value"
+          :width="header.width"
+        />
+      </template>
+
+      <!-- useSlots로 동적 슬롯 전달 -->
+      <template v-for="(_slot, name) in slots" :key="name" #[name]="slotData">
+        <slot :name="name" v-bind="slotData" />
+      </template>
+    </v-data-table-server>
+  </div>
+</template>
 
 <style lang="scss" scoped>
 .data-table-wrapper {

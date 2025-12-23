@@ -1,3 +1,70 @@
+<script setup lang="ts">
+import type { DataTableHeader } from "@/definitions/types";
+import { watchDebounced } from "@vueuse/core";
+import { computed, ref } from "vue";
+import { stringifyParams } from "@/utils/apis";
+
+const props = withDefaults(
+  defineProps<{
+    filterHeader: DataTableHeader[];
+    originalItems: unknown[];
+    filterFirstColumn: boolean;
+  }>(),
+  { filterFirstColumn: false },
+);
+
+const emits = defineEmits<{
+  (e: "update:model-value", v: string): void;
+}>();
+
+const filter = ref<(string | boolean | null | undefined)[]>(
+  new Array(props.filterHeader.length).fill(null),
+);
+const finalFilterHeader = computed<DataTableHeader[]>(() =>
+  props.filterHeader.map((v, index) => ({
+    ...v,
+    title: v.title || v.key || `-${index + 1}`,
+  })),
+);
+const filterMap = computed(() => finalFilterHeader.value.map((v) => v.key));
+
+watchDebounced(
+  () => props.filterHeader,
+  (v) => {
+    filter.value = new Array(v.length).fill(null);
+  },
+  { debounce: 100 },
+);
+
+watchDebounced(
+  () => [props.originalItems, filter.value],
+  () => {
+    emits(
+      "update:model-value",
+      stringifyParams(
+        filter.value.reduce<Record<string, string>>(
+          (acc, cur, index) => {
+            // undefined, null, 빈 문자열은 필터에서 제외
+            if (cur === undefined || cur === "" || cur === null) return acc;
+
+            // boolean 값만 문자열로 변환하여 전송
+            if (filterMap.value[index] && typeof cur === "boolean") {
+              acc[filterMap.value[index]] = String(cur);
+            } else if (filterMap.value[index] && typeof cur === "string") {
+              // 문자열 값은 그대로 전송
+              acc[filterMap.value[index]] = cur;
+            }
+            return acc;
+          },
+          {},
+        ),
+      ),
+    );
+  },
+  { debounce: 200, deep: true },
+);
+</script>
+
 <template>
   <thead>
     <tr id="datatable-header-filter" class="text-center">
@@ -75,73 +142,6 @@
     </tr>
   </thead>
 </template>
-
-<script setup lang="ts">
-import type { DataTableHeader } from "@/definitions/types";
-import { watchDebounced } from "@vueuse/core";
-import { computed, ref } from "vue";
-import { stringifyParams } from "@/utils/apis";
-
-const props = withDefaults(
-  defineProps<{
-    filterHeader: DataTableHeader[];
-    originalItems: unknown[];
-    filterFirstColumn: boolean;
-  }>(),
-  { filterFirstColumn: false },
-);
-
-const emits = defineEmits<{
-  (e: "update:model-value", v: string): void;
-}>();
-
-const filter = ref<(string | boolean | null | undefined)[]>(
-  new Array(props.filterHeader.length).fill(null),
-);
-const finalFilterHeader = computed<DataTableHeader[]>(() =>
-  props.filterHeader.map((v, index) => ({
-    ...v,
-    title: v.title || v.key || `-${index + 1}`,
-  })),
-);
-const filterMap = computed(() => finalFilterHeader.value.map((v) => v.key));
-
-watchDebounced(
-  () => props.filterHeader,
-  (v) => {
-    filter.value = new Array(v.length).fill(null);
-  },
-  { debounce: 100 },
-);
-
-watchDebounced(
-  () => [props.originalItems, filter.value],
-  () => {
-    emits(
-      "update:model-value",
-      stringifyParams(
-        filter.value.reduce<Record<string, string>>(
-          (acc, cur, index) => {
-            // undefined, null, 빈 문자열은 필터에서 제외
-            if (cur === undefined || cur === "" || cur === null) return acc;
-
-            // boolean 값만 문자열로 변환하여 전송
-            if (filterMap.value[index] && typeof cur === "boolean") {
-              acc[filterMap.value[index]] = String(cur);
-            } else if (filterMap.value[index] && typeof cur === "string") {
-              // 문자열 값은 그대로 전송
-              acc[filterMap.value[index]] = cur;
-            }
-            return acc;
-          },
-          {},
-        ),
-      ),
-    );
-  },
-  { debounce: 200, deep: true },
-);
-</script>
 <style lang="scss" scoped>
 #datatable-header-filter {
   background: rgba(var(--v-theme-surface-variant), 0.04);

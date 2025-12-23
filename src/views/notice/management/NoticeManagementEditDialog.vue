@@ -1,70 +1,3 @@
-<template>
-  <v-bottom-sheet
-    max-width="100%"
-    @keydown.esc="emits('click:cancel')"
-    @update:model-value="(val) => !val && emits('click:cancel')"
-  >
-    <v-card>
-      <v-card-title> {{ newFlag ? "추가" : "수정" }} </v-card-title>
-      <v-card-text>
-        <v-form ref="refForm">
-          <v-row dense>
-            <v-col cols="10">
-              <v-text-field
-                v-model="modelValue.title"
-                label="제목"
-                :rules="[required]"
-                class="required"
-              />
-            </v-col>
-            <v-col cols="2">
-              <v-switch
-                v-model="modelValue.useFlag"
-                label="사용 여부"
-                class="required"
-              />
-            </v-col>
-            <v-col cols="12">
-              <v-textarea
-                v-model="modelValue.content"
-                label="내용"
-                :rows="20"
-                :rules="[required]"
-                class="required"
-              />
-            </v-col>
-          </v-row>
-        </v-form>
-      </v-card-text>
-      <v-card-actions>
-        <CreatedUpdatedBar :model-value="modelValue" />
-        <v-btn
-          color="primary"
-          width="100"
-          variant="plain"
-          density="default"
-          size="x-large"
-          height="40"
-          @click="emits('click:cancel')"
-          >닫기</v-btn
-        >
-        <v-btn
-          v-if="authorities.includes(Authority.NOTICE_EDIT)"
-          color="primary"
-          :loading="loading"
-          variant="flat"
-          density="default"
-          size="x-large"
-          height="40"
-          width="100"
-          @click="save"
-          >저장</v-btn
-        >
-      </v-card-actions>
-    </v-card>
-  </v-bottom-sheet>
-</template>
-
 <script setup lang="ts">
 import type { Notice } from "@/views/notice/management/types";
 import { storeToRefs } from "pinia";
@@ -136,3 +69,70 @@ async function updateItem() {
   }
 }
 </script>
+
+<template>
+  <v-bottom-sheet
+    max-width="100%"
+    @keydown.esc="emits('click:cancel')"
+    @update:model-value="(val) => !val && emits('click:cancel')"
+  >
+    <v-card>
+      <v-card-title> {{ newFlag ? "추가" : "수정" }} </v-card-title>
+      <v-card-text>
+        <v-form ref="refForm">
+          <v-row dense>
+            <v-col cols="10">
+              <v-text-field
+                v-model="modelValue.title"
+                label="제목"
+                :rules="[required]"
+                class="required"
+              />
+            </v-col>
+            <v-col cols="2">
+              <v-switch
+                v-model="modelValue.useFlag"
+                label="사용 여부"
+                class="required"
+              />
+            </v-col>
+            <v-col cols="12">
+              <v-textarea
+                v-model="modelValue.content"
+                label="내용"
+                :rows="20"
+                :rules="[required]"
+                class="required"
+              />
+            </v-col>
+          </v-row>
+        </v-form>
+      </v-card-text>
+      <v-card-actions>
+        <CreatedUpdatedBar :model-value="modelValue" />
+        <v-btn
+          color="primary"
+          width="100"
+          variant="plain"
+          density="default"
+          size="x-large"
+          height="40"
+          @click="emits('click:cancel')"
+          >닫기</v-btn
+        >
+        <v-btn
+          v-if="authorities.includes(Authority.NOTICE_EDIT)"
+          color="primary"
+          :loading="loading"
+          variant="flat"
+          density="default"
+          size="x-large"
+          height="40"
+          width="100"
+          @click="save"
+          >저장</v-btn
+        >
+      </v-card-actions>
+    </v-card>
+  </v-bottom-sheet>
+</template>

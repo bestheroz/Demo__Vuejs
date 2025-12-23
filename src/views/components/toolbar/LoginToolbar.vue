@@ -1,25 +1,3 @@
-<template>
-  <div class="d-inline-flex">
-    <v-radio-group
-      v-model="type"
-      class="required mr-4 mt-1"
-      hide-details
-      @update:model-value="login"
-    >
-      <v-radio :value="UserType.ADMIN" :label="UserType.ADMIN" />
-      <v-radio :value="UserType.USER" :label="UserType.USER" />
-    </v-radio-group>
-    <v-chip-group disabled>
-      <v-chip
-        v-for="authority in info.authorities"
-        :key="authority"
-        size="small"
-        >{{ authority }}</v-chip
-      >
-    </v-chip-group>
-  </div>
-</template>
-
 <script setup lang="ts">
 import type { JwtTokens, LoginRequest } from "@/definitions/types";
 import axios, { type AxiosResponse } from "axios";
@@ -63,3 +41,25 @@ async function login() {
   }
 }
 </script>
+
+<template>
+  <div class="d-inline-flex">
+    <v-radio-group
+      v-model="type"
+      class="required mr-4 mt-1"
+      hide-details
+      @update:model-value="login"
+    >
+      <v-radio :value="UserType.ADMIN" :label="UserType.ADMIN" />
+      <v-radio :value="UserType.USER" :label="UserType.USER" />
+    </v-radio-group>
+    <v-chip-group disabled>
+      <v-chip
+        v-for="authority in info.authorities"
+        :key="authority"
+        size="small"
+        >{{ authority }}</v-chip
+      >
+    </v-chip-group>
+  </div>
+</template>

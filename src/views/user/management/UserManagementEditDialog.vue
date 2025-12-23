@@ -1,3 +1,132 @@
+<script setup lang="ts">
+import type { User, UserCreate } from "@/views/user/management/types";
+import { useDebounceFn } from "@vueuse/core";
+import { sha512 } from "js-sha512";
+import { storeToRefs } from "pinia";
+import { ref } from "vue";
+import { Authority } from "@/definitions/authorities";
+import { useAdminStore } from "@/stores/admin";
+import { useConfirmStore } from "@/stores/confirm";
+import { getApi, postApi, putApi, stringifyParams } from "@/utils/apis";
+import { isEmpty, maxLength, minLength, required } from "@/utils/rules";
+import { toastWarning } from "@/utils/toaster";
+import CreatedUpdatedBar from "@/views/components/history/CreatedUpdatedBar.vue";
+
+const props = defineProps<{
+  modelValue: UserCreate;
+}>();
+
+const emits = defineEmits<{
+  (e: "click:cancel"): void;
+  (e: "save"): void;
+}>();
+
+const { authorities } = storeToRefs(useAdminStore());
+
+const loading = ref(false);
+
+const newFlag = !props.modelValue.id;
+
+const password = ref("");
+const passwordErrorMessages = ref<string[]>([]);
+
+const refForm = ref<{ validate: () => Promise<{ valid: boolean }> }>();
+async function save(): Promise<void> {
+  if (!isEmpty(errorText.value) || !isEmpty(passwordErrorMessages.value)) {
+    toastWarning("입력 항목을 확인해주세요.");
+    return;
+  }
+
+  const formValidation = await refForm.value?.validate();
+  if (!formValidation?.valid) {
+    toastWarning("입력 항목을 확인해주세요.");
+    return;
+  }
+  if (newFlag) {
+    await createItem();
+  } else {
+    await updateItem();
+  }
+}
+
+const { confirmCreate, confirmUpdate } = useConfirmStore();
+async function createItem() {
+  if (!(await confirmCreate())) {
+    return;
+  }
+  const { success } = await postApi<UserCreate, User>(
+    "api/v1/users",
+    {
+      ...props.modelValue,
+      password: props.modelValue.password
+        ? sha512(props.modelValue.password)
+        : undefined,
+    },
+    { refLoading: loading },
+  );
+  if (success) {
+    emits("save");
+    emits("click:cancel");
+  }
+}
+async function updateItem() {
+  if (!(await confirmUpdate())) {
+    return;
+  }
+  const { success } = await putApi<UserCreate, User>(
+    `api/v1/users/${props.modelValue.id}`,
+    {
+      ...props.modelValue,
+      password: props.modelValue.password
+        ? sha512(props.modelValue.password)
+        : undefined,
+    },
+    { refLoading: loading },
+  );
+  if (success) {
+    emits("save");
+    emits("click:cancel");
+  }
+}
+
+const checkLoading = ref(false);
+const errorText = ref<string[]>([]);
+function checkExistsLoginId() {
+  checkLoading.value = true;
+  debouncedCheckExistsLoginId();
+}
+const debouncedCheckExistsLoginId = useDebounceFn(async (): Promise<void> => {
+  try {
+    errorText.value = [];
+    if (!props.modelValue.loginId) {
+      return;
+    }
+    const { data } = await getApi<boolean>(
+      `api/v1/users/check-login-id?${stringifyParams({
+        loginId: props.modelValue.loginId,
+        userId: props.modelValue.id,
+      })}`,
+    );
+    if (!data) {
+      errorText.value = ["이미 존재하는 아이디입니다."];
+    }
+  } finally {
+    checkLoading.value = false;
+  }
+}, 500);
+
+function onInputPassword() {
+  if (
+    isEmpty(props.modelValue.password) ||
+    password.value === props.modelValue.password
+  ) {
+    passwordErrorMessages.value = [];
+  } else {
+    passwordErrorMessages.value = ["비밀번호가 일치하지 않습니다."];
+  }
+}
+</script>
+
 <template>
   <v-bottom-sheet
     max-width="100%"
@@ -133,132 +262,3 @@
     </v-card>
   </v-bottom-sheet>
 </template>
-
-<script setup lang="ts">
-import type { User, UserCreate } from "@/views/user/management/types";
-import { useDebounceFn } from "@vueuse/core";
-import { sha512 } from "js-sha512";
-import { storeToRefs } from "pinia";
-import { ref } from "vue";
-import { Authority } from "@/definitions/authorities";
-import { useAdminStore } from "@/stores/admin";
-import { useConfirmStore } from "@/stores/confirm";
-import { getApi, postApi, putApi, stringifyParams } from "@/utils/apis";
-import { isEmpty, maxLength, minLength, required } from "@/utils/rules";
-import { toastWarning } from "@/utils/toaster";
-import CreatedUpdatedBar from "@/views/components/history/CreatedUpdatedBar.vue";
-
-const props = defineProps<{
-  modelValue: UserCreate;
-}>();
-
-const emits = defineEmits<{
-  (e: "click:cancel"): void;
-  (e: "save"): void;
-}>();
-
-const { authorities } = storeToRefs(useAdminStore());
-
-const loading = ref(false);
-
-const newFlag = !props.modelValue.id;
-
-const password = ref("");
-const passwordErrorMessages = ref<string[]>([]);
-
-const refForm = ref<{ validate: () => Promise<{ valid: boolean }> }>();
-async function save(): Promise<void> {
-  if (!isEmpty(errorText.value) || !isEmpty(passwordErrorMessages.value)) {
-    toastWarning("입력 항목을 확인해주세요.");
-    return;
-  }
-
-  const formValidation = await refForm.value?.validate();
-  if (!formValidation?.valid) {
-    toastWarning("입력 항목을 확인해주세요.");
-    return;
-  }
-  if (newFlag) {
-    await createItem();
-  } else {
-    await updateItem();
-  }
-}
-
-const { confirmCreate, confirmUpdate } = useConfirmStore();
-async function createItem() {
-  if (!(await confirmCreate())) {
-    return;
-  }
-  const { success } = await postApi<UserCreate, User>(
-    "api/v1/users",
-    {
-      ...props.modelValue,
-      password: props.modelValue.password
-        ? sha512(props.modelValue.password)
-        : undefined,
-    },
-    { refLoading: loading },
-  );
-  if (success) {
-    emits("save");
-    emits("click:cancel");
-  }
-}
-async function updateItem() {
-  if (!(await confirmUpdate())) {
-    return;
-  }
-  const { success } = await putApi<UserCreate, User>(
-    `api/v1/users/${props.modelValue.id}`,
-    {
-      ...props.modelValue,
-      password: props.modelValue.password
-        ? sha512(props.modelValue.password)
-        : undefined,
-    },
-    { refLoading: loading },
-  );
-  if (success) {
-    emits("save");
-    emits("click:cancel");
-  }
-}
-
-const checkLoading = ref(false);
-const errorText = ref<string[]>([]);
-function checkExistsLoginId() {
-  checkLoading.value = true;
-  debouncedCheckExistsLoginId();
-}
-const debouncedCheckExistsLoginId = useDebounceFn(async (): Promise<void> => {
-  try {
-    errorText.value = [];
-    if (!props.modelValue.loginId) {
-      return;
-    }
-    const { data } = await getApi<boolean>(
-      `api/v1/users/check-login-id?${stringifyParams({
-        loginId: props.modelValue.loginId,
-        userId: props.modelValue.id,
-      })}`,
-    );
-    if (!data) {
-      errorText.value = ["이미 존재하는 아이디입니다."];
-    }
-  } finally {
-    checkLoading.value = false;
-  }
-}, 500);
-
-function onInputPassword() {
-  if (
-    isEmpty(props.modelValue.password) ||
-    password.value === props.modelValue.password
-  ) {
-    passwordErrorMessages.value = [];
-  } else {
-    passwordErrorMessages.value = ["비밀번호가 일치하지 않습니다."];
-  }
-}
-</script>
