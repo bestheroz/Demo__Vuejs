@@ -1,7 +1,7 @@
 name: deploy-sandbox-qa
 on:
   push:
-    branches: [ sandbox, qa ]
+    branches: [sandbox, qa]
 env:
   AWS_ACCESS_KEY_ID: ${{ secrets.DEPLOYER_AWS_ACCESS_KEY_ID }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.DEPLOYER_AWS_SECRET_ACCESS_KEY }}
@@ -17,26 +17,28 @@ jobs:
       cancel-in-progress: true
     steps:
       - name: checkout
-        uses: actions/checkout@main
-
-      - uses: pnpm/action-setup@master
-        name: Install pnpm
+        uses: actions/checkout@v4
         with:
-          version: latest
-          run_install: false
+          fetch-depth: 1
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
 
       - name: Install Node.js
-        uses: actions/setup-node@main
+        uses: actions/setup-node@v4
         with:
-          node-version: 24
-          cache: "pnpm"
+          node-version-file: 'package.json'
+          cache: 'pnpm'
 
-      - run: pnpm install --frozen-lockfile --strict-peer-dependencies
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile --strict-peer-dependencies
 
-      - name: Build 🔨
+      - name: Build
         run: pnpm run build --mode ${{ github.ref_name }}
 
-      - name: upload to s3
+      - name: Upload to S3
         run: |
           if [ $(( $RANDOM % 100 )) -eq 0 ]; then
             aws s3 sync --region $AWS_REGION dist $AWS_S3_URL/${{ github.ref_name }}/ --delete
@@ -44,12 +46,12 @@ jobs:
             aws s3 sync --region $AWS_REGION dist $AWS_S3_URL/${{ github.ref_name }}/
           fi
 
-      - name: invalidate cloudfront
+      - name: Invalidate CloudFront
         run: |
           if [ $GITHUB_REF_NAME = 'sandbox' ]; then
             CF_DISTRIBUTION_ID=$CF_DISTRIBUTION_ID_FOR_SANDBOX
           elif [ $GITHUB_REF_NAME = 'qa' ]; then
             CF_DISTRIBUTION_ID=$CF_DISTRIBUTION_ID_FOR_QA
           fi
-          
+
           aws cloudfront create-invalidation --distribution-id ${CF_DISTRIBUTION_ID} --paths "/index.html"
