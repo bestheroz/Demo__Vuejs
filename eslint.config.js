@@ -122,6 +122,10 @@ export default tseslint.config(
         },
       ],
       "vue/prefer-define-options": "error",
+      "vue/prefer-true-attribute-shorthand": "error",
+      "vue/require-typed-ref": "warn",
+      "vue/no-required-prop-with-default": "error",
+      "vue/no-ref-object-reactivity-loss": "error",
 
       /* 환경별 규칙 */
       "no-console": isProduction

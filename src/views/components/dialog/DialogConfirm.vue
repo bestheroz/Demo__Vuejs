@@ -22,7 +22,7 @@ withDefaults(
 
 <template>
   <v-dialog
-    :model-value="true"
+    model-value
     :width="width"
     @keydown.esc="resolver({ uuid: uuid, value: false })"
     @keydown.enter="resolver({ uuid: uuid, value: true })"

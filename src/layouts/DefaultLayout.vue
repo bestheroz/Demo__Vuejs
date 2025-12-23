@@ -57,7 +57,7 @@ const filteredDrawer = computed<Drawer[]>(() => {
 
     <!-- Toolbar -->
     <v-app-bar :flat="false">
-      <v-card :flat="true" class="flex-grow-1 d-flex pa-0 ma-0">
+      <v-card flat class="flex-grow-1 d-flex pa-0 ma-0">
         <div class="d-flex flex-grow-1 align-center">
           <div class="d-flex flex-grow-1 align-center">
             <v-app-bar-nav-icon
@@ -76,7 +76,7 @@ const filteredDrawer = computed<Drawer[]>(() => {
 
     <v-main>
       <v-container
-        :fluid="true"
+        fluid
         class="fill-height"
         style="align-items: normal"
       >
