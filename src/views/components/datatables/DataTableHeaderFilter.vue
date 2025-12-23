@@ -8,7 +8,7 @@ const props = withDefaults(
   defineProps<{
     filterHeader: DataTableHeader[];
     originalItems: unknown[];
-    filterFirstColumn: boolean;
+    filterFirstColumn?: boolean;
   }>(),
   { filterFirstColumn: false },
 );
@@ -84,7 +84,7 @@ watchDebounced(
           hide-details
           single-line
           :placeholder="`${data.title} 검색`"
-          :clearable="true"
+          clearable
           class="filter-input"
           v-if="
             data.filterable !== false &&
@@ -134,7 +134,7 @@ watchDebounced(
           hide-details
           single-line
           :placeholder="`${data.title} 검색`"
-          :clearable="true"
+          clearable
           class="filter-input"
           v-else-if="data.filterable !== false"
         />

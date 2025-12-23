@@ -170,7 +170,7 @@ defineExpose({ reload });
           v-if="!hideFilter"
           :filter-header="filterHeaders"
           :original-items="items"
-          :filter-first-column="true"
+          filter-first-column
           @update:model-value="onUpdateQueryParams"
         />
       </template>

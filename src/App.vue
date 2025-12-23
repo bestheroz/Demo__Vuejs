@@ -52,7 +52,7 @@ onMounted(async () => {
       richColors
       theme="dark"
       position="top-right"
-      :expand="true"
+      expand
       :visibleToasts="99"
       :toastOptions="{
         duration: 2_000,

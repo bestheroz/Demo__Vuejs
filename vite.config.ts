@@ -27,6 +27,12 @@ export default defineConfig(({ command }) => {
     plugins,
     server: {
       port: 3000,
+      warmup: {
+        clientFiles: ["./src/main.ts", "./src/App.vue"],
+      },
+    },
+    preview: {
+      port: 3001,
     },
     resolve: {
       alias: {
