@@ -4,49 +4,31 @@ on:
     branches: ['**']
     tags-ignore: ['**']
 jobs:
-  lint-tsc:
+  test:
     runs-on: ubuntu-latest
     steps:
       - name: checkout
-        uses: actions/checkout@main
-
-      - uses: pnpm/action-setup@master
-        name: Install pnpm
+        uses: actions/checkout@v4
         with:
-          version: latest
-          run_install: false
+          fetch-depth: 1
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
 
       - name: Install Node.js
-        uses: actions/setup-node@main
+        uses: actions/setup-node@v4
         with:
-          node-version: 24
-          cache: "pnpm"
+          node-version-file: 'package.json'
+          cache: 'pnpm'
 
-      - run: pnpm install --frozen-lockfile --strict-peer-dependencies
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile --strict-peer-dependencies
 
       - name: lint & tsc
         run: pnpm run lint
 
-  build:
-    runs-on: ubuntu-latest
-    if: github.ref != 'refs/heads/sandbox' && github.ref != 'refs/heads/qa'
-    steps:
-      - name: checkout
-        uses: actions/checkout@main
-
-      - uses: pnpm/action-setup@master
-        name: Install pnpm
-        with:
-          version: latest
-          run_install: false
-
-      - name: Install Node.js
-        uses: actions/setup-node@main
-        with:
-          node-version: 24
-          cache: "pnpm"
-
-      - run: pnpm install --frozen-lockfile --strict-peer-dependencies
-
-      - name: Build 🔨
+      - name: Build
+        if: github.ref != 'refs/heads/sandbox' && github.ref != 'refs/heads/qa'
         run: pnpm run build --mode prod
