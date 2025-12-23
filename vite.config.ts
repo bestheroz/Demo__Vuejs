@@ -25,12 +25,6 @@ export default defineConfig(({ command }) => {
   ];
   return {
     plugins,
-    define: {
-      // Vue 3.5+ - 프로덕션에서 devtools 비활성화
-      __VUE_PROD_DEVTOOLS__: false,
-      // Vue 3.5+ - hydration mismatch 상세 정보 비활성화 (SSR 사용 시)
-      __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: false,
-    },
     server: {
       port: 3000,
       warmup: {
