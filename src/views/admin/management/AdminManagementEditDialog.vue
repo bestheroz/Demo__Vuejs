@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import type { Admin, AdminCreate } from "@/views/admin/management/types";
 import { useDebounceFn } from "@vueuse/core";
-import { sha512 } from "js-sha512";
 import { storeToRefs } from "pinia";
 import { ref, useTemplateRef } from "vue";
 import { Authority } from "@/definitions/authorities";
 import { useAdminStore } from "@/stores/admin";
 import { useConfirmStore } from "@/stores/confirm";
 import { getApi, postApi, putApi, stringifyParams } from "@/utils/apis";
+import { sha512 } from "@/utils/crypto";
 import { isEmpty, maxLength, minLength, required } from "@/utils/rules";
 import { toastWarning } from "@/utils/toaster";
 import CreatedUpdatedBar from "@/views/components/history/CreatedUpdatedBar.vue";
@@ -59,7 +59,7 @@ async function createItem() {
     {
       ...props.modelValue,
       password: props.modelValue.password
-        ? sha512(props.modelValue.password)
+        ? await sha512(props.modelValue.password)
         : undefined,
     },
     { refLoading: loading },
@@ -78,7 +78,7 @@ async function updateItem() {
     {
       ...props.modelValue,
       password: props.modelValue.password
-        ? sha512(props.modelValue.password)
+        ? await sha512(props.modelValue.password)
         : undefined,
     },
     { refLoading: loading },

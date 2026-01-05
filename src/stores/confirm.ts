@@ -1,6 +1,5 @@
 import type { Confirm, ConfirmResolveResponse } from "@/definitions/types";
 import { defineStore } from "pinia";
-import { v4 as uuidV4 } from "uuid";
 
 export const useConfirmStore = defineStore("confirm", {
   state: () => {
@@ -30,7 +29,7 @@ export const useConfirmStore = defineStore("confirm", {
         this.$state.items = [
           ...this.$state.items,
           {
-            uuid: uuidV4(),
+            uuid: crypto.randomUUID(),
             title: title,
             content: content,
             width: width,

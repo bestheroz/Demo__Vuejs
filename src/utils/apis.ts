@@ -6,7 +6,6 @@ import axios, {
   type Method,
 } from "axios";
 import { stringify } from "qs";
-import { v4 as uuidV4 } from "uuid";
 import { toast } from "vue-sonner";
 import { API_HOST } from "@/constants/envs";
 import { useAdminStore } from "@/stores/admin";
@@ -57,7 +56,7 @@ axiosInstance.interceptors.request.use(
     }
 
     // 요청 ID 생성
-    const requestId = uuidV4();
+    const requestId = crypto.randomUUID();
     const controller = new AbortController();
 
     config.signal = controller.signal;

@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import type { JwtTokens, LoginRequest } from "@/definitions/types";
 import axios, { type AxiosResponse } from "axios";
-import { sha512 } from "js-sha512";
 import { ref } from "vue";
 import { toast } from "vue-sonner";
 import { API_HOST } from "@/constants/envs";
 import { UserType } from "@/definitions/selections";
 import { useAdminStore } from "@/stores/admin";
 import { catchError } from "@/utils/apis";
+import { sha512 } from "@/utils/crypto";
 
 const { info } = useAdminStore();
 
@@ -18,12 +18,13 @@ const { saveTokens } = useAdminStore();
 async function login() {
   loading.value = true;
   try {
+    const hashedPassword = await sha512("1");
     toast.promise(
       axios.post<LoginRequest, AxiosResponse<JwtTokens>>(
         `${API_HOST}api/v1/${type.value}s/login`,
         {
           loginId: "developer",
-          password: sha512("1"),
+          password: hashedPassword,
         },
       ),
       {
