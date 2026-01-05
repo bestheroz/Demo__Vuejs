@@ -2,13 +2,13 @@
 import type { JwtTokens, LoginRequest } from "@/definitions/types";
 import { useIntervalFn } from "@vueuse/core";
 import axios, { type AxiosResponse } from "axios";
-import { sha512 } from "js-sha512";
 import { onMounted, onUnmounted, ref, useTemplateRef } from "vue";
 import { API_HOST, PRODUCT_TITLE, PRODUCT_VERSION } from "@/constants/envs";
 import { UserType } from "@/definitions/selections";
 import { useAdminStore } from "@/stores/admin";
 import { catchError } from "@/utils/apis";
 import { routerReplace } from "@/utils/commands";
+import { sha512 } from "@/utils/crypto";
 import { isAlphanumeric, required } from "@/utils/rules";
 import { tokenStorage } from "@/utils/storage";
 
@@ -32,7 +32,7 @@ async function login(): Promise<void> {
       `${API_HOST}api/v1/${type.value.toLowerCase()}s/login`,
       {
         loginId: loginId.value,
-        password: sha512(password.value),
+        password: await sha512(password.value),
       },
     );
     reloadable.value = false;
