@@ -2,7 +2,7 @@
 import type { TestResult } from "@/views/test/type";
 import { ref } from "vue";
 
-const props = defineProps<{
+const { runFn } = defineProps<{
   title: string;
   disabled?: boolean;
   runFn: () => unknown;
@@ -16,7 +16,7 @@ async function run() {
   result.value = "";
   loading.value = true;
   try {
-    const response = (await props.runFn()) as TestResult<unknown>;
+    const response = (await runFn()) as TestResult<unknown>;
     success.value = response.success;
     result.value = JSON.stringify(response.data);
     return response.success;

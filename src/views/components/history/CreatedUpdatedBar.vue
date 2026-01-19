@@ -3,16 +3,16 @@ import type { IdCreatedUpdated } from "@/definitions/types";
 import { computed } from "vue";
 import { formatDatetimeSeconds } from "@/utils/formatter";
 
-const props = defineProps<{
+const { modelValue } = defineProps<{
   modelValue?: IdCreatedUpdated;
 }>();
 
 const createdDateTimeString = computed((): string =>
-  formatDatetimeSeconds(props.modelValue?.createdAt),
+  formatDatetimeSeconds(modelValue?.createdAt),
 );
 
 const updatedDateTimeString = computed((): string =>
-  formatDatetimeSeconds(props.modelValue?.updatedAt),
+  formatDatetimeSeconds(modelValue?.updatedAt),
 );
 </script>
 

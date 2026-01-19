@@ -12,7 +12,7 @@ import { isEmpty, maxLength, minLength, required } from "@/utils/rules";
 import { toastWarning } from "@/utils/toaster";
 import CreatedUpdatedBar from "@/views/components/history/CreatedUpdatedBar.vue";
 
-const props = defineProps<{
+const { modelValue } = defineProps<{
   modelValue: UserCreate;
 }>();
 
@@ -25,7 +25,7 @@ const { authorities } = storeToRefs(useAdminStore());
 
 const loading = ref(false);
 
-const newFlag = !props.modelValue.id;
+const newFlag = !modelValue.id;
 
 const password = ref("");
 const passwordErrorMessages = ref<string[]>([]);
@@ -57,9 +57,9 @@ async function createItem() {
   const { success } = await postApi<UserCreate, User>(
     "api/v1/users",
     {
-      ...props.modelValue,
-      password: props.modelValue.password
-        ? await sha512(props.modelValue.password)
+      ...modelValue,
+      password: modelValue.password
+        ? await sha512(modelValue.password)
         : undefined,
     },
     { refLoading: loading },
@@ -74,11 +74,11 @@ async function updateItem() {
     return;
   }
   const { success } = await putApi<UserCreate, User>(
-    `api/v1/users/${props.modelValue.id}`,
+    `api/v1/users/${modelValue.id}`,
     {
-      ...props.modelValue,
-      password: props.modelValue.password
-        ? await sha512(props.modelValue.password)
+      ...modelValue,
+      password: modelValue.password
+        ? await sha512(modelValue.password)
         : undefined,
     },
     { refLoading: loading },
@@ -98,13 +98,13 @@ function checkExistsLoginId() {
 const debouncedCheckExistsLoginId = useDebounceFn(async (): Promise<void> => {
   try {
     errorText.value = [];
-    if (!props.modelValue.loginId) {
+    if (!modelValue.loginId) {
       return;
     }
     const { data } = await getApi<boolean>(
       `api/v1/users/check-login-id?${stringifyParams({
-        loginId: props.modelValue.loginId,
-        userId: props.modelValue.id,
+        loginId: modelValue.loginId,
+        userId: modelValue.id,
       })}`,
     );
     if (!data) {
@@ -117,8 +117,8 @@ const debouncedCheckExistsLoginId = useDebounceFn(async (): Promise<void> => {
 
 function onInputPassword() {
   if (
-    isEmpty(props.modelValue.password) ||
-    password.value === props.modelValue.password
+    isEmpty(modelValue.password) ||
+    password.value === modelValue.password
   ) {
     passwordErrorMessages.value = [];
   } else {

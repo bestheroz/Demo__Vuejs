@@ -11,23 +11,24 @@ import DataTableColumnEllipsis from "@/views/components/datatables/DataTableColu
 import DataTableHeaderFilter from "@/views/components/datatables/DataTableHeaderFilter.vue";
 import UserAvatar from "@/views/components/datatables/UserAvatar.vue";
 
-const props = withDefaults(
-  defineProps<{
-    headers: DataTableHeader[];
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    items: any[];
-    itemsLength: number;
-    itemsPerPage?: number;
-    loading?: boolean;
-    itemValue?: string;
-    hideFilter?: boolean;
-    showDefaultFooter?: boolean;
-    showExpand?: boolean;
-    showSelect?: boolean;
-    singleSelect?: boolean;
-  }>(),
-  { itemsPerPage: 25, itemValue: "id" },
-);
+const {
+  headers,
+  itemsPerPage = 25,
+  itemValue = "id",
+} = defineProps<{
+  headers: DataTableHeader[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  items: any[];
+  itemsLength: number;
+  itemsPerPage?: number;
+  loading?: boolean;
+  itemValue?: string;
+  hideFilter?: boolean;
+  showDefaultFooter?: boolean;
+  showExpand?: boolean;
+  showSelect?: boolean;
+  singleSelect?: boolean;
+}>();
 
 const emit = defineEmits<{
   (e: "update:options", v: DataTableOptions): void;
@@ -39,7 +40,7 @@ const modelValue = defineModel<any[]>("modelValue");
 const slots = useSlots();
 
 const filterHeaders = computed(() =>
-  props.headers.map((v) => {
+  headers.map((v) => {
     if (v.valueType === "datetime") {
       return {
         ...v,
@@ -114,7 +115,7 @@ const filterHeaders = computed(() =>
 
 const lastOptions = ref<DataTableOptions>({
   page: 1,
-  itemsPerPage: props.itemsPerPage,
+  itemsPerPage: itemsPerPage,
   queryParams: "",
 });
 

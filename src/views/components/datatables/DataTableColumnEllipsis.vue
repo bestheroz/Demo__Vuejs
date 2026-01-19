@@ -2,29 +2,28 @@
 import { computed } from "vue";
 import { logger } from "@/utils/logger";
 
-const props = withDefaults(
-  defineProps<{
-    text?: string | null;
-    width?: string | number;
-    tooltipWidth?: string | number;
-  }>(),
-  { text: "", width: "25rem", tooltipWidth: "40rem" },
-);
+const {
+  text = "",
+  width = "25rem" as string | number,
+  tooltipWidth = "40rem" as string | number,
+} = defineProps<{
+  text?: string | null;
+  width?: string | number;
+  tooltipWidth?: string | number;
+}>();
 
-const newLineHtml = computed(() =>
-  (props.text ?? "").replaceAll("\n", "<br />"),
-);
+const newLineHtml = computed(() => (text ?? "").replaceAll("\n", "<br />"));
 
 const maxWidth = computed((): string =>
-  typeof props.width === "string" ? props.width : `${props.width}px`,
+  typeof width === "string" ? width : `${width}px`,
 );
 
 const maxTooltipWidth = computed((): number => {
-  if (typeof props.tooltipWidth === "string") {
-    const match = props.tooltipWidth.match(/^(\d*\.?\d+)(px|rem)?$/);
+  if (typeof tooltipWidth === "string") {
+    const match = tooltipWidth.match(/^(\d*\.?\d+)(px|rem)?$/);
 
     if (!match) {
-      logger.warn(`Invalid tooltipWidth format: ${props.tooltipWidth}`);
+      logger.warn(`Invalid tooltipWidth format: ${tooltipWidth}`);
       return 0;
     }
 
@@ -39,7 +38,7 @@ const maxTooltipWidth = computed((): number => {
         return value;
     }
   }
-  return props.tooltipWidth;
+  return tooltipWidth;
 });
 </script>
 

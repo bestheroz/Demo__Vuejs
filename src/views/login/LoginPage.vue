@@ -2,7 +2,7 @@
 import type { JwtTokens, LoginRequest } from "@/definitions/types";
 import { useIntervalFn } from "@vueuse/core";
 import axios, { type AxiosResponse } from "axios";
-import { onMounted, onUnmounted, ref, useTemplateRef } from "vue";
+import { onMounted, onUnmounted, ref, useId, useTemplateRef } from "vue";
 import { API_HOST, PRODUCT_TITLE, PRODUCT_VERSION } from "@/constants/envs";
 import { UserType } from "@/definitions/selections";
 import { useAdminStore } from "@/stores/admin";
@@ -18,6 +18,10 @@ const loading = ref(false);
 const showPassword = ref(false);
 
 const type = ref(UserType.ADMIN);
+
+const loginIdFieldId = useId();
+const passwordFieldId = useId();
+const userTypeGroupId = useId();
 
 const refForm = useTemplateRef<{ validate: () => Promise<{ valid: boolean }> }>("refForm");
 const reloadable = ref(true);
@@ -88,6 +92,7 @@ onMounted(async () => {
       >
         <div class="d-inline-flex">
           <v-radio-group
+            :id="userTypeGroupId"
             v-model="type"
             class="required mr-4 mt-1"
             hide-details
@@ -98,6 +103,7 @@ onMounted(async () => {
           </v-radio-group>
         </div>
         <v-text-field
+          :id="loginIdFieldId"
           v-model="loginId"
           :hide-details="false"
           :rules="[required, isAlphanumeric]"
@@ -105,11 +111,11 @@ onMounted(async () => {
           name="loginId"
           class="required"
           autocomplete="username"
-          aria-describedby="loginId-help"
           maxlength="50"
           @keyup.enter="login"
         />
         <v-text-field
+          :id="passwordFieldId"
           v-model="password"
           :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
           :hide-details="false"

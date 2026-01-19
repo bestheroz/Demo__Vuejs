@@ -1,9 +1,6 @@
 <script setup lang="ts">
-import { useVModels } from "@vueuse/core";
-
-const props = withDefaults(
+withDefaults(
   defineProps<{
-    dialog: boolean;
     loading?: boolean;
     saveBtnTitle?: string;
     closeBtnTitle?: string;
@@ -21,7 +18,7 @@ const emit = defineEmits<{
   (e: "save"): void;
 }>();
 
-const { dialog } = useVModels(props, emit);
+const dialog = defineModel<boolean>("dialog", { required: true });
 </script>
 
 <template>

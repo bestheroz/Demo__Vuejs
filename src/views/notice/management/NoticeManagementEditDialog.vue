@@ -10,7 +10,7 @@ import { required } from "@/utils/rules";
 import { toastWarning } from "@/utils/toaster";
 import CreatedUpdatedBar from "@/views/components/history/CreatedUpdatedBar.vue";
 
-const props = defineProps<{
+const { modelValue } = defineProps<{
   modelValue: Notice;
 }>();
 
@@ -23,7 +23,7 @@ const { authorities } = storeToRefs(useAdminStore());
 
 const loading = ref(false);
 
-const newFlag = !props.modelValue.id;
+const newFlag = !modelValue.id;
 
 const refForm = useTemplateRef<{ validate: () => Promise<{ valid: boolean }> }>("refForm");
 async function save(): Promise<void> {
@@ -46,7 +46,7 @@ async function createItem() {
   }
   const { success } = await postApi<Notice, Notice>(
     "api/v1/notices",
-    props.modelValue,
+    modelValue,
     { refLoading: loading },
   );
   if (success) {
@@ -59,8 +59,8 @@ async function updateItem() {
     return;
   }
   const { success } = await putApi<Notice, Notice>(
-    `api/v1/notices/${props.modelValue.id}`,
-    props.modelValue,
+    `api/v1/notices/${modelValue.id}`,
+    modelValue,
     { refLoading: loading },
   );
   if (success) {

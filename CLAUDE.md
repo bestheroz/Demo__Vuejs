@@ -232,9 +232,9 @@ if (await confirmDelete()) {
 ```
 
 ## 환경 설정
-- **Node.js**: 22.21.0 (Volta로 버전 고정)
+- **Node.js**: 24.13.0 (Volta로 버전 고정)
 - **패키지 매니저**: PNPM 권장
-- **번들러**: Vite 7.1.12
+- **번들러**: Vite 7.3.1
 - **TypeScript**: ESNext 타겟
 - **API 서버**: 기본 `http://localhost:8000/`
 

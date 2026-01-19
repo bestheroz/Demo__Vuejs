@@ -4,24 +4,21 @@ import { watchDebounced } from "@vueuse/core";
 import { computed, ref } from "vue";
 import { stringifyParams } from "@/utils/apis";
 
-const props = withDefaults(
-  defineProps<{
-    filterHeader: DataTableHeader[];
-    originalItems: unknown[];
-    filterFirstColumn?: boolean;
-  }>(),
-  { filterFirstColumn: false },
-);
+const { filterHeader, originalItems, filterFirstColumn = false } = defineProps<{
+  filterHeader: DataTableHeader[];
+  originalItems: unknown[];
+  filterFirstColumn?: boolean;
+}>();
 
 const emit = defineEmits<{
   (e: "update:model-value", v: string): void;
 }>();
 
 const filter = ref<(string | boolean | null | undefined)[]>(
-  new Array(props.filterHeader.length).fill(null),
+  new Array(filterHeader.length).fill(null),
 );
 const finalFilterHeader = computed<DataTableHeader[]>(() =>
-  props.filterHeader.map((v, index) => ({
+  filterHeader.map((v, index) => ({
     ...v,
     title: v.title || v.key || `-${index + 1}`,
   })),
@@ -29,7 +26,7 @@ const finalFilterHeader = computed<DataTableHeader[]>(() =>
 const filterMap = computed(() => finalFilterHeader.value.map((v) => v.key));
 
 watchDebounced(
-  () => props.filterHeader,
+  () => filterHeader,
   (v) => {
     filter.value = new Array(v.length).fill(null);
   },
@@ -37,7 +34,7 @@ watchDebounced(
 );
 
 watchDebounced(
-  () => [props.originalItems, filter.value],
+  () => [originalItems, filter.value],
   () => {
     emit(
       "update:model-value",

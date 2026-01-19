@@ -1,59 +1,62 @@
 import type { JwtTokens, TokenClaims } from "@/definitions/types";
 import { jwtDecode } from "jwt-decode";
 import { defineStore } from "pinia";
+import { computed, ref } from "vue";
 import { getNewToken, signOut } from "@/utils/commands";
 import { logger } from "@/utils/logger";
 import { tokenStorage } from "@/utils/storage";
 
-interface AdminInfo {
-  tokens: JwtTokens;
-  info: TokenClaims;
-}
+const initialTokens = (): JwtTokens => ({
+  accessToken: "",
+  refreshToken: "",
+});
 
-export const useAdminStore = defineStore("admin", {
-  state: (): AdminInfo => ({
-    tokens: {
-      accessToken: "",
-      refreshToken: "",
-    },
-    info: {
-      id: 0,
-      loginId: "",
-      name: "",
-      type: "",
-      managerFlag: false,
-      authorities: [],
-    },
-  }),
-  getters: {
-    loggedIn: (state: AdminInfo): boolean =>
-      Boolean(state.tokens.accessToken) &&
-      Boolean(state.info.id) &&
-      state.tokens.accessToken === tokenStorage.getAccessToken() &&
-      state.tokens.refreshToken === tokenStorage.getRefreshToken(),
-    authorities: (state: AdminInfo): string[] => state.info.authorities,
-  },
-  actions: {
-    clearAdmin(): void {
+const initialInfo = (): TokenClaims => ({
+  id: 0,
+  loginId: "",
+  name: "",
+  type: "",
+  managerFlag: false,
+  authorities: [],
+});
+
+export const useAdminStore = defineStore(
+  "admin",
+  () => {
+    const tokens = ref<JwtTokens>(initialTokens());
+    const info = ref<TokenClaims>(initialInfo());
+
+    const loggedIn = computed(
+      () =>
+        Boolean(tokens.value.accessToken) &&
+        Boolean(info.value.id) &&
+        tokens.value.accessToken === tokenStorage.getAccessToken() &&
+        tokens.value.refreshToken === tokenStorage.getRefreshToken(),
+    );
+
+    const authorities = computed(() => info.value.authorities);
+
+    function clearAdmin(): void {
       tokenStorage.clearTokens();
-      this.$reset();
-    },
+      tokens.value = initialTokens();
+      info.value = initialInfo();
+    }
 
-    async reIssueAccessToken(): Promise<void> {
+    async function reIssueAccessToken(): Promise<void> {
       tokenStorage.removeAccessToken();
-      this.tokens.accessToken = "";
+      tokens.value.accessToken = "";
       const newToken = await getNewToken();
       if (newToken) {
-        this.saveTokens(newToken);
+        saveTokens(newToken);
       }
-    },
+    }
 
-    saveTokens(tokens: JwtTokens): void {
+    function saveTokens(newTokens: JwtTokens): void {
       try {
-        tokenStorage.setTokens(tokens.accessToken, tokens.refreshToken);
-        this.tokens = { ...tokens };
-        const decoded = jwtDecode<TokenClaims>(tokens.accessToken);
-        this.info = {
+        tokenStorage.setTokens(newTokens.accessToken, newTokens.refreshToken);
+        tokens.value = { ...newTokens };
+        const decoded = jwtDecode<TokenClaims>(newTokens.accessToken);
+        info.value = {
           id: decoded.id,
           loginId: decoded.loginId,
           name: decoded.name,
@@ -65,7 +68,17 @@ export const useAdminStore = defineStore("admin", {
         logger.error("Failed to decode JWT token:", error);
         void signOut();
       }
-    },
+    }
+
+    return {
+      tokens,
+      info,
+      loggedIn,
+      authorities,
+      clearAdmin,
+      reIssueAccessToken,
+      saveTokens,
+    };
   },
-  persist: true,
-});
+  { persist: true },
+);
