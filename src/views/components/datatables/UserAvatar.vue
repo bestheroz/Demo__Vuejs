@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { UserSimple } from "@/definitions/types";
 
-defineProps<{
+const { value } = defineProps<{
   value: UserSimple;
 }>();
 </script>

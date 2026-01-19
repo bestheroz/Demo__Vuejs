@@ -1,18 +1,15 @@
 <script setup lang="ts">
-withDefaults(
-  defineProps<{
-    loading?: boolean;
-    saveBtnTitle?: string;
-    closeBtnTitle?: string;
-    saveBtn?: boolean;
-  }>(),
-  {
-    loading: false,
-    saveBtnTitle: "저장",
-    closeBtnTitle: "취소",
-    saveBtn: true,
-  },
-);
+const {
+  loading = false,
+  saveBtnTitle = "저장",
+  closeBtnTitle = "취소",
+  saveBtn = true,
+} = defineProps<{
+  loading?: boolean;
+  saveBtnTitle?: string;
+  closeBtnTitle?: string;
+  saveBtn?: boolean;
+}>();
 
 const emit = defineEmits<{
   (e: "save"): void;

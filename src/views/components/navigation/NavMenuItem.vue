@@ -4,7 +4,7 @@ import { useRoute } from "vue-router";
 import { MenuType } from "@/definitions/selections";
 import { routerPush } from "@/utils/commands";
 
-defineProps<{
+const { drawer } = defineProps<{
   drawer: Drawer;
 }>();
 

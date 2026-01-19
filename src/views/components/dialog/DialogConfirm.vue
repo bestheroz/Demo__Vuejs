@@ -1,23 +1,23 @@
 <script lang="ts" setup>
 import type { ConfirmResolveResponse } from "@/definitions/types";
 
-withDefaults(
-  defineProps<{
-    uuid: string;
-    title?: string;
-    content: string;
-    cancelButtonTitle?: string;
-    confirmButtonTitle?: string;
-    width?: string;
-    resolver: (value: ConfirmResolveResponse) => void;
-  }>(),
-  {
-    title: undefined,
-    cancelButtonTitle: "취소",
-    confirmButtonTitle: "확인",
-    width: "400px",
-  },
-);
+const {
+  uuid,
+  title,
+  content,
+  cancelButtonTitle = "취소",
+  confirmButtonTitle = "확인",
+  width = "400px",
+  resolver,
+} = defineProps<{
+  uuid: string;
+  title?: string;
+  content: string;
+  cancelButtonTitle?: string;
+  confirmButtonTitle?: string;
+  width?: string | number;
+  resolver: (value: ConfirmResolveResponse) => void;
+}>();
 </script>
 
 <template>

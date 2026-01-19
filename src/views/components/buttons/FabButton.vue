@@ -2,27 +2,24 @@
 import type { FabButtonProp } from "@/definitions/types";
 import { ref } from "vue";
 
-withDefaults(
-  defineProps<{
-    color?: string;
-    location?:
-      | "top left"
-      | "top center"
-      | "top right"
-      | "left center"
-      | "center center"
-      | "right center"
-      | "left bottom"
-      | "bottom center"
-      | "right bottom";
-    margin?: number;
-  }>(),
-  {
-    color: "blue-darken-2",
-    location: "top right",
-    margin: 16,
-  },
-);
+const {
+  color = "blue-darken-2",
+  location = "top right",
+  margin = 16,
+} = defineProps<{
+  color?: string;
+  location?:
+    | "top left"
+    | "top center"
+    | "top right"
+    | "left center"
+    | "center center"
+    | "right center"
+    | "left bottom"
+    | "bottom center"
+    | "right bottom";
+  margin?: number;
+}>();
 
 const modelValue = defineModel<FabButtonProp[]>("modelValue", {
   required: true,

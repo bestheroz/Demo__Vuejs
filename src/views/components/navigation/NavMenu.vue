@@ -3,13 +3,13 @@ import type { Drawer } from "@/definitions/types";
 import NavMenu from "@/views/components/navigation/NavMenu.vue";
 import NavMenuItem from "@/views/components/navigation/NavMenuItem.vue";
 
-withDefaults(
-  defineProps<{
-    drawers?: Drawer[] | null;
-    depth?: number;
-  }>(),
-  { drawers: () => [], depth: 0 },
-);
+const {
+  drawers = () => [],
+  depth = 0,
+} = defineProps<{
+  drawers?: Drawer[] | null;
+  depth?: number;
+}>();
 </script>
 
 <template>
