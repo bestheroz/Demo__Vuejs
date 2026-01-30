@@ -1,7 +1,6 @@
 import type {
-  NavigationGuardNext,
-  NavigationGuardWithThis,
   RouteLocationNormalized,
+  RouteLocationNormalizedLoaded,
   RouteRecordRaw,
 } from "vue-router";
 import { createRouter, createWebHistory } from "vue-router";
@@ -9,17 +8,15 @@ import { useAdminStore } from "@/stores/admin";
 import { pendingRequests } from "@/utils/apis";
 import { goLoginPage } from "@/utils/commands";
 
-const requireAuth: NavigationGuardWithThis<undefined> = async (
+const requireAuth = async (
   _to: RouteLocationNormalized,
-  _from: RouteLocationNormalized,
-  next: NavigationGuardNext,
+  _from: RouteLocationNormalizedLoaded,
 ) => {
   const { loggedIn } = useAdminStore();
   if (!loggedIn) {
     await goLoginPage();
-    return next(false);
+    return false;
   }
-  return next();
 };
 
 const admin: RouteRecordRaw[] = [
@@ -142,12 +139,11 @@ const router = createRouter({
   routes: routes(),
 });
 
-router.beforeEach((to, from, next) => {
+router.beforeEach((to, from) => {
   pendingRequests.forEach((controller) => {
     controller.abort(`Route change: ${from.path} to ${to.path}`);
   });
   pendingRequests.clear();
-  next();
 });
 
 export default router;
