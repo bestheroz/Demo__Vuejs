@@ -9,6 +9,10 @@ import NavMenu from "@/views/components/navigation/NavMenu.vue";
 import LoginToolbar from "@/views/components/toolbar/LoginToolbar.vue";
 import ToolbarAdmin from "@/views/components/toolbar/ToolbarAdmin.vue";
 
+defineSlots<{
+  default(): void;
+}>();
+
 const drawer = ref(true);
 
 const { authorities } = storeToRefs(useAdminStore());
@@ -28,6 +32,7 @@ const filteredDrawer = computed<Drawer[]>(() => {
   }
   return result;
 });
+
 </script>
 
 <template>

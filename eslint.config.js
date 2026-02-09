@@ -1,3 +1,4 @@
+import { fixupPluginRules } from "@eslint/compat";
 import tseslint from "typescript-eslint";
 import eslintConfigPrettier from "eslint-config-prettier";
 import vueeslint from "eslint-plugin-vue";
@@ -42,10 +43,10 @@ export default tseslint.config(
     plugins: {
       "@typescript-eslint": tseslint.plugin,
       vue: vueeslint,
-      vuetify: vuetifyeslint,
+      vuetify: fixupPluginRules(vuetifyeslint),
       "import-x": importX,
       perfectionist,
-      security: eslintPluginSecurity,
+      security: fixupPluginRules(eslintPluginSecurity),
     },
     rules: {
       /* TypeScript 관련 규칙 - strict 기반 */
@@ -150,15 +151,7 @@ export default tseslint.config(
 
       /* 기타 코드 품질 규칙 */
       "no-unsafe-optional-chaining": "off",
-      semi: ["error", "always"],
       "no-cond-assign": ["error", "always"],
-
-      /* Prettier와 충돌 방지 */
-      quotes: "off",
-      "comma-dangle": "off",
-      "space-before-function-paren": "off",
-      indent: "off",
-      "lines-between-class-members": "off",
     },
   },
   eslintConfigPrettier,

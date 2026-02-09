@@ -8,6 +8,10 @@ const { drawer } = defineProps<{
   drawer: Drawer;
 }>();
 
+defineSlots<{
+  default(): void;
+}>();
+
 const route = useRoute();
 function movePage(item: Drawer): void {
   if (!item.url || item.url === route.fullPath) {
