@@ -11,7 +11,7 @@ const { replace } = useRouter();
       max-height="400"
       cover
     />
-    <div class="text-h3 mt-10">OOPS! Something went wrong here</div>
+    <div class="text-display-small mt-10">OOPS! Something went wrong here</div>
     <div class="my-3">Our experts are working to fix the issue.</div>
     <v-btn color="primary" block size="large" @click="replace('/')">
       Send me back

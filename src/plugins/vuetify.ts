@@ -21,11 +21,6 @@ export default createVuetify({
       clearable: true,
       density: "comfortable",
     },
-    VBtn: {
-      style: {
-        textTransform: "none",
-      },
-    },
     VTextField: {
       color: "primary",
     },
@@ -64,7 +59,6 @@ export default createVuetify({
     },
     VBottomSheet: {
       inset: true,
-      scrollable: true,
       persistent: true,
       modelValue: true,
       noClickAnimation: true,

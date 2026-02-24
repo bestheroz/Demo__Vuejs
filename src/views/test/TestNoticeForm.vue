@@ -77,14 +77,14 @@ defineExpose({ runAll });
           color="primary"
           :loading="loading"
           variant="plain"
-          class="text-h5"
+          class="text-headline-medium"
           @click="runAll"
           >모두 테스트</v-btn
         >
       </span>
     </v-card-title>
     <v-card-text>
-      <v-row dense>
+      <v-row density="compact">
         <TestRunForm ref="refTestRunForm1" title="조회" :run-fn="run1" />
         <TestRunForm ref="refTestRunForm2" title="추가" :run-fn="run2" />
         <TestRunForm

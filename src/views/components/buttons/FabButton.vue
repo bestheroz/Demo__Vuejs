@@ -38,7 +38,7 @@ const open = ref(false);
     :style="{
       margin: margin + 'px',
     }"
-    :elevation="open ? 12 : 6"
+    :elevation="open ? 5 : 3"
   >
     <v-icon>
       {{ open ? "mdi-close" : "mdi-function" }}
@@ -58,7 +58,7 @@ const open = ref(false);
         size="large"
         variant="elevated"
         rounded="pill"
-        :elevation="8"
+        :elevation="4"
         class="fab-menu-item"
         @click="item.onClick"
       >

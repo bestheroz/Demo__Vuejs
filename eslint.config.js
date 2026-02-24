@@ -3,8 +3,6 @@ import tseslint from "typescript-eslint";
 import eslintConfigPrettier from "eslint-config-prettier";
 import vueeslint from "eslint-plugin-vue";
 import vueParser from "vue-eslint-parser";
-import vuetifyeslint from "eslint-plugin-vuetify";
-import * as importX from "eslint-plugin-import-x";
 import perfectionist from "eslint-plugin-perfectionist";
 import eslintPluginSecurity from "eslint-plugin-security";
 
@@ -43,8 +41,6 @@ export default tseslint.config(
     plugins: {
       "@typescript-eslint": tseslint.plugin,
       vue: vueeslint,
-      vuetify: fixupPluginRules(vuetifyeslint),
-      "import-x": importX,
       perfectionist,
       security: fixupPluginRules(eslintPluginSecurity),
     },
@@ -76,7 +72,6 @@ export default tseslint.config(
       ],
 
       /* Import/Export 관련 규칙 */
-      "import-x/no-duplicates": "error",
       "perfectionist/sort-imports": [
         "error",
         {
@@ -103,9 +98,6 @@ export default tseslint.config(
       /* 보안 관련 규칙 */
       ...eslintPluginSecurity.configs.recommended.rules,
       "security/detect-object-injection": "off",
-
-      /* Vuetify 관련 규칙 */
-      "vuetify/no-deprecated-classes": "error",
 
       /* Vue 3 관련 규칙 */
       ...vueeslint.configs["flat/recommended"].rules,

@@ -17,7 +17,7 @@ const updatedDateTimeString = computed((): string =>
 </script>
 
 <template>
-  <div class="text-sm-caption">
+  <div class="text-body-small">
     <span v-if="modelValue?.createdAt">
       {{ modelValue?.createdBy?.name ?? "-" }} / {{ createdDateTimeString }}
       추가됨

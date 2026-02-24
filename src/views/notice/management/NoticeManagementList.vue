@@ -115,7 +115,7 @@ async function onClickRemove(val: Notice) {
         </template>
         <template #[`item.title`]="{ item }">
           <div class="d-flex align-center">
-            <span class="text-body-2 font-weight-medium">{{ item.title }}</span>
+            <span class="text-body-medium font-weight-medium">{{ item.title }}</span>
           </div>
         </template>
         <template #[`item.action`]="{ item }">

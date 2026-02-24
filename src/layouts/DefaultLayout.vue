@@ -42,11 +42,11 @@ const filteredDrawer = computed<Drawer[]>(() => {
       <!-- Navigation menu info -->
       <template #prepend>
         <div class="py-2 px-6">
-          <div class="text-h6 text-primary font-weight-bold">
+          <div class="text-headline-small text-primary font-weight-bold">
             {{ PRODUCT_TITLE }}
           </div>
           <div
-            class="text-overline text-blue-grey"
+            class="text-label-small text-blue-grey"
             style="color: #777777; text-transform: none !important"
           >
             {{ PRODUCT_VERSION }}

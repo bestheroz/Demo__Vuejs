@@ -23,7 +23,7 @@ const { value } = defineProps<{
             {{ value.id }}
           </v-avatar>
           <h4>{{ value.loginId }}</h4>
-          <p class="text-caption mt-1">
+          <p class="text-body-small mt-1">
             {{ value.name }}
           </p>
         </div>

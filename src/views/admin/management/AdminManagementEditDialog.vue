@@ -134,7 +134,7 @@ function onInputPassword() {
       <v-card-title> {{ newFlag ? "추가" : "수정" }} </v-card-title>
       <v-card-text>
         <v-form ref="refForm">
-          <v-row dense>
+          <v-row density="compact">
             <v-col cols="2">
               <v-text-field
                 v-model="modelValue.loginId"
