@@ -17,8 +17,8 @@ const { modelValue } = defineProps<{
 }>();
 
 const emit = defineEmits<{
-  (e: "click:cancel"): void;
-  (e: "save"): void;
+  "click:cancel": [];
+  save: [];
 }>();
 
 const { authorities } = storeToRefs(useAdminStore());

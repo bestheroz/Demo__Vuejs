@@ -31,7 +31,7 @@ const {
 }>();
 
 const emit = defineEmits<{
-  (e: "update:options", v: DataTableOptions): void;
+  "update:options": [v: DataTableOptions];
 }>();
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

@@ -11,7 +11,7 @@ const { filterHeader, originalItems, filterFirstColumn } = defineProps<{
 }>();
 
 const emit = defineEmits<{
-  (e: "update:model-value", v: string): void;
+  "update:model-value": [v: string];
 }>();
 
 const filter = ref<(string | boolean | null | undefined)[]>(

@@ -52,8 +52,8 @@ const open = ref(false);
       open-on-hover
     >
       <v-btn
-        v-for="(item, index) in modelValue.filter((v) => !v.hide)"
-        :key="index"
+        v-for="item in modelValue.filter((v) => !v.hide)"
+        :key="item.title"
         :color="item.color || 'grey-darken-1'"
         size="large"
         variant="elevated"

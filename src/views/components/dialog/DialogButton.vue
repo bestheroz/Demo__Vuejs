@@ -12,7 +12,7 @@ const {
 }>();
 
 const emit = defineEmits<{
-  (e: "save"): void;
+  save: [];
 }>();
 
 const dialog = defineModel<boolean>("dialog", { required: true });

@@ -11,17 +11,17 @@ import { useAdminStore } from "@/stores/admin";
 import { goLoginPage, isExpiredToken } from "@/utils/commands";
 import GlobalDialogConfirm from "@/views/components/dialog/GlobalDialogConfirm.vue";
 
+const LAYOUT_MAP = {
+  default: DefaultLayout,
+  auth: AuthLayout,
+  error: ErrorLayout,
+} as const;
+
 const route = useRoute();
 const isRouterLoaded = computed((): boolean => route.name !== null);
 const currentLayout = computed(() => {
-  if (route?.meta?.["layout"] === "default") {
-    return DefaultLayout;
-  } else if (route?.meta?.["layout"] === "auth") {
-    return AuthLayout;
-  } else if (route?.meta?.["layout"] === "error") {
-    return ErrorLayout;
-  }
-  return SimpleLayout;
+  const layout = route?.meta?.["layout"] as keyof typeof LAYOUT_MAP | undefined;
+  return (layout && LAYOUT_MAP[layout]) ?? SimpleLayout;
 });
 
 onMounted(async () => {

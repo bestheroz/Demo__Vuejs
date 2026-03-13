@@ -17,41 +17,25 @@ export default createVuetify({
       clearable: true,
       density: "comfortable",
     },
-    VTextField: {
-      color: "primary",
-    },
-    VSelect: {
+    VInput: {
       color: "primary",
     },
     VTextarea: {
-      color: "primary",
       rows: 2,
       maxRows: 10,
       autoGrow: true,
     },
     VSwitch: {
-      color: "primary",
       hideDetails: "auto",
     },
-    VAutocomplete: {
-      color: "primary",
-    },
-    VCombobox: {
-      color: "primary",
-    },
     VCheckbox: {
-      color: "primary",
       baseColor: "primary",
       hideDetails: "auto",
     },
     VRadioGroup: {
       inline: true,
-      color: "primary",
       baseColor: "primary",
       hideDetails: "auto",
-    },
-    VFileInput: {
-      color: "primary",
     },
     VBottomSheet: {
       inset: true,
