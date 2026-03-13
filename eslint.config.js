@@ -20,7 +20,6 @@ export default tseslint.config(
         sourceType: "module",
         projectService: true,
         tsconfigRootDir: import.meta.dirname,
-        ecmaFeatures: { jsx: false },
         extraFileExtensions: [".vue"],
         vueFeatures: {
           filter: false,
@@ -45,7 +44,7 @@ export default tseslint.config(
     },
     rules: {
       /* TypeScript 관련 규칙 - strict 기반 */
-      ...tseslint.configs.strictTypeChecked.at(-1).rules,
+      ...Object.assign({}, ...tseslint.configs.strictTypeChecked.map(c => c.rules).filter(Boolean)),
       "@typescript-eslint/ban-ts-comment": "off",
       "@typescript-eslint/no-non-null-assertion": "off",
       "@typescript-eslint/no-dynamic-delete": "off",
@@ -148,6 +147,8 @@ export default tseslint.config(
       "vue/no-use-v-else-with-v-for": "error",
       "vue/require-explicit-slots": "warn",
       "vue/slot-name-casing": ["error", "camelCase"],
+      "vue/enforce-style-attribute": ["warn", { allow: ["scoped", "plain"] }],
+      "vue/no-deprecated-model-definition": "error",
 
       /* 환경별 규칙 */
       "no-console": isProduction

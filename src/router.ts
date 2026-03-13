@@ -1,8 +1,4 @@
-import type {
-  RouteLocationNormalized,
-  RouteLocationNormalizedLoaded,
-  RouteRecordRaw,
-} from "vue-router";
+import type { RouteLocationNormalized, RouteRecordRaw } from "vue-router";
 import { createRouter, createWebHistory } from "vue-router";
 import { useAdminStore } from "@/stores/admin";
 import { pendingRequests } from "@/utils/apis";
@@ -10,7 +6,7 @@ import { goLoginPage } from "@/utils/commands";
 
 const requireAuth = async (
   _to: RouteLocationNormalized,
-  _from: RouteLocationNormalizedLoaded,
+  _from: RouteLocationNormalized,
 ) => {
   const { loggedIn } = useAdminStore();
   if (!loggedIn) {
