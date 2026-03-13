@@ -92,7 +92,11 @@
       "mcp__plugin_oh-my-claudecode_t__state_write",
       "Bash(npx eslint:*)",
       "mcp__exa__web_search_exa",
-      "mcp__exa__get_code_context_exa"
+      "mcp__exa__get_code_context_exa",
+      "Bash(node -e \"const s = require\\('eslint-plugin-security'\\); console.log\\('has meta:', !!s.meta\\); console.log\\('has configs:', !!s.configs\\); console.log\\('config keys:', Object.keys\\(s.configs || {}\\)\\); console.log\\('has flat/recommended:', !!s.configs?.['flat/recommended']\\); console.log\\('has recommended:', !!s.configs?.recommended\\)\")",
+      "Bash(node -e 'const s = require\\(\"eslint-plugin-security\"\\); console.log\\(JSON.stringify\\({meta: !!s.meta, configKeys: Object.keys\\(s.configs || {}\\), pluginKeys: Object.keys\\(s\\)}, null, 2\\)\\)')",
+      "Bash(node --no-experimental-strip-types -e 'var s = require\\(\"eslint-plugin-security\"\\); console.log\\(\"keys:\", Object.keys\\(s\\)\\); console.log\\(\"config keys:\", Object.keys\\(s.configs || {}\\)\\);')",
+      "Bash(node --no-experimental-strip-types -e 'var s = require\\(\"eslint-plugin-security\"\\); var r = s.configs.recommended; console.log\\(\"recommended keys:\", Object.keys\\(r\\)\\); console.log\\(\"has plugins:\", \"plugins\" in r\\); console.log\\(\"has meta:\", \"meta\" in s\\); console.log\\(\"meta:\", JSON.stringify\\(s.meta\\)\\);')"
     ],
     "deny": [
       "Bash(git push:*)",

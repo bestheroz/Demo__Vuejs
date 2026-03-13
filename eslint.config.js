@@ -1,4 +1,3 @@
-import { fixupPluginRules } from "@eslint/compat";
 import tseslint from "typescript-eslint";
 import eslintConfigPrettier from "eslint-config-prettier";
 import vueeslint from "eslint-plugin-vue";
@@ -42,7 +41,7 @@ export default tseslint.config(
       "@typescript-eslint": tseslint.plugin,
       vue: vueeslint,
       perfectionist,
-      security: fixupPluginRules(eslintPluginSecurity),
+      security: eslintPluginSecurity,
     },
     rules: {
       /* TypeScript 관련 규칙 - strict 기반 */

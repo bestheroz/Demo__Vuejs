@@ -50,13 +50,12 @@ export default defineConfig(({ command }) => {
       target: "esnext",
       sourcemap: isBuild,
       cssCodeSplit: true,
-      cssMinify: "lightningcss",
-      minify: "esbuild",
       reportCompressedSize: false,
       chunkSizeWarningLimit: 1000,
       modulePreload: { polyfill: false },
-      rollupOptions: {
+      rolldownOptions: {
         output: {
+          comments: { legal: false },
           manualChunks: (id) => {
             if (id.includes("node_modules")) {
               if (id.includes("vue") || id.includes("pinia")) return "vue";
@@ -67,10 +66,6 @@ export default defineConfig(({ command }) => {
           },
         },
       },
-    },
-    esbuild: {
-      legalComments: "none",
-      drop: isBuild ? ["debugger"] : [],
     },
   };
 });
