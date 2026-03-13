@@ -41,7 +41,7 @@ export interface TokenClaims {
   id: number; // ID(KEY)
   loginId: string; // 로그인 아이디
   name: string; // 이름
-  type: UserTypeString; // 권한 유형
+  type: UserTypeString | ""; // 권한 유형 (초기 상태: "")
   managerFlag: boolean; // 매니저 여부(모든 권한 소유)
   authorities: string[]; // 권한 목록
 }

@@ -30,11 +30,11 @@ export const useConfirmStore = defineStore("confirm", () => {
         ...items.value,
         {
           uuid: crypto.randomUUID(),
-          title: title,
-          content: content,
-          width: width,
-          cancelButtonTitle: cancelButtonTitle,
-          confirmButtonTitle: confirmButtonTitle,
+          title,
+          content,
+          width,
+          cancelButtonTitle,
+          confirmButtonTitle,
           resolver: resolve,
         },
       ];

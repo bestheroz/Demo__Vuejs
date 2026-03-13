@@ -40,17 +40,16 @@ export default defineConfig(({ command }) => {
       },
     },
     optimizeDeps: {
-      // 자주 사용되는 의존성 미리 번들링
       include: ["vue", "vue-router", "pinia", "axios", "vuetify"],
     },
     css: {
-      transformer: "lightningcss",
+      // Vite 8: lightningcss가 기본 transformer로 설정됨
       devSourcemap: isServe,
     },
     build: {
       target: "esnext",
       sourcemap: isBuild,
-      cssCodeSplit: true,
+      // Vite 8: cssCodeSplit 기본값 true, cssMinify 기본값 lightningcss
       reportCompressedSize: false,
       chunkSizeWarningLimit: 1000,
       modulePreload: { polyfill: false },

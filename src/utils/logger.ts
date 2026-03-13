@@ -1,11 +1,16 @@
 import { createConsola } from "consola";
 import { ENVIRONMENT } from "@/constants/envs";
 
+const LOG_LEVELS = {
+  prod: 2, // fatal, error, warn
+  staging: 3, // + log, info
+  local: 5, // + debug, trace
+} as const;
+
 const consola = createConsola({
-  level: ENVIRONMENT === "prod" ? 3 : 5,
+  level: LOG_LEVELS[ENVIRONMENT as keyof typeof LOG_LEVELS] ?? 5,
 });
 
-// consola의 LogFn 타입과 호환되는 로거 메서드 타입
 type LogMethod = (message: unknown, ...args: unknown[]) => void;
 
 interface Logger {
@@ -15,7 +20,6 @@ interface Logger {
   error: LogMethod;
 }
 
-// consola 메서드를 직접 바인딩하여 타입 안정성 확보
 export const logger: Logger = {
   debug: consola.log.bind(consola),
   info: consola.info.bind(consola),

@@ -7,5 +7,5 @@ export const Authority = {
 
   NOTICE_VIEW: "NOTICE_VIEW",
   NOTICE_EDIT: "NOTICE_EDIT",
-};
+} as const;
 export type AuthorityString = (typeof Authority)[keyof typeof Authority];

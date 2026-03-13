@@ -4,6 +4,7 @@
     "module": "ESNext",
     "lib": ["ESNext", "DOM", "DOM.Iterable"],
     "skipLibCheck": true,
+    "useDefineForClassFields": true,
 
     /* Bundler mode */
     "moduleResolution": "bundler",
@@ -26,7 +27,6 @@
 
     /* Customization */
     "sourceMap": true,
-    "removeComments": true,
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]
