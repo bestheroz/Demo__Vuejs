@@ -4,7 +4,7 @@ import { watchDebounced } from "@vueuse/core";
 import { computed, ref } from "vue";
 import { stringifyParams } from "@/utils/apis";
 
-const { filterHeader, originalItems, filterFirstColumn = false } = defineProps<{
+const { filterHeader, originalItems, filterFirstColumn } = defineProps<{
   filterHeader: DataTableHeader[];
   originalItems: unknown[];
   filterFirstColumn?: boolean;

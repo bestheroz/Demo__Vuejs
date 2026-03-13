@@ -15,7 +15,7 @@ export default defineConfig(({ command }) => {
       template: { transformAssetUrls },
       isProduction: isBuild,
     }),
-    vuetify({ autoImport: false }),
+    vuetify({ autoImport: true }),
     isServe && eslint({ fix: true, lintInWorker: true }),
     isServe &&
       checker({
@@ -44,6 +44,7 @@ export default defineConfig(({ command }) => {
       include: ["vue", "vue-router", "pinia", "axios", "vuetify"],
     },
     css: {
+      transformer: "lightningcss",
       devSourcemap: isServe,
     },
     build: {
@@ -58,8 +59,8 @@ export default defineConfig(({ command }) => {
           comments: { legal: false },
           manualChunks: (id) => {
             if (id.includes("node_modules")) {
-              if (id.includes("vue") || id.includes("pinia")) return "vue";
               if (id.includes("vuetify")) return "vuetify";
+              if (id.includes("vue") || id.includes("pinia")) return "vue";
               if (id.includes("axios") || id.includes("qs")) return "http";
               return "vendor";
             }

@@ -1,9 +1,9 @@
 <script setup lang="ts">
 const {
-  loading = false,
+  loading,
   saveBtnTitle = "저장",
   closeBtnTitle = "취소",
-  saveBtn = true,
+  saveBtn,
 } = defineProps<{
   loading?: boolean;
   saveBtnTitle?: string;

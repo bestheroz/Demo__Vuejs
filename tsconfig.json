@@ -8,11 +8,9 @@
     /* Bundler mode */
     "moduleResolution": "bundler",
     "moduleDetection": "force",
-    "allowImportingTsExtensions": false,
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "preserve",
     "verbatimModuleSyntax": true,
     "erasableSyntaxOnly": true,
 
@@ -27,7 +25,6 @@
     "noImplicitOverride": true,
 
     /* Customization */
-    "allowSyntheticDefaultImports": true,
     "sourceMap": true,
     "removeComments": true,
     "baseUrl": ".",
@@ -36,9 +33,7 @@
     },
     "types": ["vuetify", "vite/client", "vue"],
 
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "useDefineForClassFields": true
+    "forceConsistentCasingInFileNames": true
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.vue"],
   "exclude": ["node_modules", "dist"]

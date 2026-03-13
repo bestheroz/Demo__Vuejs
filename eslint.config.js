@@ -45,7 +45,7 @@ export default tseslint.config(
     },
     rules: {
       /* TypeScript 관련 규칙 - strict 기반 */
-      ...tseslint.configs.strict.at(-1).rules,
+      ...tseslint.configs.strictTypeChecked.at(-1).rules,
       "@typescript-eslint/ban-ts-comment": "off",
       "@typescript-eslint/no-non-null-assertion": "off",
       "@typescript-eslint/no-dynamic-delete": "off",
@@ -69,6 +69,21 @@ export default tseslint.config(
           fixStyle: "separate-type-imports",
         },
       ],
+      "@typescript-eslint/no-misused-promises": ["error", { checksVoidReturn: false }],
+      "@typescript-eslint/no-floating-promises": "off",
+      "@typescript-eslint/no-unsafe-argument": "off",
+      "@typescript-eslint/no-unsafe-assignment": "off",
+      "@typescript-eslint/no-unsafe-call": "off",
+      "@typescript-eslint/no-unsafe-member-access": "off",
+      "@typescript-eslint/no-unsafe-return": "off",
+      "@typescript-eslint/restrict-template-expressions": "off",
+      "@typescript-eslint/no-redundant-type-constituents": "off",
+      "@typescript-eslint/no-unnecessary-type-parameters": "off",
+      "@typescript-eslint/no-unnecessary-condition": "off",
+      "@typescript-eslint/await-thenable": "off",
+      "@typescript-eslint/restrict-plus-operands": "off",
+      "@typescript-eslint/prefer-promise-reject-errors": "off",
+      "@typescript-eslint/unbound-method": "off",
 
       /* Import/Export 관련 규칙 */
       "perfectionist/sort-imports": [
