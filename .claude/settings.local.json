@@ -97,7 +97,8 @@
       "Bash(node -e 'const s = require\\(\"eslint-plugin-security\"\\); console.log\\(JSON.stringify\\({meta: !!s.meta, configKeys: Object.keys\\(s.configs || {}\\), pluginKeys: Object.keys\\(s\\)}, null, 2\\)\\)')",
       "Bash(node --no-experimental-strip-types -e 'var s = require\\(\"eslint-plugin-security\"\\); console.log\\(\"keys:\", Object.keys\\(s\\)\\); console.log\\(\"config keys:\", Object.keys\\(s.configs || {}\\)\\);')",
       "Bash(node --no-experimental-strip-types -e 'var s = require\\(\"eslint-plugin-security\"\\); var r = s.configs.recommended; console.log\\(\"recommended keys:\", Object.keys\\(r\\)\\); console.log\\(\"has plugins:\", \"plugins\" in r\\); console.log\\(\"has meta:\", \"meta\" in s\\); console.log\\(\"meta:\", JSON.stringify\\(s.meta\\)\\);')",
-      "mcp__context7__query-docs"
+      "mcp__context7__query-docs",
+      "Bash(node:*)"
     ],
     "deny": [
       "Bash(git push:*)",

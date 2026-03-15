@@ -17,11 +17,8 @@ export default defineConfig(({ command }) => {
     }),
     vuetify({ autoImport: true }),
     isServe && eslint({ fix: true, lintInWorker: true }),
-    isServe &&
-      checker({
-        vueTsc: true,
-        typescript: true,
-      }),
+    // vueTsc가 .vue + .ts 모두 체크하므로 typescript 별도 설정 불필요
+    isServe && checker({ vueTsc: true }),
   ];
   return {
     plugins,

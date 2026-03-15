@@ -16,22 +16,7 @@ $body-font-family:
   sans-serif !important;
 
 body {
-  font-family:
-    "Pretendard Variable",
-    Pretendard,
-    -apple-system,
-    BlinkMacSystemFont,
-    system-ui,
-    Roboto,
-    "Helvetica Neue",
-    "Segoe UI",
-    "Apple SD Gothic Neo",
-    "Noto Sans KR",
-    "Malgun Gothic",
-    "Apple Color Emoji",
-    "Segoe UI Emoji",
-    "Segoe UI Symbol",
-    sans-serif !important;
+  font-family: $body-font-family;
 }
 
 .required {
@@ -64,12 +49,4 @@ button.v-stepper-item--selected {
     background-color: rgb(var(--v-theme-primary)) !important;
     color: white;
   }
-}
-
-.gap-1 {
-  gap: 0.25rem;
-}
-
-.gap-2 {
-  gap: 0.5rem;
 }

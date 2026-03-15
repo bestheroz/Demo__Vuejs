@@ -119,7 +119,7 @@ async function onClickRemove(val: Notice) {
           </div>
         </template>
         <template #[`item.action`]="{ item }">
-          <div class="d-flex justify-center gap-1">
+          <div class="d-flex justify-center ga-1">
             <v-tooltip text="삭제" location="top">
               <template #activator="{ props }">
                 <v-btn
