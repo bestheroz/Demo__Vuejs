@@ -182,7 +182,7 @@ VITE_TIME_FORMAT_STRING="HH:mm"
 ## 코딩 규칙
 
 ### TypeScript 설정 (`tsconfig.json`)
-- **Strict 모드**: 활성화 (단, `noImplicitAny: false`)
+- **Strict 모드**: 활성화 (`noImplicitAny: true`)
 - **Module Resolution**: bundler 모드
 - **Path Alias**: `@/*` → `src/*`
 - **Vue 3**: `useDefineForClassFields: true`
@@ -232,9 +232,9 @@ if (await confirmDelete()) {
 ```
 
 ## 환경 설정
-- **Node.js**: 24.13.0 (Volta로 버전 고정)
+- **Node.js**: 24.14.0 (Volta로 버전 고정)
 - **패키지 매니저**: PNPM 권장
-- **번들러**: Vite 7.3.1
+- **번들러**: Vite 8.0.0
 - **TypeScript**: ESNext 타겟
 - **API 서버**: 기본 `http://localhost:8000/`
 
