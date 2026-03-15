@@ -176,7 +176,7 @@ VITE_TIME_FORMAT_STRING="HH:mm"
 - 색상: 모든 폼 컴포넌트 `color: "primary"`
 - VTextarea: `autoGrow: true`, 기본 2줄, 최대 10줄
 - VSwitch/VCheckbox: `hideDetails: "auto"`로 공간 절약
-- VBottomSheet: `inset: true`, `scrollable: true`
+- VBottomSheet: `inset: true`, `persistent: true`, `noClickAnimation: true`
 - VBtn: `textTransform: "none"`으로 대문자 변환 비활성화
 
 ## 코딩 규칙
@@ -185,7 +185,7 @@ VITE_TIME_FORMAT_STRING="HH:mm"
 - **Strict 모드**: 활성화 (`noImplicitAny: true`)
 - **Module Resolution**: bundler 모드
 - **Path Alias**: `@/*` → `src/*`
-- **Vue 3**: `useDefineForClassFields: true`
+- **Vue 3.5+**: reactive destructured props, `erasableSyntaxOnly: true`
 - **Type-only imports**: `verbatimModuleSyntax: true`로 강제
 
 ### ESLint 규칙 (`eslint.config.js`)
