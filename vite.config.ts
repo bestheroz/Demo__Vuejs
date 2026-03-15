@@ -53,13 +53,18 @@ export default defineConfig(({ command }) => {
       rolldownOptions: {
         output: {
           comments: { legal: false },
-          manualChunks: (id) => {
-            if (id.includes("node_modules")) {
-              if (id.includes("vuetify")) return "vuetify";
-              if (id.includes("vue") || id.includes("pinia")) return "vue";
-              if (id.includes("axios") || id.includes("qs")) return "http";
-              return "vendor";
-            }
+          codeSplitting: {
+            groups: [
+              {
+                name: (id) => {
+                  if (id.includes("vuetify")) return "vuetify";
+                  if (id.includes("vue") || id.includes("pinia")) return "vue";
+                  if (id.includes("axios") || id.includes("qs")) return "http";
+                  return "vendor";
+                },
+                test: /node_modules/,
+              },
+            ],
           },
         },
       },

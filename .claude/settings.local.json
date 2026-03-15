@@ -98,6 +98,10 @@
       "Bash(node --no-experimental-strip-types -e 'var s = require\\(\"eslint-plugin-security\"\\); console.log\\(\"keys:\", Object.keys\\(s\\)\\); console.log\\(\"config keys:\", Object.keys\\(s.configs || {}\\)\\);')",
       "Bash(node --no-experimental-strip-types -e 'var s = require\\(\"eslint-plugin-security\"\\); var r = s.configs.recommended; console.log\\(\"recommended keys:\", Object.keys\\(r\\)\\); console.log\\(\"has plugins:\", \"plugins\" in r\\); console.log\\(\"has meta:\", \"meta\" in s\\); console.log\\(\"meta:\", JSON.stringify\\(s.meta\\)\\);')",
       "mcp__context7__query-docs",
+      "Bash(node --input-type=module <<'EOF'\nimport config from './eslint.config.js';\nconsole.log\\('Config loaded successfully'\\);\nconsole.log\\('Number of config objects:', config.length\\);\nconsole.log\\('First config extends count:', config[0].extends?.length ?? 'no extends'\\);\nEOF)",
+      "Bash(node_modules/.bin/eslint --print-config src/main.ts 2>&1 | head -20)",
+      "Bash(node_modules/.bin/eslint --print-config src/main.ts 2>&1 | grep \"vue/no-unused-emit\\\\|vue/no-unused-refs\\\\|vue/no-setup-props-reactivity\\\\|vue/require-typed-object-prop\\\\|vue/no-duplicate-class\\\\|vue/no-empty-component\\\\|vue/no-multiple-objects\")",
+      "mcp__plugin_oh-my-claudecode_t__lsp_hover",
       "Bash(node:*)"
     ],
     "deny": [

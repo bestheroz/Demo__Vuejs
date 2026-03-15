@@ -51,9 +51,6 @@ export default createVuetify({
       inline: true,
       hideDetails: "auto",
     },
-    VBtn: {
-      style: "text-transform: none",
-    },
     VBottomSheet: {
       inset: true,
       persistent: true,
