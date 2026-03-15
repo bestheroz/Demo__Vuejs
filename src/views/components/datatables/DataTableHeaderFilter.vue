@@ -73,6 +73,11 @@ watchDebounced(
         :class="{ 'filter-cell--disabled': data.filterable === false }"
       >
         <v-autocomplete
+          v-if="
+            data.filterable !== false &&
+            data.filterType === 'select' &&
+            data.filterSelectItem
+          "
           v-model.trim="filter[index]"
           :items="data.filterSelectItem"
           variant="solo-filled"
@@ -83,17 +88,13 @@ watchDebounced(
           :placeholder="`${data.title} 검색`"
           clearable
           class="filter-input"
-          v-if="
-            data.filterable !== false &&
-            data.filterType === 'select' &&
-            data.filterSelectItem
-          "
         >
           <template #prepend-inner>
             <v-icon size="small" color="grey">mdi-filter-variant</v-icon>
           </template>
         </v-autocomplete>
         <v-select
+          v-else-if="data.filterable !== false && data.filterType === 'switch'"
           v-model="filter[index]"
           :items="[
             { title: '전체', value: null },
@@ -107,7 +108,6 @@ watchDebounced(
           single-line
           :clearable="false"
           class="filter-input"
-          v-else-if="data.filterable !== false && data.filterType === 'switch'"
         >
           <template #prepend-inner>
             <v-icon
@@ -124,6 +124,7 @@ watchDebounced(
           </template>
         </v-select>
         <v-text-field
+          v-else-if="data.filterable !== false"
           v-model.trim="filter[index]"
           variant="solo-filled"
           density="compact"
@@ -133,7 +134,6 @@ watchDebounced(
           :placeholder="`${data.title} 검색`"
           clearable
           class="filter-input"
-          v-else-if="data.filterable !== false"
         />
       </td>
     </tr>

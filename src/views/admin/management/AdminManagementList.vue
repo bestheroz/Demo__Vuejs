@@ -128,7 +128,7 @@ async function onClickRemove(val: Admin) {
         <template #[`item.action`]="{ item }">
           <div class="d-flex justify-center gap-1">
             <v-tooltip text="삭제" location="top">
-              <template v-slot:activator="{ props }">
+              <template #activator="{ props }">
                 <v-btn
                   v-if="item.id !== info.id"
                   v-bind="props"

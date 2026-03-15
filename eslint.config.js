@@ -12,6 +12,11 @@ export default tseslint.config(
   {
     files: ["src/**/*.{ts,vue}"],
     ignores: ["node_modules/**/*", "dist/**/*"],
+    extends: [
+      ...tseslint.configs.strictTypeChecked,
+      vueeslint.configs["flat/recommended"],
+      eslintPluginSecurity.configs.recommended,
+    ],
     languageOptions: {
       parser: vueParser,
       parserOptions: {
@@ -43,8 +48,7 @@ export default tseslint.config(
       security: eslintPluginSecurity,
     },
     rules: {
-      /* TypeScript 관련 규칙 - strict 기반 */
-      ...Object.assign({}, ...tseslint.configs.strictTypeChecked.map(c => c.rules).filter(Boolean)),
+      /* TypeScript 관련 규칙 - strict 기반 (extends로 적용, 아래는 override만) */
       "@typescript-eslint/ban-ts-comment": "off",
       "@typescript-eslint/no-non-null-assertion": "off",
       "@typescript-eslint/no-dynamic-delete": "off",
@@ -68,7 +72,10 @@ export default tseslint.config(
           fixStyle: "separate-type-imports",
         },
       ],
-      "@typescript-eslint/no-misused-promises": ["error", { checksVoidReturn: false }],
+      "@typescript-eslint/no-misused-promises": [
+        "error",
+        { checksVoidReturn: false },
+      ],
       "@typescript-eslint/no-floating-promises": "off",
       "@typescript-eslint/no-unsafe-argument": "off",
       "@typescript-eslint/no-unsafe-assignment": "off",
@@ -108,12 +115,13 @@ export default tseslint.config(
       "perfectionist/sort-named-imports": ["error", { type: "natural" }],
       "perfectionist/sort-named-exports": ["error", { type: "natural" }],
 
-      /* 보안 관련 규칙 */
-      ...eslintPluginSecurity.configs.recommended.rules,
+      /* 보안 관련 규칙 (extends로 적용, 아래는 override만) */
       "security/detect-object-injection": "off",
 
-      /* Vue 3 관련 규칙 */
-      ...vueeslint.configs["flat/recommended"].rules,
+      /* Vue 3 관련 규칙 (extends로 적용, 아래는 override만)
+       * no-mutating-props: off - useEditList에서 structuredClone 복사본을 전달하므로 의도적 패턴
+       */
+      "vue/no-mutating-props": "off",
       "vue/no-unused-components": isDevelopment ? "warn" : "error",
       "vue/component-name-in-template-casing": ["error", "PascalCase"],
       "vue/component-definition-name-casing": ["error", "PascalCase"],
@@ -132,7 +140,7 @@ export default tseslint.config(
       "vue/require-typed-ref": "warn",
       "vue/no-required-prop-with-default": "error",
       "vue/no-ref-object-reactivity-loss": "error",
-      /* Vue 3.5+ 새 규칙 */
+      /* Vue 3.5+ 규칙 */
       "vue/prefer-use-template-ref": "error",
       "vue/require-macro-variable-name": [
         "error",
@@ -149,6 +157,16 @@ export default tseslint.config(
       "vue/slot-name-casing": ["error", "camelCase"],
       "vue/enforce-style-attribute": ["warn", { allow: ["scoped", "plain"] }],
       "vue/no-deprecated-model-definition": "error",
+      /* Vue 10 신규 규칙 */
+      "vue/no-unused-emit-declarations": "error",
+      "vue/no-unused-refs": "error",
+      /* Vue 3.5+: TypeScript + reactive destructured props로 인해 불필요 */
+      "vue/no-setup-props-reactivity-loss": "off",
+      "vue/require-default-prop": "off",
+      "vue/require-typed-object-prop": "warn",
+      "vue/no-duplicate-class-names": "warn",
+      "vue/no-empty-component-block": "warn",
+      "vue/no-multiple-objects-in-class": "warn",
 
       /* 환경별 규칙 */
       "no-console": isProduction

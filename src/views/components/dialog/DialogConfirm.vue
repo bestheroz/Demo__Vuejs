@@ -3,7 +3,7 @@ import type { ConfirmResolveResponse } from "@/definitions/types";
 
 const {
   uuid,
-  title,
+  title = "",
   content,
   cancelButtonTitle = "취소",
   confirmButtonTitle = "확인",
@@ -31,7 +31,7 @@ const {
       <v-card-title>
         {{ title }}
       </v-card-title>
-      <v-card-text v-text="content"> </v-card-text>
+      <v-card-text>{{ content }}</v-card-text>
       <v-card-actions>
         <v-spacer />
         <v-btn

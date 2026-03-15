@@ -49,12 +49,12 @@ onMounted(async () => {
     <GlobalDialogConfirm />
     <input type="text" style="width: 0; height: 0" />
     <Toaster
-      richColors
+      rich-colors
       theme="dark"
       position="top-right"
       expand
-      :visibleToasts="99"
-      :toastOptions="{
+      :visible-toasts="99"
+      :toast-options="{
         duration: 2_000,
       }"
     />
