@@ -37,3 +37,45 @@ jobs:
         with:
           commit_message: ⬆️Update version (package.json, .env) to ${{ steps.tag.outputs.tag }}
           branch: main
+
+  update-env-version-on-branches:
+    needs: commit-and-push-version
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        branch: [qa, sandbox]
+    concurrency:
+      group: update-env-version-${{ matrix.branch }}
+      cancel-in-progress: false
+    steps:
+      - name: Check if branch exists
+        id: check
+        run: |
+          if git ls-remote --heads "https://x-access-token:${{ secrets.WRITABLE_GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" "${{ matrix.branch }}" | grep -q "${{ matrix.branch }}"; then
+            echo "exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Checkout ${{ matrix.branch }}
+        if: steps.check.outputs.exists == 'true'
+        uses: actions/checkout@main
+        with:
+          ref: ${{ matrix.branch }}
+          fetch-depth: 1
+
+      - name: Get tag
+        if: steps.check.outputs.exists == 'true'
+        id: tag
+        run: echo "tag=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+
+      - name: Update VITE_PRODUCT_VERSION of .env
+        if: steps.check.outputs.exists == 'true'
+        run: sed -i 's/VITE_PRODUCT_VERSION=.*/VITE_PRODUCT_VERSION=${{ steps.tag.outputs.tag }}/' .env
+
+      - name: Commit and push
+        if: steps.check.outputs.exists == 'true'
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: ⬆️Update VITE_PRODUCT_VERSION of .env to ${{ steps.tag.outputs.tag }}
+          branch: ${{ matrix.branch }}
