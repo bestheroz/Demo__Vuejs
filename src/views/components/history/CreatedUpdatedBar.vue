@@ -23,7 +23,7 @@ const updatedDateTimeString = computed((): string =>
       추가됨
     </span>
     <span v-if="modelValue?.updatedAt">
-      <v-divider vertical />
+      ,
       {{ modelValue?.updatedBy?.name ?? "-" }} / {{ updatedDateTimeString }}
       수정됨
     </span>

@@ -51,8 +51,9 @@ button.v-stepper-item--selected {
   }
 }
 
-// readonly/disabled 필드에서 clearable(X) 아이콘 숨김
+// readonly/disabled/required 필드에서 clearable(X) 아이콘 숨김
 .v-input--readonly .v-field__clearable,
-.v-input--disabled .v-field__clearable {
+.v-input--disabled .v-field__clearable,
+.v-input.required .v-field__clearable {
   display: none !important;
 }

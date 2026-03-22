@@ -1,0 +1,11 @@
+.v-dialog > .v-overlay__content > .v-card {
+  > .v-card-title {
+    padding: 2rem;
+  }
+  > .v-card-text {
+    padding: 0 2rem;
+  }
+  > .v-card-actions {
+    padding: 2rem 2rem 1rem;
+  }
+}

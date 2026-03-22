@@ -30,7 +30,9 @@ const newFlag = !modelValue.id;
 const password = ref("");
 const passwordErrorMessages = ref<string[]>([]);
 
-const refForm = useTemplateRef<{ validate: () => Promise<{ valid: boolean }> }>("refForm");
+const refForm = useTemplateRef<{ validate: () => Promise<{ valid: boolean }> }>(
+  "refForm",
+);
 async function save(): Promise<void> {
   if (!isEmpty(errorText.value) || !isEmpty(passwordErrorMessages.value)) {
     toastWarning("입력 항목을 확인해주세요.");
@@ -116,10 +118,7 @@ const debouncedCheckExistsLoginId = useDebounceFn(async (): Promise<void> => {
 }, 500);
 
 function onInputPassword() {
-  if (
-    isEmpty(modelValue.password) ||
-    password.value === modelValue.password
-  ) {
+  if (isEmpty(modelValue.password) || password.value === modelValue.password) {
     passwordErrorMessages.value = [];
   } else {
     passwordErrorMessages.value = ["비밀번호가 일치하지 않습니다."];
@@ -138,7 +137,7 @@ function onInputPassword() {
       <v-card-text>
         <v-form ref="refForm">
           <v-row density="compact">
-            <v-col cols="2">
+            <v-col cols="3">
               <v-text-field
                 v-model="modelValue.loginId"
                 label="로그인 아이디"
@@ -159,20 +158,7 @@ function onInputPassword() {
                 @update:model-value="newFlag ? checkExistsLoginId() : undefined"
               />
             </v-col>
-            <v-col cols="2">
-              <input
-                name="fake"
-                style="width: 0; height: 0"
-                class="d-flex"
-                autocomplete="nope"
-              />
-              <input
-                name="modelValue.password"
-                type="password"
-                style="width: 0; height: 0"
-                class="d-flex"
-                autocomplete="nope"
-              />
+            <v-col cols="3">
               <v-text-field
                 v-model="modelValue.password"
                 type="password"
@@ -187,20 +173,7 @@ function onInputPassword() {
                 @update:model-value="onInputPassword"
               />
             </v-col>
-            <v-col cols="2">
-              <input
-                name="fake"
-                style="width: 0; height: 0"
-                class="d-flex"
-                autocomplete="nope"
-              />
-              <input
-                name="password"
-                type="password"
-                style="width: 0; height: 0"
-                class="d-flex"
-                autocomplete="nope"
-              />
+            <v-col cols="3">
               <v-text-field
                 v-model="password"
                 type="password"
@@ -216,7 +189,7 @@ function onInputPassword() {
                 @update:model-value="onInputPassword"
               />
             </v-col>
-            <v-col cols="2">
+            <v-col cols="3">
               <v-text-field
                 v-model="modelValue.name"
                 label="이름"
@@ -224,7 +197,7 @@ function onInputPassword() {
                 class="required"
               />
             </v-col>
-            <v-col cols="2">
+            <v-col cols="3">
               <v-switch
                 v-model="modelValue.useFlag"
                 label="사용 여부"
