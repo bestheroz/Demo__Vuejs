@@ -39,22 +39,19 @@ watchDebounced(
     emit(
       "update:model-value",
       stringifyParams(
-        filter.value.reduce<Record<string, string>>(
-          (acc, cur, index) => {
-            // undefined, null, 빈 문자열은 필터에서 제외
-            if (cur === undefined || cur === "" || cur === null) return acc;
+        filter.value.reduce<Record<string, string>>((acc, cur, index) => {
+          // undefined, null, 빈 문자열은 필터에서 제외
+          if (cur === undefined || cur === "" || cur === null) return acc;
 
-            // boolean 값만 문자열로 변환하여 전송
-            if (filterMap.value[index] && typeof cur === "boolean") {
-              acc[filterMap.value[index]] = String(cur);
-            } else if (filterMap.value[index] && typeof cur === "string") {
-              // 문자열 값은 그대로 전송
-              acc[filterMap.value[index]] = cur;
-            }
-            return acc;
-          },
-          {},
-        ),
+          // boolean 값만 문자열로 변환하여 전송
+          if (filterMap.value[index] && typeof cur === "boolean") {
+            acc[filterMap.value[index]] = String(cur);
+          } else if (filterMap.value[index] && typeof cur === "string") {
+            // 문자열 값은 그대로 전송
+            acc[filterMap.value[index]] = cur;
+          }
+          return acc;
+        }, {}),
       ),
     );
   },
@@ -175,7 +172,10 @@ watchDebounced(
 
     :deep(.v-field) {
       background: rgba(var(--v-theme-surface), 0.9);
-      border-radius: 6px;
+      border-radius: 0;
+      box-shadow:
+        0 -1px 0 0 darkgrey,
+        0 1px 0 0 darkgrey;
       transition: all 0.2s ease;
 
       &:hover {
