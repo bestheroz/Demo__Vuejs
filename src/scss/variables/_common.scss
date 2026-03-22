@@ -50,3 +50,9 @@ button.v-stepper-item--selected {
     color: white;
   }
 }
+
+// readonly/disabled 필드에서 clearable(X) 아이콘 숨김
+.v-input--readonly .v-field__clearable,
+.v-input--disabled .v-field__clearable {
+  display: none !important;
+}
