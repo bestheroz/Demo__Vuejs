@@ -171,6 +171,7 @@ watchDebounced(
         0 -1px 0 0 darkgrey,
         0 1px 0 0 darkgrey;
       transition: all 0.2s ease;
+      padding: 0;
 
       &:hover {
         background: rgba(var(--v-theme-surface), 1);
@@ -182,20 +183,16 @@ watchDebounced(
           0 0 0 2px rgba(var(--v-theme-primary), 0.1),
           0 0 0 1px rgba(var(--v-theme-primary), 0.3);
       }
+
+      > .v-field__prepend-inner {
+        padding: 0;
+      }
     }
 
     :deep(.v-field__input) {
-      padding: 0 12px;
+      padding: 0 0 0 0.5rem;
       min-height: 28px;
       font-size: 0.875rem;
-    }
-
-    :deep(.v-field__prepend-inner) {
-      padding-left: 8px;
-    }
-
-    :deep(.v-field__append-inner) {
-      padding-right: 4px;
     }
 
     :deep(.v-field__clearable) {
