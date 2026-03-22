@@ -142,7 +142,7 @@ watchDebounced(
   border-bottom: 1px solid rgba(var(--v-theme-on-surface), 0.08);
 
   .filter-cell {
-    padding: 1px 4px;
+    padding: 1px 2px;
     position: relative;
     vertical-align: middle;
     height: 100%;
@@ -154,13 +154,7 @@ watchDebounced(
         content: "";
         position: absolute;
         inset: 0;
-        background: repeating-linear-gradient(
-          45deg,
-          transparent,
-          transparent 10px,
-          rgba(var(--v-theme-on-surface), 0.03) 10px,
-          rgba(var(--v-theme-on-surface), 0.03) 20px
-        );
+        background: transparent;
         pointer-events: none;
       }
     }
