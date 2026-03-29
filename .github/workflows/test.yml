@@ -23,8 +23,12 @@ jobs:
           node-version-file: 'package.json'
           cache: 'pnpm'
 
+
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile --strict-peer-dependencies --config.ignore-scripts=false
+        run: pnpm install --frozen-lockfile --strict-peer-dependencies
+
+      - name: Approve dependencies for running scripts during installation
+        run: pnpm approve-builds --all
 
       - name: lint & tsc
         run: pnpm run lint
