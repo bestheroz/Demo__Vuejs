@@ -27,9 +27,6 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile --strict-peer-dependencies
 
-      - name: Approve dependencies for running scripts during installation
-        run: pnpm approve-builds --all
-
       - name: lint & tsc
         run: pnpm run lint
 
