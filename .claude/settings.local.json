@@ -103,7 +103,10 @@
       "Bash(node_modules/.bin/eslint --print-config src/main.ts 2>&1 | grep \"vue/no-unused-emit\\\\|vue/no-unused-refs\\\\|vue/no-setup-props-reactivity\\\\|vue/require-typed-object-prop\\\\|vue/no-duplicate-class\\\\|vue/no-empty-component\\\\|vue/no-multiple-objects\")",
       "mcp__plugin_oh-my-claudecode_t__lsp_hover",
       "Bash(node:*)",
-      "Bash(find src:*)"
+      "Bash(find src:*)",
+      "Bash(gh run:*)",
+      "Bash(git show:*)",
+      "Bash(2)"
     ],
     "deny": [
       "Bash(git push:*)",
