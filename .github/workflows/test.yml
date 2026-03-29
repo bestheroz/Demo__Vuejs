@@ -23,6 +23,9 @@ jobs:
           node-version-file: 'package.json'
           cache: 'pnpm'
 
+      - name: Approve dependencies for running scripts during installation
+        run: pnpm approve-builds --all
+
       - name: Install dependencies
         run: pnpm install --frozen-lockfile --strict-peer-dependencies
 
