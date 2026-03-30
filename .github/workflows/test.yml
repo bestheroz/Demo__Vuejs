@@ -23,6 +23,11 @@ jobs:
           node-version-file: 'package.json'
           cache: 'pnpm'
 
+      - name: Approve build scripts
+        run: |
+          printf 'onlyBuiltDependencies:\n  - "@parcel/watcher"\n  - esbuild\n' > pnpm-workspace.yaml
+          pnpm approve-builds --all
+
       - name: Install dependencies
         run: pnpm install --frozen-lockfile --strict-peer-dependencies
 
