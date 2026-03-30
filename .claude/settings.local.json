@@ -106,7 +106,8 @@
       "Bash(find src:*)",
       "Bash(gh run:*)",
       "Bash(git show:*)",
-      "Bash(2)"
+      "Bash(2)",
+      "Bash(grep -A5 '\"\"pnpm\"\"' package.json)"
     ],
     "deny": [
       "Bash(git push:*)",
