@@ -13,9 +13,9 @@ jobs:
           fetch-depth: 1
 
       - name: Install pnpm
-        uses: pnpm/action-setup@master
+        uses: pnpm/action-setup@v4
         with:
-          version: '10.33.0'
+          version: 'latest'
 
       - name: Install Node.js
         uses: actions/setup-node@main
