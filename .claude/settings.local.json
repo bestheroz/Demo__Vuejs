@@ -107,7 +107,8 @@
       "Bash(gh run:*)",
       "Bash(git show:*)",
       "Bash(2)",
-      "Bash(grep -A5 '\"\"pnpm\"\"' package.json)"
+      "Bash(grep -A5 '\"\"pnpm\"\"' package.json)",
+      "Bash(printf 'onlyBuiltDependencies:\\\\n  - \"\"\"\"@parcel/watcher\"\"\"\"\\\\n  - esbuild\\\\n')"
     ],
     "deny": [
       "Bash(git push:*)",

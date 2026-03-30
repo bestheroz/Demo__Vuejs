@@ -42,12 +42,6 @@
     "vue-eslint-parser": "10.4.0",
     "vue-tsc": "3.2.6"
   },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "@parcel/watcher",
-      "esbuild"
-    ]
-  },
   "volta": {
     "node": "24.14.0"
   }
