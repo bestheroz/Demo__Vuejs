@@ -108,7 +108,9 @@
       "Bash(git show:*)",
       "Bash(2)",
       "Bash(grep -A5 '\"\"pnpm\"\"' package.json)",
-      "Bash(printf 'onlyBuiltDependencies:\\\\n  - \"\"\"\"@parcel/watcher\"\"\"\"\\\\n  - esbuild\\\\n')"
+      "Bash(printf 'onlyBuiltDependencies:\\\\n  - \"\"\"\"@parcel/watcher\"\"\"\"\\\\n  - esbuild\\\\n')",
+      "Bash(CI=true pnpm install --frozen-lockfile --strict-peer-dependencies)",
+      "Bash(CI=true pnpm install --frozen-lockfile)"
     ],
     "deny": [
       "Bash(git push:*)",
