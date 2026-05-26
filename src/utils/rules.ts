@@ -14,7 +14,7 @@ export function isValidValue(value: unknown) {
 }
 
 export function required(val: unknown | unknown[]): string | boolean {
-  if (!isEmpty(val as string)) {
+  if (!isEmpty(val)) {
     return true;
   }
   return "입력 필수입니다.";
