@@ -26,9 +26,8 @@
 
     /* Customization */
     "sourceMap": true,
-    "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["./src/*"]
     },
     "types": ["vuetify", "vite/client", "vue"],
 
