@@ -110,7 +110,8 @@
       "Bash(grep -A5 '\"\"pnpm\"\"' package.json)",
       "Bash(printf 'onlyBuiltDependencies:\\\\n  - \"\"\"\"@parcel/watcher\"\"\"\"\\\\n  - esbuild\\\\n')",
       "Bash(CI=true pnpm install --frozen-lockfile --strict-peer-dependencies)",
-      "Bash(CI=true pnpm install --frozen-lockfile)"
+      "Bash(CI=true pnpm install --frozen-lockfile)",
+      "mcp__plugin_oh-my-claudecode_t__state_read"
     ],
     "deny": [
       "Bash(git push:*)",
@@ -133,5 +134,10 @@
     ]
   },
   "enableAllProjectMcpServers": true,
-  "enabledMcpjsonServers": ["context7", "exa", "filesystem", "github"]
+  "enabledMcpjsonServers": [
+    "context7",
+    "exa",
+    "filesystem",
+    "github"
+  ]
 }

@@ -42,9 +42,19 @@ npm run lint
 ```
 
 - ESLint 자동 수정 포함 (`--fix`)
+- Prettier 포맷 검사 (`prettier --check`, 자동 수정 없음)
 - Vue TypeScript 컴파일러 검사 (`vue-tsc --noEmit`)
-- 두 작업이 순차적으로 실행됨
+- 세 작업이 순차적으로 실행됨
 - **중요**: 작업 완료 후 항상 실행
+
+### 코드 포맷팅 (Prettier)
+
+```bash
+pnpm prettier
+```
+
+- Prettier 관련 처리는 `pnpm prettier`로 하면 됨 (전체 파일 자동 포맷팅, `--write`)
+- **중요**: 작업 마무리 시 항상 `pnpm prettier` 실행
 
 ## 환경 변수 설정
 
@@ -270,6 +280,7 @@ if (await confirmDelete()) {
 
 ## 작업 완료 체크리스트
 
+- 작업 마무리 시 항상 `pnpm prettier` 실행하여 코드 포맷팅
 - 코드 변경 후 항상 `pnpm lint` 실행하여 코드 품질 검증
 - TypeScript 타입 에러 확인 (vue-tsc 포함)
 - ESLint 규칙 준수 확인
