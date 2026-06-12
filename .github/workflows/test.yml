@@ -31,4 +31,4 @@ jobs:
 
       - name: Build
         if: github.ref != 'refs/heads/sandbox' && github.ref != 'refs/heads/qa'
-        run: pnpm run build --mode prod
+        run: pnpm run build --analyze --mode prod
