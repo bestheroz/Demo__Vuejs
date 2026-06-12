@@ -1,0 +1,6 @@
+# Claude Code 로컬 설정 파일
+.claude/
+
+# 잠금 파일 (자동 생성, 포맷팅 불필요)
+pnpm-lock.yaml
+pnpm-workspace.yaml
