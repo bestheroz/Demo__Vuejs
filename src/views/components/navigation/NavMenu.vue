@@ -3,10 +3,7 @@ import type { Drawer } from "@/definitions/types";
 import NavMenu from "@/views/components/navigation/NavMenu.vue";
 import NavMenuItem from "@/views/components/navigation/NavMenuItem.vue";
 
-const {
-  drawers = [],
-  depth = 0,
-} = defineProps<{
+const { drawers = [], depth = 0 } = defineProps<{
   drawers?: Drawer[] | null;
   depth?: number;
 }>();

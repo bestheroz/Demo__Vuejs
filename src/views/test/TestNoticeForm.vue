@@ -23,7 +23,10 @@ async function runAll() {
     refTestRunForm2.value?.run(),
   ]);
   if (!success2) return;
-  await Promise.all([refTestRunForm3.value?.run(), refTestRunForm4.value?.run()]);
+  await Promise.all([
+    refTestRunForm3.value?.run(),
+    refTestRunForm4.value?.run(),
+  ]);
   await refTestRunForm5.value?.run();
 }
 

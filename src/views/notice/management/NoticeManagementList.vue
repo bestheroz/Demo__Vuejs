@@ -56,7 +56,9 @@ async function fetchList({
 
 const { dialog, editItem, onClickAdd, onClickEdit } =
   useEditList<Notice>(defaultNotice);
-const refDataTableServerWithFilter = useTemplateRef<{ reload: () => void }>("refDataTableServerWithFilter");
+const refDataTableServerWithFilter = useTemplateRef<{ reload: () => void }>(
+  "refDataTableServerWithFilter",
+);
 const fabButton = computed<FabButtonProp[]>(() => [
   {
     title: "추가",
@@ -115,7 +117,9 @@ async function onClickRemove(val: Notice) {
         </template>
         <template #[`item.title`]="{ item }">
           <div class="d-flex align-center">
-            <span class="text-body-medium font-weight-medium">{{ item.title }}</span>
+            <span class="text-body-medium font-weight-medium">{{
+              item.title
+            }}</span>
           </div>
         </template>
         <template #[`item.action`]="{ item }">

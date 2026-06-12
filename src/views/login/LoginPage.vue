@@ -23,7 +23,9 @@ const loginIdFieldId = useId();
 const passwordFieldId = useId();
 const userTypeGroupId = useId();
 
-const refForm = useTemplateRef<{ validate: () => Promise<{ valid: boolean }> }>("refForm");
+const refForm = useTemplateRef<{ validate: () => Promise<{ valid: boolean }> }>(
+  "refForm",
+);
 const reloadable = ref(true);
 async function login(): Promise<void> {
   const formValidation = await refForm.value?.validate();

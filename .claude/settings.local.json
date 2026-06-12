@@ -133,10 +133,5 @@
     ]
   },
   "enableAllProjectMcpServers": true,
-  "enabledMcpjsonServers": [
-    "context7",
-    "exa",
-    "filesystem",
-    "github"
-  ]
+  "enabledMcpjsonServers": ["context7", "exa", "filesystem", "github"]
 }

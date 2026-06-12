@@ -25,7 +25,9 @@ const loading = ref(false);
 
 const newFlag = !modelValue.id;
 
-const refForm = useTemplateRef<{ validate: () => Promise<{ valid: boolean }> }>("refForm");
+const refForm = useTemplateRef<{ validate: () => Promise<{ valid: boolean }> }>(
+  "refForm",
+);
 async function save(): Promise<void> {
   const formValidation = await refForm.value?.validate();
   if (!formValidation?.valid) {

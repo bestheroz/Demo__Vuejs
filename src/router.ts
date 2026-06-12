@@ -18,16 +18,14 @@ const requireAuth = async (
 const admin: RouteRecordRaw[] = [
   {
     path: "management",
-    component: () =>
-      import("@/views/admin/management/AdminManagementPage.vue"),
+    component: () => import("@/views/admin/management/AdminManagementPage.vue"),
   },
 ];
 
 const user: RouteRecordRaw[] = [
   {
     path: "management",
-    component: () =>
-      import("@/views/user/management/UserManagementPage.vue"),
+    component: () => import("@/views/user/management/UserManagementPage.vue"),
   },
 ];
 

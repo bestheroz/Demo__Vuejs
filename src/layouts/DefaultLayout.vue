@@ -32,7 +32,6 @@ const filteredDrawer = computed<Drawer[]>(() => {
   }
   return result;
 });
-
 </script>
 
 <template>
@@ -80,11 +79,7 @@ const filteredDrawer = computed<Drawer[]>(() => {
     </v-app-bar>
 
     <v-main>
-      <v-container
-        fluid
-        class="fill-height"
-        style="align-items: normal"
-      >
+      <v-container fluid class="fill-height" style="align-items: normal">
         <v-layout>
           <slot />
         </v-layout>

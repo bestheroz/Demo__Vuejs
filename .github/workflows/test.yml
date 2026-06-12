@@ -1,8 +1,8 @@
 name: test
 on:
   push:
-    branches: ['**']
-    tags-ignore: ['**']
+    branches: ["**"]
+    tags-ignore: ["**"]
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -15,13 +15,13 @@ jobs:
       - name: Install pnpm
         uses: pnpm/action-setup@master
         with:
-          version: 'latest'
+          version: "latest"
 
       - name: Install Node.js
         uses: actions/setup-node@main
         with:
-          node-version-file: 'package.json'
-          cache: 'pnpm'
+          node-version-file: "package.json"
+          cache: "pnpm"
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile --strict-peer-dependencies

@@ -70,7 +70,9 @@ async function fetchList({
 
 const { dialog, editItem, onClickAdd, onClickEdit } =
   useEditList<UserCreate>(defaultUserCreate);
-const refDataTableServerWithFilter = useTemplateRef<{ reload: () => void }>("refDataTableServerWithFilter");
+const refDataTableServerWithFilter = useTemplateRef<{ reload: () => void }>(
+  "refDataTableServerWithFilter",
+);
 const fabButton = computed<FabButtonProp[]>(() => [
   {
     title: "추가",
