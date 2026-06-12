@@ -36,7 +36,7 @@ jobs:
         run: pnpm install --frozen-lockfile --strict-peer-dependencies
 
       - name: Build
-        run: pnpm run build --mode ${{ github.ref_name }}
+        run: pnpm run build --analyze  --mode ${{ github.ref_name }}
 
       - name: Upload to S3
         run: |
