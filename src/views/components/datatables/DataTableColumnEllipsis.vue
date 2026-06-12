@@ -4,8 +4,8 @@ import { logger } from "@/utils/logger";
 
 const {
   text = "",
-  width = "25rem" as string | number,
-  tooltipWidth = "40rem" as string | number,
+  width = "25rem",
+  tooltipWidth = "40rem",
 } = defineProps<{
   text?: string | null;
   width?: string | number;

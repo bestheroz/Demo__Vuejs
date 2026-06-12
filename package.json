@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "lint": "pnpm exec eslint --fix src && pnpm exec prettier --check . && pnpm exec tsc --noEmit"
+    "lint": "pnpm exec eslint --fix src && pnpm exec tsc --noEmit && pnpm exec prettier --write ."
   },
   "dependencies": {
     "axios": "1.17.0",
