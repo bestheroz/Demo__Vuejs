@@ -51,7 +51,7 @@ jobs:
         run: pnpm run lint
 
       - name: Build
-        run: pnpm run build --analyze  --mode prod
+        run: pnpm run build --mode prod
 
       - name: Upload to S3
         run: |
