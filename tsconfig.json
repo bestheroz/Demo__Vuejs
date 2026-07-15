@@ -27,7 +27,11 @@
     /* Customization */
     "sourceMap": true,
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      // pinia 4.0.x의 package.json "exports"에 types 조건이 누락되어
+      // moduleResolution:"bundler"에서 타입 선언을 찾지 못하는 문제 우회(TS7016).
+      // pinia가 exports에 types 조건을 복구하면 이 항목은 제거 가능.
+      "pinia": ["./node_modules/pinia/dist/pinia.d.ts"]
     },
     "types": ["vuetify", "vite/client", "vue"],
 
