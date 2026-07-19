@@ -1,4 +1,4 @@
-<template>
+<template vapor>
   <div class="pa-2">
     <h1 class="text-display-small font-weight-bold">We are coming soon</h1>
     <h2 class="text-headline-small mt-4">

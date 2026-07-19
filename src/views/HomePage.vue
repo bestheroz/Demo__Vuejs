@@ -1,4 +1,4 @@
-<script lang="ts" setup>
+<script lang="ts" setup vapor>
 import { useIntervalFn } from "@vueuse/core";
 import dayjs from "dayjs";
 import { onMounted, onUnmounted, ref } from "vue";

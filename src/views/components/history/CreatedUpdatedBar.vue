@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup lang="ts" vapor>
 import type { IdCreatedUpdated } from "@/definitions/types";
 import { computed } from "vue";
 import { formatDatetimeSeconds } from "@/utils/formatter";

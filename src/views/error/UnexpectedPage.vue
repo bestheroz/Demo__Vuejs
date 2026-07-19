@@ -1,16 +1,13 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router";
+import illustration500 from "@/assets/images/illustrations/500-illustration.svg";
 
 const { replace } = useRouter();
 </script>
 
 <template>
   <v-card class="text-center w-100 error-page pa-3">
-    <v-img
-      src="@/assets/images/illustrations/500-illustration.svg"
-      max-height="400"
-      cover
-    />
+    <v-img :src="illustration500" max-height="400" cover />
     <div class="text-display-small mt-10">OOPS! Something went wrong here</div>
     <div class="my-3">Our experts are working to fix the issue.</div>
     <v-btn color="primary" block size="large" @click="replace('/')">
