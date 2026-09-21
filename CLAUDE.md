@@ -285,3 +285,32 @@ if (await confirmDelete()) {
 - TypeScript 타입 에러 확인 (vue-tsc 포함)
 - ESLint 규칙 준수 확인
 - 개발 서버가 실행 중이면 HMR 및 실시간 타입 체크 자동 수행
+
+## CLAUDE.md 관리 규칙
+
+- 이 파일은 200줄 이하 유지. 매 세션 필요한 내용만 둔다: 빌드/테스트 명령, 전역 컨벤션, 도메인 간 의존 규칙, 함정과 그 이유
+- 코드에서 유추 가능한 내용(디렉터리 구조, 의존성 목록, 아키텍처 개요)은 쓰지 않는다
+- 지시는 검증 가능한 수준으로 구체적으로 쓴다 (X "포맷 잘 맞춰라" / O "2-space 들여쓰기")
+- 특정 도메인/경로에만 해당하는 규칙은 이 파일에 넣지 않는다
+  - 도메인이 단일 폴더로 분리돼 있으면 → 해당 폴더의 CLAUDE.md
+  - 여러 폴더에 흩어져 있으면 → `.claude/rules/<topic>.md` + `paths` frontmatter
+  - 다단계 절차는 → 스킬
+- 하위 CLAUDE.md 와 rules 에는 루트 규칙을 재진술하지 않는다. 충돌/중복 발견 시 사용자에게 알린다
+- 도메인 규칙을 분리하면 아래 "도메인 인덱스"에 한 줄 추가한다
+- 지시 파일을 추가/수정할 때는 변경 전 사용자에게 위치와 내용을 먼저 제안한다
+
+## 도메인 인덱스
+
+<!-- 형식: `경로/` — 한 줄 설명, 규칙 파일 위치 -->
+
+- `src/views/admin/management/` — 관리자 계정 목록·편집 화면. 규칙 파일 없음
+- `src/views/user/management/` — 사용자 계정 목록·편집 화면. 규칙 파일 없음
+- `src/views/notice/management/` — 공지사항 목록·편집 화면. 규칙 파일 없음
+- `src/views/test/` — 도메인별 API 호출을 수동 검증하는 통합 테스트 페이지. 규칙 파일 없음
+- `src/views/components/` — 도메인 공용 UI 컴포넌트(데이터테이블, 다이얼로그, 네비게이션 등). 규칙 파일 없음
+- `src/views/login/`, `src/views/error/`, `src/views/utility/` — 로그인·에러·상태 안내 단일 페이지. 규칙 파일 없음
+- `src/layouts/` — 라우트별 레이아웃 셸. 규칙 파일 없음
+- `src/stores/` — Pinia 전역 상태(인증, 확인 다이얼로그). 규칙 파일 없음
+- `src/utils/` — API 클라이언트·토큰·검증·포매터 공용 유틸. 규칙 파일 없음
+- `src/scss/` — Vuetify 전역 스타일 오버라이드. 규칙 파일 없음
+- `**/CLAUDE.md`, `.claude/rules/**` — 지시 파일 작성/수정 기준, `.claude/rules/claude-md-maintenance.md`
